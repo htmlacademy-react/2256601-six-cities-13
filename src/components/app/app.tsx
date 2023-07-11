@@ -3,7 +3,7 @@ type AppProps = {
   cardCount: number;
 }
 
-export function App({cardCount}: AppProps): JSX.Element {
+export function App({cardCount}: AppProps) {
   return (
     <MainPage cardCount={cardCount}/>
   );

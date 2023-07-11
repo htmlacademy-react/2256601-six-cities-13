@@ -1,4 +1,4 @@
-export function Card(): JSX.Element {
+export function Card() {
   return (
     <article className="cities__card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
