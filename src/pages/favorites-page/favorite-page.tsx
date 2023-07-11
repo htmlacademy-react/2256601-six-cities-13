@@ -1,5 +1,5 @@
 
-export default function FavoritePage (): JSX.Element {
+export function FavoritePage (): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
