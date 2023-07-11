@@ -1,5 +1,4 @@
-const Setting = {
+export const Setting = {
   CardCount: 5
 };
 
-export {Setting};
