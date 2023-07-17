@@ -1,7 +1,11 @@
+import { Helmet } from 'react-helmet-async';
 
-export default function FavoritePage () {
+export default function FavoritesPage () {
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>{'6 cities - Favorites'}</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
