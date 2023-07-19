@@ -1,4 +1,4 @@
-import { Card } from '../../components/card/card';
+import { CardsList } from '../../components/cards-list/cards-list';
 import { OffersList } from '../../types/offers-list';
 
 type MainPageProps = {
@@ -97,7 +97,7 @@ export function MainPage ({cardCount, offersList}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {offersList.map ((offer) => <Card key={offer.id} offer={offer}/>)}
+                <CardsList cardsList={offersList}/>
               </div>
             </section>
             <div className="cities__right-section">
