@@ -8,19 +8,21 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRoute } from '../private-route/private-route';
+import { OffersList } from '../../types/offers-list';
 
 type AppProps = {
   cardCount: number;
+  offersList: OffersList[];
 }
 
-export function App({cardCount}: AppProps) {
+export function App({cardCount, offersList}: AppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cardCount={cardCount}/>}
+            element={<MainPage cardCount={cardCount} offersList={offersList}/>}
           />
           <Route
             path={AppRoute.Favorites}

@@ -1,10 +1,12 @@
 import { Card } from '../../components/card/card';
+import { OffersList } from '../../types/offers-list';
 
 type MainPageProps = {
   cardCount: number;
+  offersList: OffersList[];
 }
 
-export function MainPage ({cardCount}: MainPageProps) {
+export function MainPage ({cardCount, offersList}: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,7 +97,7 @@ export function MainPage ({cardCount}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {Array.from({length: cardCount}, (_, index) => <Card key={index}/>)}
+                {offersList.map ((offer) => <Card key={offer.id} offer={offer}/>)}
               </div>
             </section>
             <div className="cities__right-section">

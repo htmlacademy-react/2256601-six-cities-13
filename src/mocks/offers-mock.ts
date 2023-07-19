@@ -1,27 +1,6 @@
-type OffersMockType = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  city: {
-  name: string;
-  location: {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-  };};
-  location: {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-  };
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
-  previewImage: string;
-};
+import { OffersList } from '../types/offers-list';
 
-export const offersMock: OffersMockType[] = [
+export const offersMock: OffersList[] = [
   {
     id: '1ed853d2-d662-4bb7-be8c-21ec3b3278b1',
     title: 'Amazing and Extremely Central Flat',
