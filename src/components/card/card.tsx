@@ -1,4 +1,5 @@
 import { OffersList } from '../../types/offers-list';
+import { useState } from 'react';
 
 type CardProps = {
   offer: OffersList;
@@ -7,8 +8,14 @@ type CardProps = {
 export function Card(props: CardProps) {
   const {offer} = props;
   const {id, title, type, price, previewImage, rating} = offer;
+  const [isHovered, setItsHovered] = useState(false);
   return (
-    <article key={id} className="cities__card place-card">
+    <article
+      onMouseEnter={()=> setItsHovered(!isHovered)}
+      onMouseLeave={() => setItsHovered(!isHovered)}
+      key={id}
+      className="cities__card place-card"
+    >
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
