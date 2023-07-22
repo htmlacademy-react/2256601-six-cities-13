@@ -11,24 +11,23 @@ import { PrivateRoute } from '../private-route/private-route';
 import { OffersList } from '../../types/offers-list';
 
 type AppProps = {
-  cardCount: number;
   offersList: OffersList[];
 }
 
-export function App({cardCount, offersList}: AppProps) {
+export function App({offersList}: AppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cardCount={cardCount} offersList={offersList}/>}
+            element={<MainPage offersList={offersList}/>}
           />
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavoritesPage/>
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <FavoritesPage offersList={offersList}/>
               </PrivateRoute>
             }
           />

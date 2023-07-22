@@ -2,11 +2,10 @@ import { CardsList } from '../../components/cards-list/cards-list';
 import { OffersList } from '../../types/offers-list';
 
 type MainPageProps = {
-  cardCount: number;
   offersList: OffersList[];
 }
 
-export function MainPage ({cardCount, offersList}: MainPageProps) {
+export function MainPage ({offersList}: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -80,7 +79,7 @@ export function MainPage ({cardCount, offersList}: MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{cardCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offersList.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -97,7 +96,7 @@ export function MainPage ({cardCount, offersList}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardsList cardsList={offersList}/>
+                <CardsList cardsList={offersList} isMainPage/>
               </div>
             </section>
             <div className="cities__right-section">

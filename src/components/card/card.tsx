@@ -1,31 +1,35 @@
 import { OffersList } from '../../types/offers-list';
+import { AdClass } from '../../const';
 import { useState } from 'react';
 
 type CardProps = {
   offer: OffersList;
+  isMainPage?: boolean;
 }
 
-export function Card(props: CardProps) {
-  const {offer} = props;
-  const {id, title, type, price, previewImage, rating} = offer;
+export function Card({offer, isMainPage}: CardProps) {
+  const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
   const [isHovered, setItsHovered] = useState(false);
   return (
     <article
       onMouseEnter={()=> setItsHovered(!isHovered)}
       onMouseLeave={() => setItsHovered(!isHovered)}
       key={id}
-      className="cities__card place-card"
+      className={isMainPage ? AdClass.CitiesCardClass : AdClass.FavotitesCardClass}
     >
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      {
+        isPremium &&
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      }
+      <div className={isMainPage ? AdClass.CitiesImageWrapperClass : AdClass.FavoritesImageWrapperClass}>
         <a href="#">
           <img
             className="place-card__image"
             src={previewImage}
-            width={260}
-            height={200}
+            width={isMainPage ? 260 : 150}
+            height={isMainPage ? 200 : 110}
             alt={type}
           />
         </a>
@@ -37,7 +41,7 @@ export function Card(props: CardProps) {
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
+            className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
