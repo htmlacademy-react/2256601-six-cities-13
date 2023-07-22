@@ -29,7 +29,7 @@ export const offersMock: OffersList[] = [
     type: 'hotel',
     price: 197,
     city: {
-      name: 'Amsterdam',
+      name: 'Paris',
       location: {
         latitude: 52.37454,
         longitude: 4.897976,
@@ -51,7 +51,7 @@ export const offersMock: OffersList[] = [
     type: 'room',
     price: 224,
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
         latitude: 48.85661,
         longitude: 2.351499,
@@ -62,7 +62,7 @@ export const offersMock: OffersList[] = [
       longitude: 2.342499,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 2,
     previewImage: 'https://13.design.pages.academy/static/hotel/3.jpg'

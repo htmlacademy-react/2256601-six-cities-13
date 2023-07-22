@@ -7,7 +7,7 @@ type FavoritesCardListProps = {
 }
 
 export function FavoritesCardList ({offerList}: FavoritesCardListProps) {
-  const favoriteOffers = offerList.filter((offer) => offer.isFavorite === true);
+  const favoriteOffers = offerList.filter((offer) => offer.isFavorite);
   const favoriteCities = new Set<string>();
   favoriteOffers.forEach((offer) => favoriteCities.add(offer.city.name));
 
