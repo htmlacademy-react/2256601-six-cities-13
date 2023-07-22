@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { OffersList } from '../../types/offers-list';
 import { FavoritesCardList } from '../../components/favorite-card-list/favorite-card-list';
 import { Header } from '../../components/header/header';
-import { AuthorizationStatus } from '../../const';
+import { Logo } from '../../components/logo/logo';
 
 type FavotitesPageProps = {
   offersList: OffersList[];
@@ -15,7 +15,7 @@ export default function FavoritesPage ({offersList}: FavotitesPageProps) {
       <Helmet>
         <title>{'6 cities - Favorites'}</title>
       </Helmet>
-      <Header offersList={offersList} authorizationStatus={AuthorizationStatus.Auth}/>
+      <Header/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
@@ -25,9 +25,7 @@ export default function FavoritesPage ({offersList}: FavotitesPageProps) {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width={64} height={33}/>
-        </a>
+        <Logo isFooter/>
       </footer>
     </div>
   );

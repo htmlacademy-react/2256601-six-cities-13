@@ -1,26 +1,24 @@
 import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
 import { AppRoute } from '../../const';
-import { OffersList } from '../../types/offers-list';
+import { Logo } from '../logo/logo';
+import { offersMock } from '../../mocks/offers-mock';
 
 type HeaderProps = {
-  authorizationStatus: AuthorizationStatus;
-  offersList: OffersList[];
+  isLogin?: boolean;
 }
 
-export function Header ({authorizationStatus, offersList}: HeaderProps) {
-  const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
+export function Header ({isLogin}: HeaderProps) {
+  const favoriteOffers = offersMock.filter((offer) => offer.isFavorite);
+
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link header__logo-link--active" to={AppRoute.Main}>
-              <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width={81} height={41}/>
-            </Link>
+            <Logo/>
           </div>
           {
-            authorizationStatus === AuthorizationStatus.Auth &&
+            !isLogin &&
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
