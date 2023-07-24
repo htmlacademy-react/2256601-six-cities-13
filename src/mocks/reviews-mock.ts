@@ -1,17 +1,6 @@
+import { Reviews } from '../types/review';
 
-type ReviewsType = {
-  id: string;
-  date: string;
-  user: {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-  };
-  comment: string;
-  rating: number;
-  }
-
-export const Reviews: ReviewsType[] = [
+export const ReviewsMock: Reviews[] = [
   {
     id: '2da68c3b-a901-42d5-9163-9418eccb1cad',
     comment: 'We loved it so much, the house, the veiw, the location just great.. Highly reccomend :)',

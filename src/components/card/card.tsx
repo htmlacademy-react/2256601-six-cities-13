@@ -1,6 +1,7 @@
 import { OffersList } from '../../types/offers-list';
 import { AdClass } from '../../const';
 import { useState } from 'react';
+import { getRatingStarsStyle } from '../../utils';
 
 type CardProps = {
   offer: OffersList;
@@ -52,7 +53,7 @@ export function Card({offer, isMainPage}: CardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${Math.round(rating) / 5 * 100}%` }} />
+            <span style={{ width: getRatingStarsStyle(rating) }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

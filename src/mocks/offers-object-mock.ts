@@ -4,7 +4,7 @@ export const offersObjectMock: OfferObject[] = [
   {
     id: 'a724fe10-978c-4b24-b5aa-c033830de2cc',
     title: 'Penthouse, 4-5 rooms + 5 balconies',
-    description: 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
+    description: 'I am happy to welcome you to my apartment in the city center. Three words: location, cosy and chic!',
     type: 'apartment',
     price: 471,
     images: [

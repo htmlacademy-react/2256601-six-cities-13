@@ -21,3 +21,5 @@ export enum AdClass {
   CitiesImageWrapperClass = 'cities__image-wrapper place-card__image-wrapper',
   FavoritesImageWrapperClass = 'favorites__image-wrapper place-card__image-wrapper',
 }
+
+export const DATE_FORMAT = 'MMMM YYYY';

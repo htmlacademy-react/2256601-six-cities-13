@@ -9,6 +9,7 @@ import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRoute } from '../private-route/private-route';
 import { OffersList } from '../../types/offers-list';
+import { offersObjectMock } from '../../mocks/offers-object-mock';
 
 type AppProps = {
   offersList: OffersList[];
@@ -37,7 +38,7 @@ export function App({offersList}: AppProps) {
           />
           <Route
             path={`${AppRoute.Offer}/:offerId`}
-            element={<OfferPage/>}
+            element={<OfferPage offerObject={offersObjectMock[3]}/>}
           />
           <Route
             path="*"
