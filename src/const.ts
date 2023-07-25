@@ -22,4 +22,10 @@ export enum AdClass {
   FavoritesImageWrapperClass = 'favorites__image-wrapper place-card__image-wrapper',
 }
 
+export enum PageClass {
+  Main = 'cities',
+  Favofites = 'favorites',
+  Offer = 'near-places',
+}
+
 export const DATE_FORMAT = 'MMMM YYYY';

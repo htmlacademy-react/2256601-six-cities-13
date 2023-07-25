@@ -1,14 +1,16 @@
 import { OffersList } from '../../types/offers-list';
-import { AdClass } from '../../const';
 import { useState } from 'react';
-import { getRatingStarsStyle } from '../../utils';
+import { getHeightImageCard, getRatingStarsStyle, getWidthImageCard } from '../../utils';
+import { PageClass } from '../../const';
+import { getClassCard } from '../../utils';
+import { getClassImageWrapper } from '../../utils';
 
 type CardProps = {
   offer: OffersList;
-  isMainPage?: boolean;
+  page: PageClass;
 }
 
-export function Card({offer, isMainPage}: CardProps) {
+export function Card({offer, page}: CardProps) {
   const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
   const [isHovered, setItsHovered] = useState(false);
   return (
@@ -16,7 +18,7 @@ export function Card({offer, isMainPage}: CardProps) {
       onMouseEnter={()=> setItsHovered(!isHovered)}
       onMouseLeave={() => setItsHovered(!isHovered)}
       key={id}
-      className={isMainPage ? AdClass.CitiesCardClass : AdClass.FavotitesCardClass}
+      className={getClassCard(page)}
     >
       {
         isPremium &&
@@ -24,13 +26,13 @@ export function Card({offer, isMainPage}: CardProps) {
           <span>Premium</span>
         </div>
       }
-      <div className={isMainPage ? AdClass.CitiesImageWrapperClass : AdClass.FavoritesImageWrapperClass}>
+      <div className={getClassImageWrapper(page)}>
         <a href="#">
           <img
             className="place-card__image"
             src={previewImage}
-            width={isMainPage ? 260 : 150}
-            height={isMainPage ? 200 : 110}
+            width={getWidthImageCard(page)}
+            height={getHeightImageCard(page)}
             alt={type}
           />
         </a>

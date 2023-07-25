@@ -19,8 +19,8 @@ export const offersMock: OffersList[] = [
       longitude: 6.956974,
       zoom: 16
     },
-    isFavorite: false,
-    isPremium: true,
+    isFavorite: true,
+    isPremium: false,
     rating: 2,
     previewImage: 'https://13.design.pages.academy/static/hotel/11.jpg'
   },
@@ -41,7 +41,7 @@ export const offersMock: OffersList[] = [
       longitude: 2.342499,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: true,
     rating: 1.7,
     previewImage: 'https://13.design.pages.academy/static/hotel/10.jpg'

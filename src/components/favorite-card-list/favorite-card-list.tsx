@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { OffersList } from '../../types/offers-list';
 import { Card } from '../card/card';
+import { PageClass } from '../../const';
 
 type FavoritesCardListProps = {
   offerList: OffersList[];
+  page: PageClass;
 }
 
-export function FavoritesCardList ({offerList}: FavoritesCardListProps) {
+export function FavoritesCardList ({offerList, page}: FavoritesCardListProps) {
   const favoriteOffers = offerList.filter((offer) => offer.isFavorite);
   const favoriteCities = new Set<string>();
   favoriteOffers.forEach((offer) => favoriteCities.add(offer.city.name));
@@ -23,7 +25,7 @@ export function FavoritesCardList ({offerList}: FavoritesCardListProps) {
             </div>
           </div>
           <div className="favorites__places">
-            {favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => <Card key={offer.id} offer={offer}/>)}
+            {favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => <Card key={offer.id} offer={offer} page={page}/>)}
           </div>
         </li>
       ))}

@@ -3,6 +3,7 @@ import { OffersList } from '../../types/offers-list';
 import { FavoritesCardList } from '../../components/favorite-card-list/favorite-card-list';
 import { Header } from '../../components/header/header';
 import { Logo } from '../../components/logo/logo';
+import { PageClass } from '../../const';
 
 type FavotitesPageProps = {
   offersList: OffersList[];
@@ -20,7 +21,7 @@ export default function FavoritesPage ({offersList}: FavotitesPageProps) {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesCardList offerList={offersList}/>
+            <FavoritesCardList offerList={offersList} page={PageClass.Favofites}/>
           </section>
         </div>
       </main>

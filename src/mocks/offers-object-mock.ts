@@ -47,7 +47,7 @@ export const offersObjectMock: OfferObject[] = [
       avatarUrl: 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
     },
     isPremium: false,
-    isFavorite: false,
+    isFavorite: true,
     rating: 2,
     bedrooms: 4,
     maxAdults: 1
@@ -91,7 +91,7 @@ export const offersObjectMock: OfferObject[] = [
       avatarUrl: 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
     },
     isPremium: true,
-    isFavorite: false,
+    isFavorite: true,
     rating: 1.7,
     bedrooms: 1,
     maxAdults: 5

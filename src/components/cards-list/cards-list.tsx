@@ -1,13 +1,14 @@
 import { Card } from '../card/card';
 import { OffersList } from '../../types/offers-list';
+import { PageClass } from '../../const';
 
 type CardsListProps = {
   cardsList: OffersList[];
-  isMainPage: boolean;
+  page: PageClass;
 };
 
-export function CardsList ({cardsList, isMainPage}: CardsListProps) {
-  return cardsList.map((card) => <Card key={card.id} offer={card} isMainPage={isMainPage} />);
+export function CardsList ({cardsList, page}: CardsListProps) {
+  return cardsList.map((card) => <Card key={card.id} offer={card} page={page} />);
 }
 
 
