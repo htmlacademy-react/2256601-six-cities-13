@@ -1,12 +1,11 @@
 import { Helmet } from 'react-helmet-async';
-import { OffersList } from '../../types/offers-list';
+import { OfferListItem } from '../../types/offer-list-item';
 import { FavoritesCardList } from '../../components/favorite-card-list/favorite-card-list';
 import { Header } from '../../components/header/header';
 import { Logo } from '../../components/logo/logo';
-import { PageClass } from '../../const';
 
 type FavotitesPageProps = {
-  offersList: OffersList[];
+  offersList: OfferListItem[];
 }
 
 export default function FavoritesPage ({offersList}: FavotitesPageProps) {
@@ -21,7 +20,7 @@ export default function FavoritesPage ({offersList}: FavotitesPageProps) {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesCardList offerList={offersList} page={PageClass.Favofites}/>
+            <FavoritesCardList offerList={offersList} pageClass={'favorites__card'}/>
           </section>
         </div>
       </main>

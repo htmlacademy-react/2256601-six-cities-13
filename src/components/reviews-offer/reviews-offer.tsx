@@ -1,10 +1,9 @@
-
-import { Reviews } from '../../types/review';
+import { Review } from '../../types/review';
 import { humanizeDate } from '../../utils';
 import { getRatingStarsStyle } from '../../utils';
 
 type ReviewsOfferProps = {
-  reviews: Reviews[];
+  reviews: Review[];
 }
 
 export function ReviewsOffer ({reviews}: ReviewsOfferProps) {

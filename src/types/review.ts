@@ -1,6 +1,6 @@
-import { Host } from './offer-object';
+import { Host } from './offer-card-data';
 
-export type Reviews = {
+export type Review = {
   id: string;
   date: string;
   user: Host;

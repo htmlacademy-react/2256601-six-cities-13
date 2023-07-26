@@ -1,22 +1,22 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
-import { OfferObject } from '../../types/offer-object';
+import { OfferCardData } from '../../types/offer-card-data';
 import { getRatingStarsStyle } from '../../utils';
 import { ReviewsOffer } from '../../components/reviews-offer/reviews-offer';
 import { ReviewsMock } from '../../mocks/reviews-mock';
 import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
 import { offersMock } from '../../mocks/offers-mock';
-import { PageClass } from '../../const';
+
 
 type OfferPageProps = {
-  offerObject: OfferObject;
+  offerCard: OfferCardData;
 }
 
-export function OfferPage ({offerObject}: OfferPageProps) {
-  const {id, title, type, price, city, Location, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerObject;
+export function OfferPage ({offerCard}: OfferPageProps) {
+  const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
   const {isPro, name, avatarUrl} = host;
-  const nearbyOffers = offersMock.filter((offer) => offer.city === city);
+
   return (
     <div className="page">
       <Helmet>
@@ -131,7 +131,7 @@ export function OfferPage ({offerObject}: OfferPageProps) {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              <CardsList cardsList={offersMock} page={PageClass.Offer}/>
+              <CardsList cardsList={offersMock} pageClass={'near-places__card'}/>
             </div>
           </section>
         </div>

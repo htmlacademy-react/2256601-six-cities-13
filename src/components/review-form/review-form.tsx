@@ -1,7 +1,6 @@
-
+import { STARS } from '../../const';
 
 export function ReviewsForm () {
-  const STARS = [1, 2, 3, 4, 5] as const;
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">

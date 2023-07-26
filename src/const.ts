@@ -1,7 +1,3 @@
-export const Setting = {
-  CardCount: 4
-};
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -15,17 +11,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum AdClass {
-  CitiesCardClass = 'cities__card place-card',
-  FavotitesCardClass = 'favorites__card place-card',
-  CitiesImageWrapperClass = 'cities__image-wrapper place-card__image-wrapper',
-  FavoritesImageWrapperClass = 'favorites__image-wrapper place-card__image-wrapper',
-}
-
-export enum PageClass {
-  Main = 'cities',
-  Favofites = 'favorites',
-  Offer = 'near-places',
-}
-
 export const DATE_FORMAT = 'MMMM YYYY';
+
+export const STARS = new Array(5).fill(0).map((_el, index) => index + 1);

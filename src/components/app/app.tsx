@@ -8,11 +8,11 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRoute } from '../private-route/private-route';
-import { OffersList } from '../../types/offers-list';
+import { OfferListItem } from '../../types/offer-list-item';
 import { offersObjectMock } from '../../mocks/offers-object-mock';
 
 type AppProps = {
-  offersList: OffersList[];
+  offersList: OfferListItem[];
 }
 
 export function App({offersList}: AppProps) {
@@ -38,7 +38,7 @@ export function App({offersList}: AppProps) {
           />
           <Route
             path={`${AppRoute.Offer}/:offerId`}
-            element={<OfferPage offerObject={offersObjectMock[3]}/>}
+            element={<OfferPage offerCard={offersObjectMock[3]}/>}
           />
           <Route
             path="*"

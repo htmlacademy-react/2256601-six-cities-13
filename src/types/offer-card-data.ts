@@ -1,7 +1,6 @@
-import { Location, City } from './offers-list';
+import { Location, City } from './offer-list-item';
 
-
-export type OfferObject = {
+export type OfferCardData = {
   id: string;
   title: string;
   type: string;

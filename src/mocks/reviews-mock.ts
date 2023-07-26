@@ -1,6 +1,6 @@
-import { Reviews } from '../types/review';
+import { Review } from '../types/review';
 
-export const ReviewsMock: Reviews[] = [
+export const ReviewsMock: Review[] = [
   {
     id: '2da68c3b-a901-42d5-9163-9418eccb1cad',
     comment: 'We loved it so much, the house, the veiw, the location just great.. Highly reccomend :)',

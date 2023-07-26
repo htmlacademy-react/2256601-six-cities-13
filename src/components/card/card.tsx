@@ -1,16 +1,14 @@
-import { OffersList } from '../../types/offers-list';
+import { OfferListItem } from '../../types/offer-list-item';
 import { useState } from 'react';
 import { getHeightImageCard, getRatingStarsStyle, getWidthImageCard } from '../../utils';
-import { PageClass } from '../../const';
-import { getClassCard } from '../../utils';
-import { getClassImageWrapper } from '../../utils';
+import classNames from 'classnames';
 
 type CardProps = {
-  offer: OffersList;
-  page: PageClass;
+  offer: OfferListItem;
+  pageClass: string;
 }
 
-export function Card({offer, page}: CardProps) {
+export function Card({offer, pageClass}: CardProps) {
   const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
   const [isHovered, setItsHovered] = useState(false);
   return (
@@ -18,7 +16,7 @@ export function Card({offer, page}: CardProps) {
       onMouseEnter={()=> setItsHovered(!isHovered)}
       onMouseLeave={() => setItsHovered(!isHovered)}
       key={id}
-      className={getClassCard(page)}
+      className={`${pageClass} place-card`}
     >
       {
         isPremium &&
@@ -26,13 +24,13 @@ export function Card({offer, page}: CardProps) {
           <span>Premium</span>
         </div>
       }
-      <div className={getClassImageWrapper(page)}>
+      <div className={`${pageClass} place-card__image-wrapper`}>
         <a href="#">
           <img
             className="place-card__image"
             src={previewImage}
-            width={getWidthImageCard(page)}
-            height={getHeightImageCard(page)}
+            width={getWidthImageCard(pageClass)}
+            height={getHeightImageCard(pageClass)}
             alt={type}
           />
         </a>
@@ -44,7 +42,7 @@ export function Card({offer, page}: CardProps) {
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active': isFavorite}, 'button')}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>

@@ -1,6 +1,6 @@
-import { OffersList } from '../types/offers-list';
+import { OfferListItem } from '../types/offer-list-item';
 
-export const offersMock: OffersList[] = [
+export const offersMock: OfferListItem[] = [
   {
     id: 'a724fe10-978c-4b24-b5aa-c033830de2cc',
     title: 'Penthouse, 4-5 rooms + 5 balconies',

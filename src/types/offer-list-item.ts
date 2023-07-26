@@ -1,4 +1,4 @@
-export type OffersList = {
+export type OfferListItem = {
   id: string;
   title: string;
   type: string;

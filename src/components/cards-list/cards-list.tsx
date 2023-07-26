@@ -1,14 +1,17 @@
 import { Card } from '../card/card';
-import { OffersList } from '../../types/offers-list';
-import { PageClass } from '../../const';
+import { OfferListItem } from '../../types/offer-list-item';
 
 type CardsListProps = {
-  cardsList: OffersList[];
-  page: PageClass;
+  cardsList: OfferListItem[];
+  pageClass: string;
 };
 
-export function CardsList ({cardsList, page}: CardsListProps) {
-  return cardsList.map((card) => <Card key={card.id} offer={card} page={page} />);
+export function CardsList ({cardsList, pageClass}: CardsListProps) {
+  return (
+    <>
+      {cardsList.map((card) => <Card key={card.id} offer={card} pageClass={pageClass}/>)}
+    </>
+  );
 }
 
 

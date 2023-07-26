@@ -1,10 +1,9 @@
 import { CardsList } from '../../components/cards-list/cards-list';
-import { OffersList } from '../../types/offers-list';
+import { OfferListItem } from '../../types/offer-list-item';
 import { Header } from '../../components/header/header';
-import { PageClass } from '../../const';
 
 type MainPageProps = {
-  offersList: OffersList[];
+  offersList: OfferListItem[];
 }
 
 export function MainPage ({offersList}: MainPageProps) {
@@ -70,7 +69,7 @@ export function MainPage ({offersList}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardsList cardsList={offersList} page={PageClass.Main}/>
+                <CardsList cardsList={offersList} pageClass={'cities__card'}/>
               </div>
             </section>
             <div className="cities__right-section">
