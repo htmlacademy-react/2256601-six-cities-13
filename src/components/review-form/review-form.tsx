@@ -1,6 +1,9 @@
 import { STARS } from '../../const';
+import { useState, ChangeEvent } from 'react';
 
 export function ReviewsForm () {
+  const [comment, setComment] = useState('');
+  const commentChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
@@ -30,11 +33,12 @@ export function ReviewsForm () {
           ))}
       </div>
       <textarea
+        onChange={commentChangeHandler}
+        value={comment}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
