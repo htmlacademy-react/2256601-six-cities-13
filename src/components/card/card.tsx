@@ -1,25 +1,55 @@
-export function Card() {
+import { OfferListItem } from '../../types/offer-list-item';
+import { useState } from 'react';
+import { getHeightImageCard, getRatingStarsStyle, getWidthImageCard } from '../../utils';
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
+type CardProps = {
+  offer: OfferListItem;
+  pageClass: string;
+}
+
+export function Card({offer, pageClass}: CardProps) {
+  const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
+  const [, setOfferId] = useState('');
+  const [isFavoriteOffer, setFavoriteOffer] = useState(isFavorite);
+  const mouseEnterHandler = () => setOfferId(id);
+  const mouseLeaveHanler = () => setOfferId('');
+  const clickFavoriteHandler = () => setFavoriteOffer(!isFavoriteOffer);
   return (
-    <article className="cities__card place-card">
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+    <article
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={mouseLeaveHanler}
+      key={id}
+      className={`${pageClass} place-card`}
+    >
+      {
+        isPremium &&
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      }
+      <div className={`${pageClass} place-card__image-wrapper`}>
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
-            src="img/room.jpg"
-            width={260}
-            height={200}
-            alt="Place image"
+            src={previewImage}
+            width={getWidthImageCard(pageClass)}
+            height={getHeightImageCard(pageClass)}
+            alt={type}
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€80</b>
+            <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
+            onClick={clickFavoriteHandler}
+            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active': isFavoriteOffer}, 'button')}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
@@ -30,17 +60,16 @@ export function Card() {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }} />
+            <span style={{ width: getRatingStarsStyle(rating) }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Wood and stone place</a>
+          <Link to ={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">Private room</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
-
   );
 }
 

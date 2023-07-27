@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './components/app/app';
-import { Setting } from './const';
+import { offersMock } from './mocks/offers-mock';
+import { offersObjectMock } from './mocks/offers-object-mock';
+import { reviewsMock } from './mocks/reviews-mock';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,6 +12,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App cardCount={Setting.CardCount}/>
+    <App offersList={offersMock} offersCardList={offersObjectMock} reviews={reviewsMock}/>
   </React.StrictMode>
 );
