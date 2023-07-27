@@ -1,7 +1,7 @@
 import { CardsList } from '../../components/cards-list/cards-list';
 import { OfferListItem } from '../../types/offer-list-item';
 import { Header } from '../../components/header/header';
-import { CitiesList } from '../../components/cities-list/cities-list';
+import { LocationsList } from '../../components/locations-list/locations-list';
 
 type MainPageProps = {
   offersList: OfferListItem[];
@@ -15,7 +15,7 @@ export function MainPage ({offersList}: MainPageProps) {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList/>
+            <LocationsList/>
           </section>
         </div>
         <div className="cities">

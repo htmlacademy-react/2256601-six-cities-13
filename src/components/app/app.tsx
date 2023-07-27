@@ -9,13 +9,16 @@ import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRoute } from '../private-route/private-route';
 import { OfferListItem } from '../../types/offer-list-item';
-import { offersObjectMock } from '../../mocks/offers-object-mock';
+import { OfferCardData } from '../../types/offer-card-data';
+import { Review } from '../../types/review';
 
 type AppProps = {
   offersList: OfferListItem[];
+  offersCardList: OfferCardData[];
+  reviews: Review[];
 }
 
-export function App({offersList}: AppProps) {
+export function App({offersList, offersCardList, reviews}: AppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -37,8 +40,8 @@ export function App({offersList}: AppProps) {
             element={<LoginPage/>}
           />
           <Route
-            path={`${AppRoute.Offer}/:offerId`}
-            element={<OfferPage offerCard={offersObjectMock[3]}/>}
+            path={`${AppRoute.Offer}/:id`}
+            element={<OfferPage offersCardList={offersCardList} reviews={reviews}/>}
           />
           <Route
             path="*"

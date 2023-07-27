@@ -3,17 +3,21 @@ import { Header } from '../../components/header/header';
 import { OfferCardData } from '../../types/offer-card-data';
 import { getRatingStarsStyle } from '../../utils';
 import { ReviewsOffer } from '../../components/reviews-offer/reviews-offer';
-import { ReviewsMock } from '../../mocks/reviews-mock';
 import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
 import { offersMock } from '../../mocks/offers-mock';
+import { Review } from '../../types/review';
+import { useParams } from 'react-router-dom';
 
 
 type OfferPageProps = {
-  offerCard: OfferCardData;
+  offersCardList: OfferCardData[];
+  reviews: Review[];
 }
 
-export function OfferPage ({offerCard}: OfferPageProps) {
+export function OfferPage ({offersCardList, reviews}: OfferPageProps) {
+  const {id} = useParams();
+  const offerCard = offersCardList.find((offer) => offer.id === id) as OfferCardData;
   const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
   const {isPro, name, avatarUrl} = host;
 
@@ -118,7 +122,7 @@ export function OfferPage ({offerCard}: OfferPageProps) {
                 <h2 className="reviews__title">
                   Reviews · <span className="reviews__amount">1</span>
                 </h2>
-                <ReviewsOffer reviews={ReviewsMock}/>
+                <ReviewsOffer reviews={reviews}/>
                 <ReviewsForm/>
               </section>
             </div>
