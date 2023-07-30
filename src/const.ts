@@ -11,6 +11,10 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const MIN_COMMENT_LENGTH = 50;
+
+export const MAX_COMMENT_LENGTH = 300;
+
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
 
 export const DATE_FORMAT = 'MMMM YYYY';
