@@ -8,20 +8,20 @@ import { AppRoute } from '../../const';
 type CardProps = {
   offer: OfferListItem;
   pageClass: string;
+  offerEnterHandler: (id: string | undefined) => void;
+  offerLeaveHandler: (id: string | undefined) => void;
 }
 
-export function Card({offer, pageClass}: CardProps) {
+export function Card({offer, pageClass, offerEnterHandler, offerLeaveHandler}: CardProps) {
   const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
-  const [, setOfferId] = useState('');
   const [isFavoriteOffer, setFavoriteOffer] = useState(isFavorite);
-  const mouseEnterHandler = () => setOfferId(id);
-  const mouseLeaveHanler = () => setOfferId('');
+
   const clickFavoriteHandler = () => setFavoriteOffer(!isFavoriteOffer);
   return (
     <article
-      onMouseEnter={mouseEnterHandler}
-      onMouseLeave={mouseLeaveHanler}
-      key={id}
+      onMouseEnter={offerEnterHandler}
+      onMouseLeave={offerLeaveHandler}
+      id={id}
       className={`${pageClass} place-card`}
     >
       {

@@ -1,13 +1,16 @@
-import { OfferListItem } from '../../types/offer-list-item';
+import { City, OfferListItem } from '../../types/offer-list-item';
 import { Header } from '../../components/header/header';
 import { LocationsList } from '../../components/locations-list/locations-list';
-import { Cities } from '../../cities/cities';
+import { Cities } from '../../components/cities/cities';
+
 
 type MainPageProps = {
   offersList: OfferListItem[];
+  city: City;
 }
 
-export function MainPage ({offersList}: MainPageProps) {
+export function MainPage ({offersList, city}: MainPageProps) {
+
   return (
     <div className="page page--gray page--main">
       <Header/>
@@ -18,7 +21,7 @@ export function MainPage ({offersList}: MainPageProps) {
             <LocationsList/>
           </section>
         </div>
-        <Cities offersList={offersList}/>
+        <Cities offersList={offersList} city={city}/>
       </main>
     </div>
   );
