@@ -1,5 +1,7 @@
 import { STARS } from '../../const';
 import { useState, ChangeEvent } from 'react';
+import { Star } from '../star/star';
+
 //import { MIN_COMMENT_LENGTH } from '../../const';
 //import { MAX_COMMENT_LENGTH } from '../../const';
 
@@ -19,28 +21,8 @@ export function ReviewsForm () {
       </label>
       <div className="reviews__rating-form form__rating">
         {STARS.map((star) =>
-          (
-            <>
-              <input
-                onChange={inputChangeHandler}
-                className="form__rating-input visually-hidden"
-                name="rating"
-                defaultValue={star}
-                value={rating}
-                id={`${star}-stars`}
-                type="radio"
-              />
-              <label
-                htmlFor={`${star}-stars`}
-                className="reviews__rating-label form__rating-label"
-                title="perfect"
-              >
-                <svg className="form__star-image" width={37} height={33}>
-                  <use xlinkHref="#icon-star" />
-                </svg>
-              </label>
-            </>
-          ))}
+          <Star rating={rating} star={star} onChangeStarHandler={inputChangeHandler} key={star}/>
+        )}
       </div>
       <textarea
         onChange={textareaChangeHandler}
