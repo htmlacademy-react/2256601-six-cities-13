@@ -4,7 +4,7 @@ import { App } from './components/app/app';
 import { offersMock } from './mocks/offers-mock';
 import { offersObjectMock } from './mocks/offers-object-mock';
 import { reviewsMock } from './mocks/reviews-mock';
-
+import { CITY } from './mocks/city';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,6 +12,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App offersList={offersMock} offersCardList={offersObjectMock} reviews={reviewsMock}/>
+    <App offersList={offersMock} offersCardList={offersObjectMock} reviews={reviewsMock} city={CITY}/>
   </React.StrictMode>
 );
