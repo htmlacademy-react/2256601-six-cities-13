@@ -23,7 +23,7 @@ export function Cities ({offersList, city}: CitiesProps) {
           <b className="places__found">{offersList.length} places to stay in Amsterdam</b>
           <Sort/>
           <div className="cities__places-list places__list tabs__content">
-            <CardsList cardsList={offersList} pageClass={'cities__card'} offerHoverHandler={offerHoverHandler}/>
+            <CardsList cardsList={offersList} pageClass={'cities__card'} onOfferHover={offerHoverHandler}/>
           </div>
         </section>
         <div className="cities__right-section">

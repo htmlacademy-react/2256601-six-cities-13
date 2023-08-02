@@ -15,8 +15,8 @@ export const offersMock: OfferListItem[] = [
       }
     },
     location: {
-      latitude: 50.941361,
-      longitude: 6.956974,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     isFavorite: true,
@@ -37,8 +37,8 @@ export const offersMock: OfferListItem[] = [
         zoom: 13
       }},
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     isFavorite: true,
@@ -59,8 +59,8 @@ export const offersMock: OfferListItem[] = [
         zoom: 13
       }},
     location: {
-      latitude: 50.947361,
-      longitude: 6.9799739999999995,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 16
     },
     isFavorite: false,
@@ -81,8 +81,8 @@ export const offersMock: OfferListItem[] = [
         zoom: 13
       }},
     location: {
-      latitude: 50.960361,
-      longitude: 6.967974,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 16
     },
     isFavorite: false,

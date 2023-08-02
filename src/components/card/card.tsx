@@ -4,23 +4,24 @@ import { getHeightImageCard, getRatingStarsStyle, getWidthImageCard } from '../.
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { MouseEvent } from 'react';
 
 type CardProps = {
   offer: OfferListItem;
   pageClass: string;
-  offerEnterHandler: (id: string | undefined) => void;
-  offerLeaveHandler: (id: string | undefined) => void;
+  onMouseEnterHover: (evt: MouseEvent<HTMLLIElement>) => void;
+  onMouseLeaveHover: (evt: MouseEvent<HTMLLIElement>) => void;
 }
 
-export function Card({offer, pageClass, offerEnterHandler, offerLeaveHandler}: CardProps) {
+export function Card({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}: CardProps) {
   const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
   const [isFavoriteOffer, setFavoriteOffer] = useState(isFavorite);
 
   const clickFavoriteHandler = () => setFavoriteOffer(!isFavoriteOffer);
   return (
     <article
-      onMouseEnter={offerEnterHandler}
-      onMouseLeave={offerLeaveHandler}
+      onMouseEnter={onMouseEnterHover}
+      onMouseLeave={onMouseLeaveHover}
       id={id}
       className={`${pageClass} place-card`}
     >
