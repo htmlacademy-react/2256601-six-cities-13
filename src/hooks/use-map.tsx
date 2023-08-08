@@ -1,5 +1,5 @@
 import { Map, TileLayer } from 'leaflet';
-import { City } from '../../types/offer-list-item';
+import { City } from '../types/offer-list-item';
 import { useEffect, useState, useRef, MutableRefObject } from 'react';
 
 export function useMap (mapRef: MutableRefObject<HTMLElement | null>, city: City): Map | null {
