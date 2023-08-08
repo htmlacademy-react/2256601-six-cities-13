@@ -42,7 +42,7 @@ export function App({offersList, offersCardList, reviews, city}: AppProps) {
           />
           <Route
             path={`${AppRoute.Offer}/:id`}
-            element={<OfferPage offersCardList={offersCardList} reviews={reviews}/>}
+            element={<OfferPage offersCardList={offersCardList} reviews={reviews} city={city}/>}
           />
           <Route
             path="*"
