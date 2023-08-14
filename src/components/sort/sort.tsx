@@ -32,7 +32,7 @@ export function Sort () {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0} onClick={spanClickHandler}>
+      <span className="places__sorting-type" tabIndex={0} onClick={spanClickHandler} onKeyDown={() => keydownHandler}>
         {SortingMap[activeSortType]}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
@@ -45,7 +45,6 @@ export function Sort () {
               key={type}
               tabIndex={0}
               onClick={() => clickHandler(type)}
-              onKeyDown={() => keydownHandler}
             >
               {label}
             </li>
