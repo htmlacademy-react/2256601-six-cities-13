@@ -1,16 +1,32 @@
-import { CITIES } from '../../const';
+import { CITIES_NAMES } from '../../const';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setActiveCity } from '../../store/actions';
+import {MouseEvent} from 'react';
 
 export function LocationsList () {
+  const activeCityName = useAppSelector((state) => state.city);
+  const dispatch = useAppDispatch();
+  const changeCityHandler = (evt: MouseEvent<HTMLLIElement>) => {
+    evt.preventDefault();
+    const changeCityName = evt.currentTarget.dataset.city;
+    dispatch(setActiveCity(changeCityName));
+  };
+
   return (
     <ul className="locations__list tabs__list">
       {
-        CITIES.map((city) =>
+        CITIES_NAMES.map((cityName) =>
           (
-            <li className="locations__item" key={city}>
-              <Link className={classNames('locations__item-link', 'tabs__item', {'tabs__item--active': city === CITIES[0]})} to="#">
-                <span>{city}</span>
+            <li
+              className="locations__item"
+              key={cityName}
+              data-city={cityName}
+              onClick={changeCityHandler}
+            >
+              <Link className={classNames('locations__item-link', 'tabs__item', {'tabs__item--active': cityName === activeCityName})} to="#">
+                <span>{cityName}</span>
               </Link>
             </li>
           )

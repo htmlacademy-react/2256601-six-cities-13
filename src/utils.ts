@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { DATE_FORMAT} from './const';
+import { OfferListItem } from './types/offer-list-item';
 
 export function humanizeDate(date: string) {
   return date ? dayjs(date).format(DATE_FORMAT) : '';
@@ -21,4 +22,8 @@ export function getHeightImageCard (pageClass:string): number {
     return 200;
   }
   return 110;
+}
+
+export function getOffersByCity (cityName: string | undefined, offers: OfferListItem[]): OfferListItem[] {
+  return offers.filter((offer) => offer.city.name === cityName);
 }

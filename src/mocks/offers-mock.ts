@@ -2,12 +2,13 @@ import { OfferListItem } from '../types/offer-list-item';
 
 export const offersMock: OfferListItem[] = [
   {
-    id: 'a724fe10-978c-4b24-b5aa-c033830de2cc',
-    title: 'Penthouse, 4-5 rooms + 5 balconies',
-    type: 'apartment',
-    price: 471,
+    id: 'cc86c284-5f68-4393-94f1-888b054e31d2',
+    title: 'The Joshua Tree House',
+    type: 'hotel',
+    price: 288,
+    previewImage: 'https://13.design.pages.academy/static/hotel/16.jpg',
     city: {
-      name: 'Cologne',
+      name: 'Amsterdam',
       location: {
         latitude: 50.938361,
         longitude: 6.959974,
@@ -21,21 +22,22 @@ export const offersMock: OfferListItem[] = [
     },
     isFavorite: true,
     isPremium: false,
-    rating: 2,
-    previewImage: 'https://13.design.pages.academy/static/hotel/11.jpg'
+    rating: 3.1
   },
   {
-    id: '937e13a8-d128-42fc-9b67-b8b29e41b0dc',
-    title: 'The Joshua Tree House',
+    id: 'c01e7763-6d71-422f-9a42-ec802cbee4c3',
+    title: 'Perfectly located Castro',
     type: 'hotel',
-    price: 178,
+    price: 460,
+    previewImage: 'https://13.design.pages.academy/static/hotel/15.jpg',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 50.938361,
+        longitude: 6.959974,
         zoom: 13
-      }},
+      }
+    },
     location: {
       latitude: 52.3609553943508,
       longitude: 4.85309666406198,
@@ -43,43 +45,45 @@ export const offersMock: OfferListItem[] = [
     },
     isFavorite: true,
     isPremium: true,
-    rating: 1.7,
-    previewImage: 'https://13.design.pages.academy/static/hotel/10.jpg'
+    rating: 4.5
   },
   {
-    id: 'e20ec930-ad5f-4bf1-a7fe-83de62cc0ac0',
-    title: 'Beautiful & luxurious apartment at great location',
-    type: 'room',
-    price: 210,
+    id: 'a23d8b94-a7e3-487b-ad86-813b4ff3ace1',
+    title: 'The Pondhouse - A Magical Place',
+    type: 'house',
+    price: 728,
+    previewImage: 'https://13.design.pages.academy/static/hotel/14.jpg',
     city: {
-      name: 'Cologne',
+      name: 'Amsterdam',
       location: {
         latitude: 50.938361,
         longitude: 6.959974,
         zoom: 13
-      }},
+      }
+    },
     location: {
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
       zoom: 16
     },
     isFavorite: false,
-    isPremium: true,
-    rating: 1.3,
-    previewImage: 'https://13.design.pages.academy/static/hotel/18.jpg'
+    isPremium: false,
+    rating: 3.4
   },
   {
-    id: 'cb73f9eb-7a6f-49e7-9758-94ec697d85bc',
-    title: 'House in countryside',
-    type: 'house',
-    price: 945,
+    id: '72276101-e585-4bce-aa52-84e2e4907400',
+    title: 'Nice, cozy, warm big bed apartment',
+    type: 'room',
+    price: 173,
+    previewImage: 'https://13.design.pages.academy/static/hotel/20.jpg',
     city: {
-      name: 'Cologne',
+      name: 'Amsterdam',
       location: {
         latitude: 50.938361,
         longitude: 6.959974,
         zoom: 13
-      }},
+      }
+    },
     location: {
       latitude: 52.3809553943508,
       longitude: 4.939309666406198,
@@ -87,7 +91,6 @@ export const offersMock: OfferListItem[] = [
     },
     isFavorite: false,
     isPremium: true,
-    rating: 3.3,
-    previewImage: 'https://13.design.pages.academy/static/hotel/20.jpg'
+    rating: 2.3
   },
 ];
