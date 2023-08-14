@@ -3,8 +3,9 @@ import { City } from '../types/offer-list-item';
 export const CITY: City = {
   name: 'Amsterdam',
   location: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 10,
+    latitude: 52.38,
+    longitude: 4.9,
+    zoom: 12
   }
 };
+

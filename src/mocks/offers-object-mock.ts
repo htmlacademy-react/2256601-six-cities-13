@@ -2,21 +2,21 @@ import { OfferCardData } from '../types/offer-card-data';
 
 export const offersObjectMock: OfferCardData[] = [
   {
-    id: 'a724fe10-978c-4b24-b5aa-c033830de2cc',
-    title: 'Penthouse, 4-5 rooms + 5 balconies',
-    description: 'I am happy to welcome you to my apartment in the city center. Three words: location, cosy and chic!',
-    type: 'apartment',
-    price: 471,
+    id: 'cc86c284-5f68-4393-94f1-888b054e31d2',
+    title: 'The Joshua Tree House',
+    description: 'Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.',
+    type: 'hotel',
+    price: 288,
     images: [
-      'https://13.design.pages.academy/static/hotel/2.jpg',
-      'https://13.design.pages.academy/static/hotel/18.jpg',
-      'https://13.design.pages.academy/static/hotel/5.jpg',
       'https://13.design.pages.academy/static/hotel/20.jpg',
-      'https://13.design.pages.academy/static/hotel/17.jpg',
-      'https://13.design.pages.academy/static/hotel/4.jpg'
+      'https://13.design.pages.academy/static/hotel/8.jpg',
+      'https://13.design.pages.academy/static/hotel/3.jpg',
+      'https://13.design.pages.academy/static/hotel/19.jpg',
+      'https://13.design.pages.academy/static/hotel/13.jpg',
+      'https://13.design.pages.academy/static/hotel/15.jpg'
     ],
     city: {
-      name: 'Cologne',
+      name: 'Amsterdam',
       location: {
         latitude: 50.938361,
         longitude: 6.959974,
@@ -24,22 +24,16 @@ export const offersObjectMock: OfferCardData[] = [
       }
     },
     location: {
-      latitude: 50.941361,
-      longitude: 6.956974,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     goods: [
-      'Coffee machine',
-      'Heating',
-      'Washer',
-      'Kitchen',
       'Breakfast',
-      'Wi-Fi',
-      'Dishwasher',
-      'Cable TV',
-      'Fridge',
-      'Baby sea',
+      'Towels',
       'Washing machine',
+      'Air conditioning',
+      'Cable TV'
     ],
     host: {
       isPro: true,
@@ -48,120 +42,77 @@ export const offersObjectMock: OfferCardData[] = [
     },
     isPremium: false,
     isFavorite: true,
-    rating: 2,
-    bedrooms: 4,
-    maxAdults: 1
+    rating: 3.1,
+    bedrooms: 5,
+    maxAdults: 7
   },
   {
-    id: '937e13a8-d128-42fc-9b67-b8b29e41b0dc',
-    title: 'The Joshua Tree House',
-    description: 'Peaceful studio in the most wanted area in town. Quiet house Near of everything. Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance.',
+    id: 'c01e7763-6d71-422f-9a42-ec802cbee4c3',
+    title: 'Perfectly located Castro',
+    description: 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
     type: 'hotel',
-    price: 178,
+    price: 460,
     images: [
-      'https://13.design.pages.academy/static/hotel/4.jpg',
+      'https://13.design.pages.academy/static/hotel/18.jpg',
       'https://13.design.pages.academy/static/hotel/19.jpg',
-      'https://13.design.pages.academy/static/hotel/8.jpg',
-      'https://13.design.pages.academy/static/hotel/13.jpg',
-      'https://13.design.pages.academy/static/hotel/14.jpg',
-      'https://13.design.pages.academy/static/hotel/5.jpg'
+      'https://13.design.pages.academy/static/hotel/4.jpg',
+      'https://13.design.pages.academy/static/hotel/11.jpg',
+      'https://13.design.pages.academy/static/hotel/9.jpg',
+      'https://13.design.pages.academy/static/hotel/16.jpg'
     ],
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 50.938361,
+        longitude: 6.959974,
         zoom: 13
       }
     },
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     goods: [
-      'Laptop friendly workspace',
-      'Dishwasher',
-      'Towels',
       'Coffee machine',
+      'Towels',
+      'Dishwasher',
+      'Kitchen',
+      'Wi-Fi',
+      'Fridge',
+      'Laptop friendly workspace',
+      'Washing machine',
+      'Heating',
+      'Cable TV',
+      'Air conditioning'
     ],
     host: {
-      isPro: true,
-      name: 'Angelina',
+      isPro: false,
+      name: 'Maximus',
       avatarUrl: 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
     },
     isPremium: true,
     isFavorite: true,
-    rating: 1.7,
-    bedrooms: 1,
-    maxAdults: 5
+    rating: 4.5,
+    bedrooms: 2,
+    maxAdults: 9
   },
   {
-    id: 'e20ec930-ad5f-4bf1-a7fe-83de62cc0ac0',
-    title: 'Beautiful & luxurious apartment at great location',
-    description: 'This is a place for dreamers to reset, reflect, and create. Designed with a slow pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.',
-    type: 'room',
-    price: 210,
-    images: [
-      'https://13.design.pages.academy/static/hotel/11.jpg',
-      'https://13.design.pages.academy/static/hotel/14.jpg',
-      'https://13.design.pages.academy/static/hotel/17.jpg',
-      'https://13.design.pages.academy/static/hotel/12.jpg',
-      'https://13.design.pages.academy/static/hotel/13.jpg',
-      'https://13.design.pages.academy/static/hotel/9.jpg'
-    ],
-    city: {
-      name: 'Cologne',
-      location: {
-        latitude: 50.938361,
-        longitude: 6.959974,
-        zoom: 13
-      }
-    },
-    location: {
-      latitude: 50.941361,
-      longitude: 6.9799739999999995,
-      zoom: 16
-    },
-    goods: [
-      'Kitchen',
-      'Wi-Fi',
-      'Towels',
-      'Coffee machine',
-      'Washing machine',
-      'Breakfast',
-      'Cable TV',
-      'Baby seat',
-      'Air conditioning',
-      'Dishwasher',
-    ],
-    host: {
-      isPro: true,
-      name: 'Angelina',
-      avatarUrl: 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
-    },
-    isPremium: true,
-    isFavorite: false,
-    rating: 1.3,
-    bedrooms: 1,
-    maxAdults: 3
-  },
-  {
-    id: 'cb73f9eb-7a6f-49e7-9758-94ec697d85bc',
-    title: 'House in countryside',
+    id: 'a23d8b94-a7e3-487b-ad86-813b4ff3ace1',
+    title: 'The Pondhouse - A Magical Place',
     description: 'Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.',
     type: 'house',
-    price: 945,
+    price: 728,
     images: [
-      'https://13.design.pages.academy/static/hotel/14.jpg',
-      'https://13.design.pages.academy/static/hotel/2.jpg',
+      'https://13.design.pages.academy/static/hotel/20.jpg',
+      'https://13.design.pages.academy/static/hotel/6.jpg',
+      'https://13.design.pages.academy/static/hotel/3.jpg',
+      'https://13.design.pages.academy/static/hotel/15.jpg',
       'https://13.design.pages.academy/static/hotel/5.jpg',
-      'https://13.design.pages.academy/static/hotel/19.jpg',
-      'https://13.design.pages.academy/static/hotel/10.jpg',
-      'https://13.design.pages.academy/static/hotel/13.jpg'
+      'https://13.design.pages.academy/static/hotel/1.jpg'
     ],
     city: {
-      name: 'Cologne',
+      name: 'Amsterdam',
       location: {
         latitude: 50.938361,
         longitude: 6.959974,
@@ -169,35 +120,70 @@ export const offersObjectMock: OfferCardData[] = [
       }
     },
     location: {
-      latitude: 50.960361,
-      longitude: 6.967974,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 16
     },
     goods: [
-      'Cable TV',
-      'Heating',
-      'Washer',
-      'Coffee machine',
-      'Air conditioning',
-      'Baby seat',
+      'Dishwasher',
       'Wi-Fi',
-      'Washing machine',
-      'Breakfast',
       'Kitchen',
+      'Coffee machine',
       'Laptop friendly workspace',
-      'Fridge',
-      'Towels',
+      'Washer'
     ],
     host: {
       isPro: true,
       name: 'Angelina',
       avatarUrl: 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
     },
+    isPremium: false,
+    isFavorite: false,
+    rating: 3.4,
+    bedrooms: 2,
+    maxAdults: 1
+  },
+  {
+    id: '72276101-e585-4bce-aa52-84e2e4907400',
+    title: 'Nice, cozy, warm big bed apartment',
+    description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
+    type: 'room',
+    price: 173,
+    images: [
+      'https://13.design.pages.academy/static/hotel/6.jpg',
+      'https://13.design.pages.academy/static/hotel/15.jpg',
+      'https://13.design.pages.academy/static/hotel/3.jpg',
+      'https://13.design.pages.academy/static/hotel/7.jpg',
+      'https://13.design.pages.academy/static/hotel/4.jpg',
+      'https://13.design.pages.academy/static/hotel/18.jpg'
+    ],
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 50.938361,
+        longitude: 6.959974,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 16
+    },
+    goods: [
+      'Towels',
+      'Baby seat',
+      'Kitchen'
+    ],
+    host: {
+      isPro: true,
+      name: 'Oliver Conner',
+      avatarUrl: 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
+    },
     isPremium: true,
     isFavorite: false,
-    rating: 3.3,
-    bedrooms: 5,
-    maxAdults: 8
-  },
+    rating: 2.3,
+    bedrooms: 1,
+    maxAdults: 1
+  }
 ];
-

@@ -1,3 +1,5 @@
+import { City } from './types/offer-list-item';
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -24,7 +26,58 @@ export const MIN_COMMENT_LENGTH = 50;
 
 export const MAX_COMMENT_LENGTH = 300;
 
-export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+
+export const CitiesMap: City[] = [
+  {
+    name: 'Paris',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Cologne',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Brussels',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Amsterdam',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Hamburg',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Dusseldorf',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+];
 
 export const DATE_FORMAT = 'MMMM YYYY';
 

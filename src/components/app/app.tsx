@@ -26,7 +26,7 @@ export function App({offersList, offersCardList, reviews, city}: AppProps) {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offersList={offersList} city={city}/>}
+            element={<MainPage/>}
           />
           <Route
             path={AppRoute.Favorites}
