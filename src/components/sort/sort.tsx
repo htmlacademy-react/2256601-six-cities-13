@@ -1,24 +1,21 @@
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOffers, setSortType } from '../../store/actions';
-import { useState, MouseEvent } from 'react';
-import { sorting } from '../../utils';
+import { useState, KeyboardEvent } from 'react';
 import { SortingMap } from '../../const';
 import classNames from 'classnames';
 import { Sorting } from '../../types/sorting';
 
-export function Sort () {
-  const [isOpened, setIsOpened] = useState(false);
-  const activeSortType = useAppSelector((state) => state.sortType);
-  const offersList = useAppSelector((state) => state.offers);
-  const dispatch = useAppDispatch();
+type SortProps = {
+  activeSortType: Sorting;
+  onChange: (newSortType: Sorting) => void;
+};
 
-  const clickHandler = (item: Sorting) => {
-    dispatch(setSortType(item));
-    dispatch(fetchOffers(sorting[item](offersList)));
+export function Sort ({activeSortType, onChange}: SortProps) {
+  const [isOpened, setIsOpened] = useState(false);
+  const clickSortItemHandler = (type: Sorting) => {
+    onChange(type);
+    setIsOpened(false);
   };
 
-  const spanClickHandler = (evt: MouseEvent<HTMLFormElement>) => {
-    evt.stopPropagation();
+  const clickTypeHandler = () => {
     setIsOpened((prevIsOpened) => !prevIsOpened);
   };
 
@@ -30,9 +27,9 @@ export function Sort () {
   };
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form className="places__sorting" action="#" method="get" onKeyDown={keydownHandler}>
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0} onClick={spanClickHandler} onKeyDown={() => keydownHandler}>
+      <span className="places__sorting-type" tabIndex={0} onClick={clickTypeHandler}>
         {SortingMap[activeSortType]}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
@@ -44,7 +41,7 @@ export function Sort () {
             <li className={classNames('places__option', {'places__option--active' : type === activeSortType})}
               key={type}
               tabIndex={0}
-              onClick={() => clickHandler(type)}
+              onClick={() => clickSortItemHandler(type)}
             >
               {label}
             </li>

@@ -4,14 +4,17 @@ import { Sort } from '../sort/sort';
 import { Map } from '../map/map';
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getOffersByCity } from '../../utils';
+import { getOffersByCity, sorting } from '../../utils';
 import { CITY } from '../../mocks/city';
+import { Sorting } from '../../types/sorting';
 
 export function Cities () {
   const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
+  const [activeSortType, setActiveSortType] = useState<Sorting>('Popular');
   const offersList = useAppSelector((state) => state.offers);
   const activeCityName = useAppSelector((state) => state.city);
   const offersByCity = getOffersByCity(activeCityName, offersList);
+  const offersBySorting = sorting[activeSortType](offersByCity);
   const offerHoverHandler = (id: string | undefined) => {
     if (!id) {
       setSelectedOffer (undefined);
@@ -26,9 +29,9 @@ export function Cities () {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">{offersByCity.length} places to stay in {activeCityName}</b>
-          <Sort/>
+          <Sort activeSortType={activeSortType} onChange={(newSortType) => setActiveSortType(newSortType)}/>
           <div className="cities__places-list places__list tabs__content">
-            <CardsList cardsList={offersList} pageClass={'cities__card'} onOfferHover={offerHoverHandler}/>
+            <CardsList cardsList={offersBySorting} pageClass={'cities__card'} onOfferHover={offerHoverHandler}/>
           </div>
         </section>
         <div className="cities__right-section">
