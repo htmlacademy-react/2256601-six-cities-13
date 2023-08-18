@@ -1,5 +1,3 @@
-import { City } from './types/offer-list-item';
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -35,63 +33,26 @@ export const SortingMap = {
 
 export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
 
-export const CitiesMap: City[] = [
-  {
-    name: 'Paris',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13
-    }
-  },
-  {
-    name: 'Cologne',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13
-    }
-  },
-  {
-    name: 'Brussels',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13
-    }
-  },
-  {
-    name: 'Amsterdam',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13
-    }
-  },
-  {
-    name: 'Hamburg',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13
-    }
-  },
-  {
-    name: 'Dusseldorf',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13
-    }
-  },
-];
-
 export const DATE_FORMAT = 'MMMM YYYY';
 
-export const STARS = new Array(5).fill(0).map((_el, index) => index + 1);
+export const RatingMap = {
+  '5': 'perfect',
+  '4': 'good',
+  '3': 'not bad',
+  '2': 'badly',
+  '1': 'terribly',
+};
 
 export const URL_MARKER_DEFAULT =
   '../img/pin.svg';
 
 export const URL_MARKER_CURRENT =
   '../img/pin-active.svg';
+
+export const APIRoute = {
+  Offers: '/offers',
+  Comments: '/comments',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+

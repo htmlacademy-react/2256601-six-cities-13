@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Logo } from '../logo/logo';
-import { offersMock } from '../../mocks/offers-mock';
+import { useAppSelector } from '../../hooks';
+import * as selectors from '../../store/selectors';
 
 type HeaderProps = {
   isLogin?: boolean;
 }
 
 export function Header ({isLogin}: HeaderProps) {
-  const favoriteOffers = offersMock.filter((offer) => offer.isFavorite);
+  const offers = useAppSelector(selectors.offers);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
     <header className="header">

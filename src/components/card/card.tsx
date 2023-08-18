@@ -9,8 +9,8 @@ import { MouseEvent } from 'react';
 type CardProps = {
   offer: OfferListItem;
   pageClass: string;
-  onMouseEnterHover: (evt: MouseEvent<HTMLLIElement>) => void;
-  onMouseLeaveHover: (evt: MouseEvent<HTMLLIElement>) => void;
+  onMouseEnterHover?: (evt: MouseEvent<HTMLLIElement>) => void;
+  onMouseLeaveHover?: (evt: MouseEvent<HTMLLIElement>) => void;
 }
 
 export function Card({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}: CardProps) {

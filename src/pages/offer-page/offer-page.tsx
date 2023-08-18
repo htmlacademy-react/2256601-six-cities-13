@@ -1,35 +1,54 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
-import { OfferCardData } from '../../types/offer-card-data';
 import { getRatingStarsStyle } from '../../utils';
 import { ReviewsOffer } from '../../components/reviews-offer/reviews-offer';
 import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
-import { offersMock } from '../../mocks/offers-mock';
-import { Review } from '../../types/review';
 import { useParams } from 'react-router-dom';
-import { City } from '../../types/offer-list-item';
 import { Map } from '../../components/map/map';
 import { useState } from 'react';
 import { OfferListItem } from '../../types/offer-list-item';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import {useEffect} from 'react';
+import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-actions';
+import * as selectors from '../../store/selectors';
+import { LoadingScreen } from '../loading-screen/loading-screen';
 
-type OfferPageProps = {
-  offersCardList: OfferCardData[];
-  reviews: Review[];
-  city: City;
-}
-
-export function OfferPage ({offersCardList, reviews, city}: OfferPageProps) {
+export function OfferPage () {
   const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
-  const offerNearList: OfferListItem[] = offersMock;
+  const dispatch = useAppDispatch();
+  const offerId = useParams().id;
+  useEffect(() => {
+    dispatch(fetchOffer({id: offerId}));
+    dispatch(fetchNearByOffers({id: offerId}));
+    dispatch(fetchReviews({id: offerId}));
+  }, [offerId, dispatch]
+  );
+  const offersList = useAppSelector(selectors.offers);
+  const offerCardData = useAppSelector(selectors.offerCardData);
+  const nearByOffers = useAppSelector(selectors.nearByOffers);
+  const reviews = useAppSelector(selectors.reviews);
+
+  const isOfferLoading = useAppSelector(selectors.isOfferLoading);
+  const isNearByOffersLoading = useAppSelector(selectors.isNearByOffersLoading);
+  const isReviewsLoading = useAppSelector(selectors.isReviewsLoading);
+  const isPageLoading = isOfferLoading || isNearByOffersLoading || isReviewsLoading;
+  const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || nearByOffers.length === 0 || reviews.length === 0;
+
+  if (isPageLoading || isSomethingMissingFromServer) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
   const offerHoverHandler = (id: string | undefined) => {
-    const currentOffer = offerNearList.find((offer) => offer.id === id);
+    const currentOffer = nearByOffers.find((offer) => offer.id === id);
     setSelectedOffer(currentOffer);
   };
-  const {id} = useParams();
-  const offerCard = offersCardList.find((offer) => offer.id === id) as OfferCardData;
-  const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
+
+  const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCardData;
   const {isPro, name, avatarUrl} = host;
+  const currentCity = nearByOffers[0].city;
 
   return (
     <div className="page">
@@ -138,7 +157,7 @@ export function OfferPage ({offersCardList, reviews, city}: OfferPageProps) {
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={city} offersList={offerNearList} selectedOffer={selectedOffer}/>
+            <Map city={currentCity} offersList={nearByOffers} selectedOffer={selectedOffer}/>
           </section>
         </section>
         <div className="container">
@@ -147,7 +166,7 @@ export function OfferPage ({offersCardList, reviews, city}: OfferPageProps) {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              <CardsList cardsList={offerNearList} pageClass={'near-places__card'} onOfferHover={offerHoverHandler}/>
+              <CardsList cardsList={nearByOffers} pageClass={'near-places__card'} onOfferHover={offerHoverHandler}/>
             </div>
           </section>
         </div>

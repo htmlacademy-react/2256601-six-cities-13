@@ -8,18 +8,22 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRoute } from '../private-route/private-route';
-import { City, OfferListItem } from '../../types/offer-list-item';
-import { OfferCardData } from '../../types/offer-card-data';
-import { Review } from '../../types/review';
+import { useAppDispatch } from '../../hooks';
+import { useEffect } from 'react';
+import { fetchOffers } from '../../store/api-actions';
+import { useSelector } from 'react-redux';
+import * as selectors from '../../store/selectors';
 
-type AppProps = {
-  offersList: OfferListItem[];
-  offersCardList: OfferCardData[];
-  reviews: Review[];
-  city: City;
-}
+export function App() {
+  const dispatch = useAppDispatch();
+  const offers = useSelector(selectors.offers);
+  if (offers) {
+    localStorage.setItem('offers', JSON.stringify(offers));
+  }
+  useEffect (() => {
+    dispatch(fetchOffers());
+  }, [dispatch]);
 
-export function App({offersList, offersCardList, reviews, city}: AppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -32,7 +36,7 @@ export function App({offersList, offersCardList, reviews, city}: AppProps) {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <FavoritesPage offersList={offersList}/>
+                <FavoritesPage/>
               </PrivateRoute>
             }
           />
@@ -42,7 +46,7 @@ export function App({offersList, offersCardList, reviews, city}: AppProps) {
           />
           <Route
             path={`${AppRoute.Offer}/:id`}
-            element={<OfferPage offersCardList={offersCardList} reviews={reviews} city={city}/>}
+            element={<OfferPage/>}
           />
           <Route
             path="*"

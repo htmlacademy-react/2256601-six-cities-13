@@ -5,16 +5,25 @@ import { Map } from '../map/map';
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getOffersByCity, sorting } from '../../utils';
-import { CITY } from '../../mocks/city';
 import { Sorting } from '../../types/sorting';
+import * as selectors from '../../store/selectors';
+import { LoadingScreen } from '../../pages/loading-screen/loading-screen';
 
 export function Cities () {
   const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
   const [activeSortType, setActiveSortType] = useState<Sorting>('Popular');
-  const offersList = useAppSelector((state) => state.offers);
-  const activeCityName = useAppSelector((state) => state.city);
+  const offersList = useAppSelector(selectors.offers);
+  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
+  const activeCityName = useAppSelector(selectors.activeCity);
   const offersByCity = getOffersByCity(activeCityName, offersList);
   const offersBySorting = sorting[activeSortType](offersByCity);
+
+  if (isOffersLoading || offersList.length === 0) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
   const offerHoverHandler = (id: string | undefined) => {
     if (!id) {
       setSelectedOffer (undefined);
@@ -22,6 +31,7 @@ export function Cities () {
     const currentOffer = offersList.find((offer) => offer.id === id);
     setSelectedOffer(currentOffer);
   };
+  const currentCity = offersByCity[0].city;
 
   return (
     <div className="cities">
@@ -35,7 +45,7 @@ export function Cities () {
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"><Map city={CITY} offersList={offersByCity} selectedOffer={selectedOffer}/></section>
+          <section className="cities__map map"><Map city={currentCity} offersList={offersByCity} selectedOffer={selectedOffer}/></section>
         </div>
       </div>
     </div>

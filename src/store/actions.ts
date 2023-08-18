@@ -1,23 +1,33 @@
 import { createAction } from '@reduxjs/toolkit';
-import { NameAction } from '../const';
+import { AuthorizationStatus, NameAction } from '../const';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Sorting } from '../types/sorting';
+import { Review } from '../types/review';
 
-export const fetchOffers = createAction(`${NameAction.Offers}/fetch`, (offers: OfferListItem[]) => ({payload: offers}));
-
-export const setActiveCity = createAction(`${NameAction.Offers}/setActiveCity`, (city: string | undefined) => ({payload: city}));
+export const setActiveCity = createAction(`${NameAction.Offers}/setActiveCity`, (city: string) => ({payload: city}));
 
 export const setSortType = createAction(`${NameAction.Offers}/setSortType`, (sortType: Sorting) => ({payload: sortType}));
 
-export const fetchOffer = createAction<OfferCardData['id']>(`${NameAction.Offer}/fetch`);
+export const setOffers = createAction(`${NameAction.Offers}/setOffers`, (offers: OfferListItem[]) => ({payload: offers}));
 
-export const fetchNearPlaces = createAction<OfferListItem['id']>(`${NameAction.NearPlaces}/fetch`);
+export const setActiveId = createAction(`${NameAction.Offers}/setActiveId`, (activeId: string) => ({payload: activeId}));
 
-export const fetchReviews = createAction<OfferListItem['id']>(`${NameAction.Reviews}/fetch`);
+export const loadOffers = createAction(`${NameAction.Offers}/loadOffers`, (offers: OfferListItem[]) => ({payload: offers}));
 
-export const fetchFavorites = createAction(`${NameAction.Favorites}/fetch`);
+export const loadOffer = createAction(`${NameAction.Offer}/loadOffer`, (offer: OfferCardData | null) => ({payload: offer}));
 
-export const dropOffer = createAction(`${NameAction.Offer}/drop`);
+export const requireAuthorization = createAction(`${NameAction.User}/requireAuthorization`, (authorizationStatus: AuthorizationStatus) => ({payload: authorizationStatus}));
 
+export const setOfferLoadStatus = createAction(`${NameAction.Offer}/setOfferLoadStatus`, (status: boolean) => ({payload: status}));
+
+export const setOffersLoadStatus = createAction(`${NameAction.Offers}/setOffersLoadingStatus`, (status: boolean) => ({payload: status}));
+
+export const loadNearByOffers = createAction(`${NameAction.NearPlaces}/loadNearByOffers`, (nearByOffers: OfferListItem[]) => ({payload: nearByOffers}));
+
+export const setNearByOffersLoadStatus = createAction(`${NameAction.NearPlaces}/setNearByOffersLoadStatus`, (status: boolean) => ({payload: status}));
+
+export const loadReviews = createAction(`${NameAction.Reviews}/loadReviews`, (reviews: Review[]) => ({payload: reviews}));
+
+export const setReviewsLoadStatus = createAction(`${NameAction.Reviews}/setReviwsLoadStatus`, (status: boolean) => ({payload: status}));
 

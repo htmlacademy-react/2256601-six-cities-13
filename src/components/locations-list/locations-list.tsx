@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setActiveCity } from '../../store/actions';
 import {MouseEvent} from 'react';
+import * as selectors from '../../store/selectors';
 
 export function LocationsList () {
-  const activeCityName = useAppSelector((state) => state.city);
+  const activeCityName = useAppSelector(selectors.activeCity);
   const dispatch = useAppDispatch();
   const changeCityHandler = (evt: MouseEvent<HTMLLIElement>) => {
     evt.preventDefault();
-    const changeCityName = evt.currentTarget.dataset.city;
+    const changeCityName = evt.currentTarget.dataset.city as string;
     dispatch(setActiveCity(changeCityName));
   };
 
