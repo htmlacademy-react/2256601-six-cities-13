@@ -1,3 +1,14 @@
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 140;
+
+export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const DATE_FORMAT = 'MMMM YYYY';
+
+export const URL_MARKER_DEFAULT = '../img/pin.svg';
+
+export const URL_MARKER_CURRENT = '../img/pin-active.svg';
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -11,6 +22,13 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const APIRoute = {
+  Offers: '/offers',
+  Comments: '/comments',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
 export enum NameAction {
   Offers = 'OFFERS',
   Offer = 'OFFER',
@@ -18,22 +36,8 @@ export enum NameAction {
   Favorites = 'FAVORITES',
   Reviews = 'REVIEWS',
   User = 'USER',
+  Error = 'ERROR',
 }
-
-export const MIN_COMMENT_LENGTH = 50;
-
-export const MAX_COMMENT_LENGTH = 300;
-
-export const SortingMap = {
-  Popular: 'Popular',
-  LowToHigh: 'Price: low to high',
-  HighToLow: 'Price: high to low',
-  TopRated: 'Top rated first'
-};
-
-export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
-
-export const DATE_FORMAT = 'MMMM YYYY';
 
 export const RatingMap = {
   '5': 'perfect',
@@ -43,16 +47,11 @@ export const RatingMap = {
   '1': 'terribly',
 };
 
-export const URL_MARKER_DEFAULT =
-  '../img/pin.svg';
+export const SortingMap = {
+  Popular: 'Popular',
+  LowToHigh: 'Price: low to high',
+  HighToLow: 'Price: high to low',
+  TopRated: 'Top rated first'
+};
 
-export const URL_MARKER_CURRENT =
-  '../img/pin-active.svg';
-
-export const APIRoute = {
-  Offers: '/offers',
-  Comments: '/comments',
-  Login: '/login',
-  Logout: '/logout',
-} as const;
-
+export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
