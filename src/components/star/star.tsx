@@ -3,24 +3,26 @@ import { ChangeEvent } from 'react';
 export type StarProps = {
   onChangeStarHandler: (evt: ChangeEvent<HTMLInputElement>) => void;
   rating: string;
-  star: number;
+  score: string;
+  title: string;
 }
 
-export function Star ({onChangeStarHandler, rating, star}: StarProps) {
+export function Star ({onChangeStarHandler, rating, score, title}: StarProps) {
   return (
     <>
       <input
         onChange={onChangeStarHandler}
         className="form__rating-input visually-hidden"
         name="rating"
-        value={rating}
-        id={`${star}-stars`}
+        value={score}
+        id={`${score}-stars`}
         type="radio"
+        checked={rating === score}
       />
       <label
-        htmlFor={`${star}-stars`}
+        htmlFor={`${score}-stars`}
         className="reviews__rating-label form__rating-label"
-        title="perfect"
+        title={title}
       >
         <svg className="form__star-image" width={37} height={33}>
           <use xlinkHref="#icon-star"/>

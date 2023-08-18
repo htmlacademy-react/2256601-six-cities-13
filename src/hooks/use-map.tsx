@@ -26,6 +26,6 @@ export function useMap (mapRef: MutableRefObject<HTMLElement | null>, city: City
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, city]);
+  }, [mapRef, city.name, city]);
   return map;
 }
