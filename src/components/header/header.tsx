@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Logo } from '../logo/logo';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import * as selectors from '../../store/selectors';
+import { logout } from '../../store/api-actions';
 
 type HeaderProps = {
   isLogin?: boolean;
 }
 
 export function Header ({isLogin}: HeaderProps) {
+  const dispatch = useAppDispatch();
   const offers = useAppSelector(selectors.offers);
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
@@ -32,7 +34,14 @@ export function Header ({isLogin}: HeaderProps) {
                   </Link>
                 </li>
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Main}>
+                  <Link
+                    className="header__nav-link"
+                    to={AppRoute.Main}
+                    onClick={(evt) => {
+                      evt.preventDefault();
+                      dispatch(logout());
+                    }}
+                  >
                     <span className="header__signout">Sign out</span>
                   </Link >
                 </li>

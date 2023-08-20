@@ -17,7 +17,7 @@ export const loadOffers = createAction(`${NameAction.Offers}/loadOffers`, (offer
 
 export const loadOffer = createAction(`${NameAction.Offer}/loadOffer`, (offer: OfferCardData | null) => ({payload: offer}));
 
-export const requireAuthorization = createAction(`${NameAction.User}/requireAuthorization`, (authorizationStatus: AuthorizationStatus) => ({payload: authorizationStatus}));
+export const setAuthorization = createAction(`${NameAction.User}/requireAuthorization`, (authorizationStatus: AuthorizationStatus) => ({payload: authorizationStatus}));
 
 export const setOfferLoadStatus = createAction(`${NameAction.Offer}/setOfferLoadStatus`, (status: boolean) => ({payload: status}));
 
@@ -31,3 +31,4 @@ export const loadReviews = createAction(`${NameAction.Reviews}/loadReviews`, (re
 
 export const setReviewsLoadStatus = createAction(`${NameAction.Reviews}/setReviwsLoadStatus`, (status: boolean) => ({payload: status}));
 
+export const setError = createAction(`${NameAction.Error}/setError`, (error: string | null) => ({payload: error}));
