@@ -1,8 +1,6 @@
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 140;
 
-export const TIMEOUT_SHOW_ERROR = 2000;
-
 export const DATE_FORMAT = 'MMMM YYYY';
 
 export const URL_MARKER_DEFAULT = '../img/pin.svg';
@@ -14,6 +12,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
+  NotFound = '/404',
 }
 
 export enum AuthorizationStatus {
@@ -54,4 +53,4 @@ export const SortingMap = {
   TopRated: 'Top rated first'
 };
 
-export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

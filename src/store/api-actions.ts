@@ -2,23 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AuthorizationStatus, NameAction, TIMEOUT_SHOW_ERROR } from '../const';
-import { loadNearByOffers, loadOffer, loadOffers, loadReviews, setAuthorization, setError, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
+import { APIRoute, AppRoute, AuthorizationStatus, NameAction} from '../const';
+import { loadNearByOffers, loadOffer, loadOffers, loadReviews, redirectToRoute, setAuthorization, setCommentPostStatus, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Review } from '../types/review';
-import { store } from '.';
 import { dropToken, saveToken } from '../services/token';
-
-export const clearError = createAsyncThunk(
-  `${NameAction.Error}/clear`,
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  }
-);
 
 export type ThunkObj = {
   dispatch: AppDispatch;
@@ -27,14 +16,20 @@ export type ThunkObj = {
 };
 
 export type AuthData = {
-  login: string;
+  email: string;
   password: string;
 };
 
 export type UserData = {
-  id: number;
+  password: string;
   email: string;
   token: string;
+};
+
+export type CommentData = {
+  id: string;
+  comment: string;
+  rating: number;
 };
 
 export const fetchOffers = createAsyncThunk<void, undefined, ThunkObj> (
@@ -94,10 +89,11 @@ export const checkAuth = createAsyncThunk<void, undefined, ThunkObj> (
 
 export const login = createAsyncThunk<void, AuthData, ThunkObj> (
   `${NameAction.User}/login`,
-  async ({login: email, password}, {dispatch, extra: api}) => {
+  async ({email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(setAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
 
@@ -107,5 +103,15 @@ export const logout = createAsyncThunk<void, undefined, ThunkObj> (
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorization(AuthorizationStatus.NoAuth));
+  }
+);
+
+export const postComment = createAsyncThunk<void, CommentData, ThunkObj> (
+  `${NameAction.Reviews}/post`,
+  async ({id, comment, rating}, {dispatch, extra: api}) => {
+    dispatch(setCommentPostStatus(true));
+    const url = `${APIRoute.Comments}/${id}`;
+    await api.post<CommentData>(url, {comment, rating});
+    dispatch(setCommentPostStatus(false));
   }
 );

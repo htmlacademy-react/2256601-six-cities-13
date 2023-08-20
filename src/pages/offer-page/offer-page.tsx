@@ -13,18 +13,31 @@ import {useEffect} from 'react';
 import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-actions';
 import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../loading-screen/loading-screen';
+import { NotFoundPage } from '../not-found-page/not-found-page';
+import { AuthorizationStatus } from '../../const';
+import { setActiveId } from '../../store/actions';
 
 export function OfferPage () {
   const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
   const dispatch = useAppDispatch();
-  const offerId = useParams().id;
+  const offerId = useParams().id as string;
+  const offersList = useAppSelector(selectors.offers);
+  const authStatus = useAppSelector(selectors.authorizationStatus);
+  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
+  const isIdExist = offersList?.some((offer) => offer.id === offerId);
+  const isCommentPosting = useAppSelector(selectors.isCommentPosting);
+
   useEffect(() => {
+    if (!isIdExist) {
+      return;
+    }
     dispatch(fetchOffer({id: offerId}));
     dispatch(fetchNearByOffers({id: offerId}));
     dispatch(fetchReviews({id: offerId}));
-  }, [offerId, dispatch]
+    dispatch(setActiveId(offerId));
+  }, [isIdExist, offerId, dispatch, isCommentPosting]
   );
-  const offersList = useAppSelector(selectors.offers);
+
   const offerCardData = useAppSelector(selectors.offerCardData);
   const nearByOffers = useAppSelector(selectors.nearByOffers);
   const reviews = useAppSelector(selectors.reviews);
@@ -34,6 +47,12 @@ export function OfferPage () {
   const isReviewsLoading = useAppSelector(selectors.isReviewsLoading);
   const isPageLoading = isOfferLoading || isNearByOffersLoading || isReviewsLoading;
   const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || nearByOffers.length === 0 || reviews.length === 0;
+
+  if (!isIdExist && !isOffersLoading) {
+    return (
+      <NotFoundPage/>
+    );
+  }
 
   if (isPageLoading || isSomethingMissingFromServer) {
     return (
@@ -50,7 +69,7 @@ export function OfferPage () {
   const {isPro, name, avatarUrl} = host;
   const currentCity = nearByOffers[0].city;
 
-  return (
+  return !isIdExist ? <NotFoundPage/> : (
     <div className="page">
       <Helmet>
         <title>{'6 cities - Offer'}</title>
@@ -152,7 +171,7 @@ export function OfferPage () {
                   Reviews · <span className="reviews__amount">1</span>
                 </h2>
                 <ReviewsOffer reviews={reviews}/>
-                <ReviewsForm/>
+                {authStatus === AuthorizationStatus.Auth && <ReviewsForm/>}
               </section>
             </div>
           </div>

@@ -1,18 +1,13 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AuthorizationStatus } from '../../const';
 import { Logo } from '../logo/logo';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import * as selectors from '../../store/selectors';
-import { logout } from '../../store/api-actions';
 
-type HeaderProps = {
-  isLogin?: boolean;
-}
+import { LogAuthElement } from '../log-auth-element/log-auth-element';
+import { LogNoAuthElement } from '../log-no-auth-element/log-no-auth-element';
 
-export function Header ({isLogin}: HeaderProps) {
-  const dispatch = useAppDispatch();
-  const offers = useAppSelector(selectors.offers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+export function Header () {
+  const authStatus = useAppSelector(selectors.authorizationStatus);
 
   return (
     <header className="header">
@@ -21,33 +16,7 @@ export function Header ({isLogin}: HeaderProps) {
           <div className="header__left">
             <Logo/>
           </div>
-          {
-            !isLogin &&
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">{favoriteOffers.length}</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link
-                    className="header__nav-link"
-                    to={AppRoute.Main}
-                    onClick={(evt) => {
-                      evt.preventDefault();
-                      dispatch(logout());
-                    }}
-                  >
-                    <span className="header__signout">Sign out</span>
-                  </Link >
-                </li>
-              </ul>
-            </nav>
-          }
+          {authStatus === AuthorizationStatus.Auth ? <LogAuthElement/> : <LogNoAuthElement/>}
         </div>
       </div>
     </header>

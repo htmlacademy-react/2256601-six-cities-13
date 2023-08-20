@@ -1,22 +1,42 @@
 import { RatingMap } from '../../const';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { Star } from '../star/star';
-
+import * as selectors from '../../store/selectors';
 import { MIN_COMMENT_LENGTH } from '../../const';
 import { MAX_COMMENT_LENGTH } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { postComment } from '../../store/api-actions';
 
 export function ReviewsForm () {
+  const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
+  const offerId = useAppSelector(selectors.activeId);
   const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
   const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
+  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (offerId !== null) {
+      dispatch(postComment({
+        id: offerId,
+        comment: comment,
+        rating: Number(rating),
+      }));
+    }
+  };
+
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
     comment.length <= MAX_COMMENT_LENGTH &&
     rating !== '';
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={submitHandler}
+    >
       <label className="reviews__label form__label" htmlFor="review">
       Your review
       </label>

@@ -4,6 +4,7 @@ import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Sorting } from '../types/sorting';
 import { Review } from '../types/review';
+import { AppRoute } from '../const';
 
 export const setActiveCity = createAction(`${NameAction.Offers}/setActiveCity`, (city: string) => ({payload: city}));
 
@@ -11,7 +12,7 @@ export const setSortType = createAction(`${NameAction.Offers}/setSortType`, (sor
 
 export const setOffers = createAction(`${NameAction.Offers}/setOffers`, (offers: OfferListItem[]) => ({payload: offers}));
 
-export const setActiveId = createAction(`${NameAction.Offers}/setActiveId`, (activeId: string) => ({payload: activeId}));
+export const setActiveId = createAction(`${NameAction.Offers}/setActiveId`, (activeId: string | null) => ({payload: activeId}));
 
 export const loadOffers = createAction(`${NameAction.Offers}/loadOffers`, (offers: OfferListItem[]) => ({payload: offers}));
 
@@ -31,4 +32,6 @@ export const loadReviews = createAction(`${NameAction.Reviews}/loadReviews`, (re
 
 export const setReviewsLoadStatus = createAction(`${NameAction.Reviews}/setReviwsLoadStatus`, (status: boolean) => ({payload: status}));
 
-export const setError = createAction(`${NameAction.Error}/setError`, (error: string | null) => ({payload: error}));
+export const redirectToRoute = createAction(`${NameAction.User}/redirectToRoute`, (route: AppRoute | string) => ({payload: route}));
+
+export const setCommentPostStatus = createAction(`${NameAction.Reviews}/setPostStatus`, (status: boolean) => ({payload: status}));
