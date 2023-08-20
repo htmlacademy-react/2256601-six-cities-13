@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AuthorizationStatus, NameAction, TIMEOUT_SHOW_ERROR } from '../const';
-import { loadNearByOffers, loadOffer, loadOffers, loadReviews, setAuthorization, setError, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
+import { APIRoute, AppRoute, AuthorizationStatus, NameAction, TIMEOUT_SHOW_ERROR } from '../const';
+import { loadNearByOffers, loadOffer, loadOffers, loadReviews, redirectToRoute, setAuthorization, setError, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Review } from '../types/review';
@@ -27,7 +27,7 @@ export type ThunkObj = {
 };
 
 export type AuthData = {
-  login: string;
+  email: string;
   password: string;
 };
 
@@ -94,10 +94,11 @@ export const checkAuth = createAsyncThunk<void, undefined, ThunkObj> (
 
 export const login = createAsyncThunk<void, AuthData, ThunkObj> (
   `${NameAction.User}/login`,
-  async ({login: email, password}, {dispatch, extra: api}) => {
+  async ({email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(setAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
 

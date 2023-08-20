@@ -17,7 +17,7 @@ export function LoginPage () {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
       dispatch(login({
-        login: loginRef.current.value,
+        email: loginRef.current.value,
         password: passwordRef.current.value,
       }));
     }

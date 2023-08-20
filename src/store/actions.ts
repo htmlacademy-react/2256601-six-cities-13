@@ -4,6 +4,7 @@ import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Sorting } from '../types/sorting';
 import { Review } from '../types/review';
+import { AppRoute } from '../const';
 
 export const setActiveCity = createAction(`${NameAction.Offers}/setActiveCity`, (city: string) => ({payload: city}));
 
@@ -32,3 +33,5 @@ export const loadReviews = createAction(`${NameAction.Reviews}/loadReviews`, (re
 export const setReviewsLoadStatus = createAction(`${NameAction.Reviews}/setReviwsLoadStatus`, (status: boolean) => ({payload: status}));
 
 export const setError = createAction(`${NameAction.Error}/setError`, (error: string | null) => ({payload: error}));
+
+export const redirectToRoute = createAction('redirectToRoute', (route: AppRoute) => ({payload: route}));
