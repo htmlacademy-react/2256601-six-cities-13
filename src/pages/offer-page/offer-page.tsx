@@ -14,12 +14,14 @@ import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-act
 import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
+import { AuthorizationStatus } from '../../const';
 
 export function OfferPage () {
   const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
   const dispatch = useAppDispatch();
   const offerId = useParams().id;
   const offersList = useAppSelector(selectors.offers);
+  const authStatus = useAppSelector(selectors.authorizationStatus);
   const isOffersLoading = useAppSelector(selectors.isOffersLoading);
   const isIdExist = offersList?.some((offer) => offer.id === offerId);
 
@@ -166,7 +168,7 @@ export function OfferPage () {
                   Reviews · <span className="reviews__amount">1</span>
                 </h2>
                 <ReviewsOffer reviews={reviews}/>
-                <ReviewsForm/>
+                {authStatus === AuthorizationStatus.Auth && <ReviewsForm/>}
               </section>
             </div>
           </div>
