@@ -2,9 +2,14 @@ import { NavLink, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { logout } from '../../store/api-actions';
+import { MouseEvent } from 'react';
 
 export function LogAuthElement() {
   const dispatch = useAppDispatch();
+  const clickNavLinkHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logout());
+  };
 
   return (
     <nav className="header__nav">
@@ -25,10 +30,7 @@ export function LogAuthElement() {
           <Link
             className="header__nav-link"
             to={AppRoute.Main}
-            onClick={(evt) => {
-              evt.preventDefault();
-              dispatch(logout());
-            }}
+            onClick={clickNavLinkHandler}
           >
             <span className="header__signout">Sign out</span>
           </Link>

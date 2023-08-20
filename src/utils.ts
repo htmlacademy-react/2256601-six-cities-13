@@ -52,3 +52,5 @@ export const sorting: Record<Sorting, (offers: OfferListItem[]) => OfferListItem
   LowToHigh: (offers: OfferListItem[]) => offers.slice().sort(sortLowToHigh),
   TopRated: (offers: OfferListItem[]) => offers.slice().sort(sortByRating)
 };
+
+export const getRandomValueFromArray = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
