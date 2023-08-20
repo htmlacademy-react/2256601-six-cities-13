@@ -7,23 +7,12 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRoute } from '../private-route/private-route';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect } from 'react';
-import { checkAuth, fetchOffers } from '../../store/api-actions';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks';
+
 import * as selectors from '../../store/selectors';
 
 export function App() {
-  const dispatch = useAppDispatch();
   const authStatus = useAppSelector(selectors.authorizationStatus);
-  const offers = useSelector(selectors.offers);
-  if (offers) {
-    localStorage.setItem('offers', JSON.stringify(offers));
-  }
-  useEffect (() => {
-    dispatch(checkAuth());
-    dispatch(fetchOffers());
-  }, [dispatch]);
 
   return (
     <HelmetProvider>

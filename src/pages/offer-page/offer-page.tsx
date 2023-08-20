@@ -20,6 +20,7 @@ export function OfferPage () {
   const dispatch = useAppDispatch();
   const offerId = useParams().id;
   const offersList = useAppSelector(selectors.offers);
+  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
   const isIdExist = offersList?.some((offer) => offer.id === offerId);
 
   useEffect(() => {
@@ -41,6 +42,12 @@ export function OfferPage () {
   const isReviewsLoading = useAppSelector(selectors.isReviewsLoading);
   const isPageLoading = isOfferLoading || isNearByOffersLoading || isReviewsLoading;
   const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || nearByOffers.length === 0 || reviews.length === 0;
+
+  if (!isIdExist && !isOffersLoading) {
+    return (
+      <NotFoundPage/>
+    );
+  }
 
   if (isPageLoading || isSomethingMissingFromServer) {
     return (
