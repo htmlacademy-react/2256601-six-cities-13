@@ -15,15 +15,17 @@ import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
 import { AuthorizationStatus } from '../../const';
+import { setActiveId } from '../../store/actions';
 
 export function OfferPage () {
   const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
   const dispatch = useAppDispatch();
-  const offerId = useParams().id;
+  const offerId = useParams().id as string;
   const offersList = useAppSelector(selectors.offers);
   const authStatus = useAppSelector(selectors.authorizationStatus);
   const isOffersLoading = useAppSelector(selectors.isOffersLoading);
   const isIdExist = offersList?.some((offer) => offer.id === offerId);
+  const isCommentPosting = useAppSelector(selectors.isCommentPosting);
 
   useEffect(() => {
     if (!isIdExist) {
@@ -32,7 +34,8 @@ export function OfferPage () {
     dispatch(fetchOffer({id: offerId}));
     dispatch(fetchNearByOffers({id: offerId}));
     dispatch(fetchReviews({id: offerId}));
-  }, [isIdExist, offerId, dispatch]
+    dispatch(setActiveId(offerId));
+  }, [isIdExist, offerId, dispatch, isCommentPosting]
   );
 
   const offerCardData = useAppSelector(selectors.offerCardData);

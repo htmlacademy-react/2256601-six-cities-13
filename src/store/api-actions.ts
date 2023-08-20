@@ -3,7 +3,7 @@ import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AppRoute, AuthorizationStatus, NameAction} from '../const';
-import { loadNearByOffers, loadOffer, loadOffers, loadReviews, redirectToRoute, setAuthorization, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
+import { loadNearByOffers, loadOffer, loadOffers, loadReviews, redirectToRoute, setAuthorization, setCommentPostStatus, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Review } from '../types/review';
@@ -21,9 +21,15 @@ export type AuthData = {
 };
 
 export type UserData = {
-  id: number;
+  password: string;
   email: string;
   token: string;
+};
+
+export type CommentData = {
+  id: string;
+  comment: string;
+  rating: number;
 };
 
 export const fetchOffers = createAsyncThunk<void, undefined, ThunkObj> (
@@ -97,5 +103,15 @@ export const logout = createAsyncThunk<void, undefined, ThunkObj> (
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorization(AuthorizationStatus.NoAuth));
+  }
+);
+
+export const postComment = createAsyncThunk<void, CommentData, ThunkObj> (
+  `${NameAction.Reviews}/post`,
+  async ({id, comment, rating}, {dispatch, extra: api}) => {
+    dispatch(setCommentPostStatus(true));
+    const url = `${APIRoute.Comments}/${id}`;
+    await api.post<CommentData>(url, {comment, rating});
+    dispatch(setCommentPostStatus(false));
   }
 );
