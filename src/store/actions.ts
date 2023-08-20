@@ -32,6 +32,4 @@ export const loadReviews = createAction(`${NameAction.Reviews}/loadReviews`, (re
 
 export const setReviewsLoadStatus = createAction(`${NameAction.Reviews}/setReviwsLoadStatus`, (status: boolean) => ({payload: status}));
 
-export const setError = createAction(`${NameAction.Error}/setError`, (error: string | null) => ({payload: error}));
-
 export const redirectToRoute = createAction('redirectToRoute', (route: AppRoute) => ({payload: route}));

@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { OfferListItem } from '../types/offer-list-item';
-import { setOffers, setActiveCity, setSortType, setActiveId, loadOffers, loadOffer, setAuthorization, setOfferLoadStatus, setOffersLoadStatus, loadNearByOffers, setNearByOffersLoadStatus, loadReviews, setReviewsLoadStatus, setError } from './actions';
+import { setOffers, setActiveCity, setSortType, setActiveId, loadOffers, loadOffer, setAuthorization, setOfferLoadStatus, setOffersLoadStatus, loadNearByOffers, setNearByOffersLoadStatus, loadReviews, setReviewsLoadStatus} from './actions';
 import { Sorting } from '../types/sorting';
 import { OfferCardData } from '../types/offer-card-data';
 import { AuthorizationStatus } from '../const';
@@ -19,7 +19,6 @@ export type InitialState = {
   isNearByOffersLoading: boolean;
   reviews: Review[];
   isReviewsLoading: boolean;
-  error: string | null;
 }
 
 const initialState: InitialState = {
@@ -35,7 +34,6 @@ const initialState: InitialState = {
   isNearByOffersLoading: false,
   reviews: [],
   isReviewsLoading: false,
-  error: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -78,8 +76,5 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setReviewsLoadStatus, (state, action) => {
       state.isReviewsLoading = action.payload;
-    })
-    .addCase(setError, (state, action) => {
-      state.error = action.payload;
     });
 });

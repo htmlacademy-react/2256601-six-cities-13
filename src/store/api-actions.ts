@@ -2,23 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, AuthorizationStatus, NameAction, TIMEOUT_SHOW_ERROR } from '../const';
-import { loadNearByOffers, loadOffer, loadOffers, loadReviews, redirectToRoute, setAuthorization, setError, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
+import { APIRoute, AppRoute, AuthorizationStatus, NameAction} from '../const';
+import { loadNearByOffers, loadOffer, loadOffers, loadReviews, redirectToRoute, setAuthorization, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Review } from '../types/review';
-import { store } from '.';
 import { dropToken, saveToken } from '../services/token';
-
-export const clearError = createAsyncThunk(
-  `${NameAction.Error}/clear`,
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  }
-);
 
 export type ThunkObj = {
   dispatch: AppDispatch;

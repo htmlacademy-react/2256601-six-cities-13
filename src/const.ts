@@ -1,8 +1,6 @@
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 140;
 
-export const TIMEOUT_SHOW_ERROR = 2000;
-
 export const DATE_FORMAT = 'MMMM YYYY';
 
 export const URL_MARKER_DEFAULT = '../img/pin.svg';
