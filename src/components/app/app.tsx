@@ -6,10 +6,10 @@ import { HelmetProvider } from 'react-helmet-async';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
-import { PrivateRoute } from '../private-route/private-route';
+import { PrivateRouteForFavorites } from '../private-route/private-route-for-favorites';
 import { useAppSelector } from '../../hooks';
-
 import * as selectors from '../../store/selectors';
+import { PrivateRouteForLogin } from '../private-route/private-route-for-login';
 
 export function App() {
   const authStatus = useAppSelector(selectors.authorizationStatus);
@@ -25,14 +25,18 @@ export function App() {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={authStatus}>
+              <PrivateRouteForFavorites authorizationStatus={authStatus}>
                 <FavoritesPage/>
-              </PrivateRoute>
+              </PrivateRouteForFavorites>
             }
           />
           <Route
             path={AppRoute.Login}
-            element={<LoginPage/>}
+            element={
+              <PrivateRouteForLogin authorizationStatus={authStatus}>
+                <LoginPage/>
+              </PrivateRouteForLogin>
+            }
           />
           <Route
             path={`${AppRoute.Offer}/:id`}
