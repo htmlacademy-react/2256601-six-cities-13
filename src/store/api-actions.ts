@@ -3,7 +3,7 @@ import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus, NameAction, TIMEOUT_SHOW_ERROR } from '../const';
-import { loadNearByOffers, loadOffer, loadOffers, loadReviews, requireAuthorization, setError, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
+import { loadNearByOffers, loadOffer, loadOffers, loadReviews, setAuthorization, setError, setNearByOffersLoadStatus, setOfferLoadStatus, setOffersLoadStatus, setReviewsLoadStatus } from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Review } from '../types/review';
@@ -85,9 +85,9 @@ export const checkAuth = createAsyncThunk<void, undefined, ThunkObj> (
   async (_arg, {dispatch, extra: api}) => {
     try {
       await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setAuthorization(AuthorizationStatus.Auth));
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(setAuthorization(AuthorizationStatus.NoAuth));
     }
   }
 );
@@ -97,7 +97,7 @@ export const login = createAsyncThunk<void, AuthData, ThunkObj> (
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setAuthorization(AuthorizationStatus.Auth));
   }
 );
 
@@ -106,6 +106,6 @@ export const logout = createAsyncThunk<void, undefined, ThunkObj> (
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(setAuthorization(AuthorizationStatus.NoAuth));
   }
 );

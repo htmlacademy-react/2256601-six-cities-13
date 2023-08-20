@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { OfferListItem } from '../types/offer-list-item';
-import { setOffers, setActiveCity, setSortType, setActiveId, loadOffers, loadOffer, requireAuthorization, setOfferLoadStatus, setOffersLoadStatus, loadNearByOffers, setNearByOffersLoadStatus, loadReviews, setReviewsLoadStatus, setError } from './actions';
+import { setOffers, setActiveCity, setSortType, setActiveId, loadOffers, loadOffer, setAuthorization, setOfferLoadStatus, setOffersLoadStatus, loadNearByOffers, setNearByOffersLoadStatus, loadReviews, setReviewsLoadStatus, setError } from './actions';
 import { Sorting } from '../types/sorting';
 import { OfferCardData } from '../types/offer-card-data';
 import { AuthorizationStatus } from '../const';
@@ -58,7 +58,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffer, (state, action) => {
       state.offerCardData = action.payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
+    .addCase(setAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setOfferLoadStatus, (state, action) => {
