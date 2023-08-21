@@ -7,11 +7,19 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRouteForFavorites } from '../private-route/private-route-for-favorites';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import * as selectors from '../../store/selectors';
 import { PrivateRouteForLogin } from '../private-route/private-route-for-login';
+import { useEffect } from 'react';
+import { checkAuth, fetchOffers } from '../../store/api-actions';
 
 export function App() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkAuth());
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
   const authStatus = useAppSelector(selectors.authorizationStatus);
 
   return (
