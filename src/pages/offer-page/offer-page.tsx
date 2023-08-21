@@ -14,7 +14,7 @@ import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-act
 import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
-import { AuthorizationStatus } from '../../const';
+import { AuthStatus } from '../../const';
 import { setActiveId } from '../../store/actions';
 
 export function OfferPage () {
@@ -171,7 +171,7 @@ export function OfferPage () {
                   Reviews · <span className="reviews__amount">1</span>
                 </h2>
                 <ReviewsOffer reviews={reviews}/>
-                {authStatus === AuthorizationStatus.Auth && <ReviewsForm/>}
+                {authStatus === AuthStatus.Auth && <ReviewsForm/>}
               </section>
             </div>
           </div>

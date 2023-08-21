@@ -3,7 +3,7 @@ import { OfferListItem } from '../types/offer-list-item';
 import { setOffers, setActiveCity, setSortType, setActiveId, loadOffers, loadOffer, setAuthorization, setOfferLoadStatus, setOffersLoadStatus, loadNearByOffers, setNearByOffersLoadStatus, loadReviews, setReviewsLoadStatus, setCommentPostStatus} from './actions';
 import { Sorting } from '../types/sorting';
 import { OfferCardData } from '../types/offer-card-data';
-import { AuthorizationStatus } from '../const';
+import { AuthStatus } from '../const';
 import { Review } from '../types/review';
 
 export type InitialState = {
@@ -12,7 +12,7 @@ export type InitialState = {
   offerCardData: OfferCardData | null;
   activeId: string | null;
   activeSortType: Sorting;
-  authorizationStatus: AuthorizationStatus;
+  authorizationStatus: AuthStatus;
   isOfferLoading: boolean;
   isOffersLoading: boolean;
   nearByOffers: OfferListItem[];
@@ -28,7 +28,7 @@ const initialState: InitialState = {
   offerCardData: null,
   activeId: null,
   activeSortType: 'Popular',
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AuthStatus.Unknown,
   isOfferLoading: false,
   isOffersLoading: false,
   nearByOffers: [],

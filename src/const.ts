@@ -15,7 +15,7 @@ export enum AppRoute {
   NotFound = '/404',
 }
 
-export enum AuthorizationStatus {
+export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',

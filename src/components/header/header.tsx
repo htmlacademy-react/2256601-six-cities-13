@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthStatus } from '../../const';
 import { Logo } from '../logo/logo';
 import { useAppSelector } from '../../hooks';
 import * as selectors from '../../store/selectors';
@@ -16,7 +16,7 @@ export function Header () {
           <div className="header__left">
             <Logo/>
           </div>
-          {authStatus === AuthorizationStatus.Auth ? <LogAuthElement/> : <LogNoAuthElement/>}
+          {authStatus === AuthStatus.Auth ? <LogAuthElement/> : <LogNoAuthElement/>}
         </div>
       </div>
     </header>

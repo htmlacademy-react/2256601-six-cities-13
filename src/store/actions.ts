@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AuthorizationStatus, NameAction } from '../const';
+import { AuthStatus, NameAction } from '../const';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCardData } from '../types/offer-card-data';
 import { Sorting } from '../types/sorting';
@@ -18,7 +18,7 @@ export const loadOffers = createAction(`${NameAction.Offers}/loadOffers`, (offer
 
 export const loadOffer = createAction(`${NameAction.Offer}/loadOffer`, (offer: OfferCardData | null) => ({payload: offer}));
 
-export const setAuthorization = createAction(`${NameAction.User}/requireAuthorization`, (authorizationStatus: AuthorizationStatus) => ({payload: authorizationStatus}));
+export const setAuthorization = createAction(`${NameAction.User}/requireAuthorization`, (authorizationStatus: AuthStatus) => ({payload: authorizationStatus}));
 
 export const setOfferLoadStatus = createAction(`${NameAction.Offer}/setOfferLoadStatus`, (status: boolean) => ({payload: status}));
 
