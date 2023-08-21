@@ -8,7 +8,7 @@ import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 type MapProps = {
   city: City;
   offersList: OfferListItem[];
-  selectedOffer: OfferListItem | undefined;
+  selectedId: string | undefined;
 };
 
 const defaultCustomIcon = new Icon ({
@@ -23,7 +23,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-export function Map ({city, offersList, selectedOffer}: MapProps): JSX.Element {
+export function Map ({city, offersList, selectedId}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const cityLocation = city.location;
@@ -44,7 +44,7 @@ export function Map ({city, offersList, selectedOffer}: MapProps): JSX.Element {
           lng: offer.location.longitude,
         });
         marker.setIcon(
-          selectedOffer !== undefined && offer.id === selectedOffer.id
+          selectedId !== undefined && offer.id === selectedId
             ? currentCustomIcon
             : defaultCustomIcon
         ).addTo(markerLayer);
@@ -53,6 +53,6 @@ export function Map ({city, offersList, selectedOffer}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersList, selectedOffer]);
+  }, [map, offersList, selectedId]);
   return <div style={{height: '100%', width: '100%'}} ref={mapRef}></div>;
 }

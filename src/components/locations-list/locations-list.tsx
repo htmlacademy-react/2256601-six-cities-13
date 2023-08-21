@@ -3,10 +3,10 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setActiveCity } from '../../store/actions';
-import {MouseEvent} from 'react';
+import {MouseEvent, memo} from 'react';
 import * as selectors from '../../store/selectors';
 
-export function LocationsList () {
+function LocationsListComponent () {
   const activeCityName = useAppSelector(selectors.activeCity);
   const dispatch = useAppDispatch();
   const changeCityHandler = (evt: MouseEvent<HTMLLIElement>) => {
@@ -36,3 +36,5 @@ export function LocationsList () {
     </ul>
   );
 }
+
+export const LocationsList = memo(LocationsListComponent);

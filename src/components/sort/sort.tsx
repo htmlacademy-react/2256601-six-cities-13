@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from 'react';
+import { useState, KeyboardEvent, memo } from 'react';
 import { SortingMap } from '../../const';
 import classNames from 'classnames';
 import { Sorting } from '../../types/sorting';
@@ -8,7 +8,7 @@ type SortProps = {
   onChange: (newSortType: Sorting) => void;
 };
 
-export function Sort ({activeSortType, onChange}: SortProps) {
+function SortComponent ({activeSortType, onChange}: SortProps) {
   const [isOpened, setIsOpened] = useState(false);
   const clickSortItemHandler = (type: Sorting) => {
     onChange(type);
@@ -51,3 +51,5 @@ export function Sort ({activeSortType, onChange}: SortProps) {
     </form>
   );
 }
+
+export const Sort = memo(SortComponent);

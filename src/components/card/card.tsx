@@ -4,7 +4,7 @@ import { getHeightImageCard, getRatingStarsStyle, getWidthImageCard } from '../.
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { MouseEvent } from 'react';
+import { MouseEvent, memo } from 'react';
 
 type CardProps = {
   offer: OfferListItem;
@@ -13,7 +13,7 @@ type CardProps = {
   onMouseLeaveHover?: (evt: MouseEvent<HTMLLIElement>) => void;
 }
 
-export function Card({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}: CardProps) {
+function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}: CardProps) {
   const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
   const [isFavoriteOffer, setFavoriteOffer] = useState(isFavorite);
 
@@ -74,3 +74,4 @@ export function Card({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}: C
   );
 }
 
+export const Card = memo(CardComponent);

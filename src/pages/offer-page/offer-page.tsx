@@ -1,24 +1,23 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
-import { getRatingStarsStyle } from '../../utils';
+import { getRandomUniqueValuesFromArray, getRatingStarsStyle } from '../../utils';
 import { ReviewsOffer } from '../../components/reviews-offer/reviews-offer';
 import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
 import { useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
-import { useState } from 'react';
-import { OfferListItem } from '../../types/offer-list-item';
+import { useState, memo} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {useEffect} from 'react';
 import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-actions';
 import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
-import { AuthStatus } from '../../const';
+import { AuthStatus, COUNT_NEARBY_OFFERS } from '../../const';
 import { setActiveId } from '../../store/actions';
 
-export function OfferPage () {
-  const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
+function OfferPageComponent () {
+  const [selectedId, setSelectedId] = useState<string | undefined> (undefined);
   const dispatch = useAppDispatch();
   const offerId = useParams().id as string;
   const offersList = useAppSelector(selectors.offers);
@@ -39,14 +38,15 @@ export function OfferPage () {
   );
 
   const offerCardData = useAppSelector(selectors.offerCardData);
-  const nearByOffers = useAppSelector(selectors.nearByOffers);
+  const loadNearByOffers = useAppSelector(selectors.nearByOffers);
+  const nearByOffers = getRandomUniqueValuesFromArray(loadNearByOffers, COUNT_NEARBY_OFFERS);
   const reviews = useAppSelector(selectors.reviews);
 
   const isOfferLoading = useAppSelector(selectors.isOfferLoading);
   const isNearByOffersLoading = useAppSelector(selectors.isNearByOffersLoading);
   const isReviewsLoading = useAppSelector(selectors.isReviewsLoading);
   const isPageLoading = isOfferLoading || isNearByOffersLoading || isReviewsLoading;
-  const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || nearByOffers.length === 0 || reviews.length === 0;
+  const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
 
   if (!isIdExist && !isOffersLoading) {
     return (
@@ -61,8 +61,7 @@ export function OfferPage () {
   }
 
   const offerHoverHandler = (id: string | undefined) => {
-    const currentOffer = nearByOffers.find((offer) => offer.id === id);
-    setSelectedOffer(currentOffer);
+    setSelectedId(id);
   };
 
   const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCardData;
@@ -176,7 +175,7 @@ export function OfferPage () {
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={currentCity} offersList={nearByOffers} selectedOffer={selectedOffer}/>
+            <Map city={currentCity} offersList={nearByOffers} selectedId={selectedId}/>
           </section>
         </section>
         <div className="container">
@@ -193,3 +192,5 @@ export function OfferPage () {
     </div>
   );
 }
+
+export const OfferPage = memo(OfferPageComponent);

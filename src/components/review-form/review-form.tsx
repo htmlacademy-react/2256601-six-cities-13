@@ -12,8 +12,15 @@ export function ReviewsForm () {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
   const offerId = useAppSelector(selectors.activeId);
+  const isCommentPosting = useAppSelector(selectors.isCommentPosting);
+
   const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
   const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
+  const resetForm = () => {
+    setComment('');
+    setRating('');
+  };
+
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (offerId !== null) {
@@ -22,13 +29,15 @@ export function ReviewsForm () {
         comment: comment,
         rating: Number(rating),
       }));
+      resetForm();
     }
   };
 
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
     comment.length <= MAX_COMMENT_LENGTH &&
-    rating !== '';
+    rating !== '' &&
+    !isCommentPosting;
 
   return (
     <form
@@ -65,7 +74,7 @@ export function ReviewsForm () {
           type="submit"
           disabled={!isValid}
         >
-          Submit
+          {isCommentPosting ? 'Posting...' : 'Submit'}
         </button>
       </div>
     </form>

@@ -2,11 +2,12 @@ import { AuthStatus } from '../../const';
 import { Logo } from '../logo/logo';
 import { useAppSelector } from '../../hooks';
 import * as selectors from '../../store/selectors';
+import {memo} from 'react';
 
 import { LogAuthElement } from '../log-auth-element/log-auth-element';
 import { LogNoAuthElement } from '../log-no-auth-element/log-no-auth-element';
 
-export function Header () {
+function HeaderComponent () {
   const authStatus = useAppSelector(selectors.authorizationStatus);
 
   return (
@@ -22,3 +23,5 @@ export function Header () {
     </header>
   );
 }
+
+export const Header = memo(HeaderComponent);
