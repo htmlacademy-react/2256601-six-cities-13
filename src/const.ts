@@ -32,12 +32,9 @@ export const APIRoute = {
 
 export enum NameSpace {
   Offers = 'OFFERS',
-  Offer = 'OFFER',
   NearByOffers = 'NEARBY_OFFERS',
-  Favorites = 'FAVORITES',
   Reviews = 'REVIEWS',
   User = 'USER',
-  Error = 'ERROR',
 }
 
 export const RatingMap = {
