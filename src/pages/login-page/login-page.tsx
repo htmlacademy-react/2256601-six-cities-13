@@ -29,7 +29,10 @@ export function LoginPage () {
 
   const buttonClickHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
-    const city = evt.currentTarget.dataset.city as string;
+    const city = evt.currentTarget.dataset.city;
+    if (city === undefined) {
+      return;
+    }
     dispatch(setActiveCity(city));
     navigate(AppRoute.Main);
   };

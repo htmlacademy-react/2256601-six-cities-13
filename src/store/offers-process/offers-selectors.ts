@@ -5,6 +5,7 @@ import { OfferCard } from '../../types/offer-card';
 
 export const getActiveCity = (state: State): string => state[NameSpace.Offers].activeCity;
 export const getActiveId = (state: State): string | null => state[NameSpace.Offers].activeId;
+export const getCurrentOffer = (state: State): OfferListItem | null => state[NameSpace.Offers].currentOffer;
 export const getOffers = (state: State): OfferListItem[] => state[NameSpace.Offers].offers;
 export const getOfferCard = (state: State): OfferCard | null => state[NameSpace.Offers].offerCard;
 export const getOffersLoadStatus = (state: State): boolean => state[NameSpace.Offers].isOffersLoading;

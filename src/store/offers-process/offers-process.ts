@@ -6,6 +6,7 @@ import { OfferCard } from '../../types/offer-card';
 type OffersProcess = {
   activeCity: string;
   activeId: string | null;
+  currentOffer: OfferListItem | null;
   offers: OfferListItem[];
   offerCard: OfferCard | null;
   isOffersLoading: boolean;
@@ -15,6 +16,7 @@ type OffersProcess = {
 const initialState: OffersProcess = {
   activeCity: 'Paris',
   activeId: null,
+  currentOffer: null,
   offers: [],
   offerCard: null,
   isOffersLoading: false,
@@ -31,6 +33,12 @@ export const offersProcessSlice = createSlice({
     setActiveId: (state, action: PayloadAction<string | null>) => {
       state.activeId = action.payload;
     },
+    setCurrentOffer: (state) => {
+      if (state.offers !== null) {
+        const foundOffer = state.offers.find((offer) => offer.id === state.activeId);
+        state.currentOffer = foundOffer !== undefined ? foundOffer : null;
+      }
+    },
     setOffers: (state, action: PayloadAction<OfferListItem[]>) => {
       state.offers = action.payload;
     },
@@ -46,5 +54,5 @@ export const offersProcessSlice = createSlice({
   }
 });
 
-export const {setActiveCity, setActiveId, setOffers, setOfferCard, setOffersLoadStatus, setOfferCardLoadStatus} = offersProcessSlice.actions;
+export const {setActiveCity, setActiveId, setCurrentOffer, setOffers, setOfferCard, setOffersLoadStatus, setOfferCardLoadStatus} = offersProcessSlice.actions;
 
