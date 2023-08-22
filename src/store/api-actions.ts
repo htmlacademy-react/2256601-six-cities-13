@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, COUNT_NEARBY_OFFERS, NameSpace} from '../const';
+import { APIRoute, AppRoute, COUNT_NEARBY_OFFERS, NameSpace, SHOWABLE_REVIEWS} from '../const';
 import { redirectToRoute} from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCard } from '../types/offer-card';
@@ -76,7 +76,8 @@ export const fetchReviews = createAsyncThunk<void, {id: string | undefined}, Thu
     dispatch(setReviewsLoadStatus(true));
     const url = id !== undefined ? `${APIRoute.Comments}/${id}` : '';
     const {data} = await api.get<Review[]>(url);
-    dispatch(setReviews(data));
+    const filteredReviews = data.slice(SHOWABLE_REVIEWS).reverse();
+    dispatch(setReviews(filteredReviews));
     dispatch(setReviewsLoadStatus(false));
   }
 );

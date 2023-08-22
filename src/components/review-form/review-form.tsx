@@ -8,7 +8,11 @@ import { postComment } from '../../store/api-actions';
 import { getActiveId } from '../../store/offers-process/offers-selectors';
 import { getCommentPostStatus } from '../../store/reviews-process/reviews-selectors';
 
-export function ReviewsForm () {
+type ReviewsFormProps = {
+  scrollToReviewsTitle: () => void;
+}
+
+export function ReviewsForm ({scrollToReviewsTitle}: ReviewsFormProps) {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
@@ -31,6 +35,13 @@ export function ReviewsForm () {
         rating: Number(rating),
       }));
       resetForm();
+      (async () => {
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        } finally {
+          scrollToReviewsTitle();
+        }
+      })();
     }
   };
 

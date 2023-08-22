@@ -1,6 +1,7 @@
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
 export const COUNT_NEARBY_OFFERS = 3;
+export const SHOWABLE_REVIEWS = -10;
 
 export const DATE_FORMAT = 'MMMM YYYY';
 

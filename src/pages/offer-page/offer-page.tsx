@@ -6,7 +6,7 @@ import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
 import { useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
-import { useState, memo} from 'react';
+import { useState, memo, useRef} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {useEffect} from 'react';
 import { fetchNearByOffers, fetchOfferCard, fetchReviews } from '../../store/api-actions';
@@ -28,6 +28,7 @@ function OfferPageComponent () {
   const isOffersLoading = useAppSelector(getOffersLoadStatus);
   const isIdExist = offersList.some((offer) => offer.id === offerId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
+  const reviewsTitleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (!isIdExist) {
@@ -50,6 +51,9 @@ function OfferPageComponent () {
   const isSomethingMissingFromServer = offerCard === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
   const currentOffer = offersList.find((offer) => offer.id === offerId) as OfferListItem;
   const nearByOffers = [...loadNearByOffers, currentOffer];
+  const scrollToReviewsTitle = () => {
+    reviewsTitleRef.current?.scrollIntoView({behavior: 'smooth'});
+  };
 
   const authStatus = useAppSelector(getAuthStatus);
 
@@ -171,11 +175,11 @@ function OfferPageComponent () {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews · <span className="reviews__amount">1</span>
+                <h2 className="reviews__title" ref={reviewsTitleRef}>
+                  Reviews · <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewsOffer reviews={reviews}/>
-                {authStatus === AuthStatus.Auth && <ReviewsForm/>}
+                {authStatus === AuthStatus.Auth && <ReviewsForm scrollToReviewsTitle={scrollToReviewsTitle}/>}
               </section>
             </div>
           </div>
