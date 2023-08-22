@@ -2,12 +2,12 @@ import { CITIES_NAMES } from '../../const';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setActiveCity } from '../../store/actions';
 import {MouseEvent, memo} from 'react';
-import * as selectors from '../../store/selectors';
+import { getActiveCity } from '../../store/offers-process/offers-selectors';
+import { setActiveCity } from '../../store/offers-process/offers-process';
 
 function LocationsListComponent () {
-  const activeCityName = useAppSelector(selectors.activeCity);
+  const activeCityName = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
   const changeCityHandler = (evt: MouseEvent<HTMLLIElement>) => {
     evt.preventDefault();

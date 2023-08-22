@@ -1,11 +1,13 @@
 import { NavLink, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logout } from '../../store/api-actions';
 import { MouseEvent } from 'react';
+import { getEmail } from '../../store/user-process/user-selectors';
 
 export function LogAuthElement() {
   const dispatch = useAppDispatch();
+  const userEmail = useAppSelector(getEmail);
   const clickNavLinkHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logout());
@@ -21,7 +23,7 @@ export function LogAuthElement() {
           >
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
             <span className="header__user-name user__name">
-              egorpestov2012@yandex.ru
+              {userEmail}
             </span>
             <span className="header__favorite-count">3</span>
           </NavLink>

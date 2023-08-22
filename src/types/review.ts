@@ -1,4 +1,4 @@
-import { Host } from './offer-card-data';
+import { Host } from './offer-card';
 
 export type Review = {
   id: string;

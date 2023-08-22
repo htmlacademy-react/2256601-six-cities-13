@@ -5,15 +5,15 @@ import { useState, memo} from 'react';
 import { useAppSelector } from '../../hooks';
 import { getOffersByCity, sorting } from '../../utils';
 import { Sorting } from '../../types/sorting';
-import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../../pages/loading-screen/loading-screen';
+import { getActiveCity, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
 
 function CitiesComponent () {
   const [selectedId, setselectedId] = useState<string| undefined> (undefined);
   const [activeSortType, setActiveSortType] = useState<Sorting>('Popular');
-  const offersList = useAppSelector(selectors.offers);
-  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
-  const activeCityName = useAppSelector(selectors.activeCity);
+  const offersList = useAppSelector(getOffers);
+  const isOffersLoading = useAppSelector(getOffersLoadStatus);
+  const activeCityName = useAppSelector(getActiveCity);
   const offersByCity = getOffersByCity(activeCityName, offersList);
   const offersBySorting = sorting[activeSortType](offersByCity);
 

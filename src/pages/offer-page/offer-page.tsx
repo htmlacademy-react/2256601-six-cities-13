@@ -9,44 +9,49 @@ import { Map } from '../../components/map/map';
 import { useState, memo} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {useEffect} from 'react';
-import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-actions';
-import * as selectors from '../../store/selectors';
+import { fetchNearByOffers, fetchOfferCard, fetchReviews } from '../../store/api-actions';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
 import { AuthStatus, COUNT_NEARBY_OFFERS } from '../../const';
-import { setActiveId } from '../../store/actions';
+import { getOfferCard, getOfferCardLoadStatus, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
+import { getAuthStatus } from '../../store/user-process/user-selectors';
+import { getCommentPostStatus, getReviews, getReviewsLoadStatus } from '../../store/reviews-process/reviews-selectors';
+import { setActiveId } from '../../store/offers-process/offers-process';
+import { getNearByOffers, getNearByoffersLoadStatus } from '../../store/nearby-offers-process/nearby-offers-selectors';
+import { OfferListItem } from '../../types/offer-list-item';
 
 function OfferPageComponent () {
-  const [selectedId, setSelectedId] = useState<string | undefined> (undefined);
+  const [selectedId, setselectedId] = useState<string| undefined> (undefined);
   const dispatch = useAppDispatch();
   const offerId = useParams().id as string;
-  const offersList = useAppSelector(selectors.offers);
-  const authStatus = useAppSelector(selectors.authorizationStatus);
-  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
-  const isIdExist = offersList?.some((offer) => offer.id === offerId);
-  const isCommentPosting = useAppSelector(selectors.isCommentPosting);
+  const offersList = useAppSelector(getOffers);
+  const isOffersLoading = useAppSelector(getOffersLoadStatus);
+  const isIdExist = offersList.some((offer) => offer.id === offerId);
+  const isCommentPosting = useAppSelector(getCommentPostStatus);
 
   useEffect(() => {
     if (!isIdExist) {
       return;
     }
-    dispatch(fetchOffer({id: offerId}));
+    dispatch(fetchOfferCard({id: offerId}));
     dispatch(fetchNearByOffers({id: offerId}));
     dispatch(fetchReviews({id: offerId}));
     dispatch(setActiveId(offerId));
   }, [isIdExist, offerId, dispatch, isCommentPosting]
   );
 
-  const offerCardData = useAppSelector(selectors.offerCardData);
-  const loadNearByOffers = useAppSelector(selectors.nearByOffers);
+  const offerCard = useAppSelector(getOfferCard);
+  const loadNearByOffers = useAppSelector(getNearByOffers);
+  const reviews = useAppSelector(getReviews);
+  const isOfferCardLoading = useAppSelector(getOfferCardLoadStatus);
+  const isNearByOffersLoading = useAppSelector(getNearByoffersLoadStatus);
+  const isReviewsLoading = useAppSelector(getReviewsLoadStatus);
+  const isPageLoading = isOfferCardLoading || isNearByOffersLoading || isReviewsLoading;
+  const isSomethingMissingFromServer = offerCard === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
+  const currentOffer = offersList.find((offer) => offer.id === offerId) as OfferListItem;
   const nearByOffers = getRandomUniqueValuesFromArray(loadNearByOffers, COUNT_NEARBY_OFFERS);
-  const reviews = useAppSelector(selectors.reviews);
 
-  const isOfferLoading = useAppSelector(selectors.isOfferLoading);
-  const isNearByOffersLoading = useAppSelector(selectors.isNearByOffersLoading);
-  const isReviewsLoading = useAppSelector(selectors.isReviewsLoading);
-  const isPageLoading = isOfferLoading || isNearByOffersLoading || isReviewsLoading;
-  const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
+  const authStatus = useAppSelector(getAuthStatus);
 
   if (!isIdExist && !isOffersLoading) {
     return (
@@ -61,12 +66,12 @@ function OfferPageComponent () {
   }
 
   const offerHoverHandler = (id: string | undefined) => {
-    setSelectedId(id);
+    setselectedId(id);
   };
 
-  const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCardData;
+  const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
   const {isPro, name, avatarUrl} = host;
-  const currentCity = nearByOffers[0].city;
+  const currentCity = currentOffer.city;
 
   return !isIdExist ? <NotFoundPage/> : (
     <div className="page">

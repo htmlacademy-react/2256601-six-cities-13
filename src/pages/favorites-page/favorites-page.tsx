@@ -3,11 +3,11 @@ import { FavoritesCardList } from '../../components/favorite-card-list/favorite-
 import { Header } from '../../components/header/header';
 import { Logo } from '../../components/logo/logo';
 import { useAppSelector } from '../../hooks';
-import * as selectors from '../../store/selectors';
 import { getOffersByFavorites } from '../../utils';
+import { getOffers } from '../../store/offers-process/offers-selectors';
 
 export default function FavoritesPage () {
-  const offers = useAppSelector(selectors.offers);
+  const offers = useAppSelector(getOffers);
   const offersByFavorites = getOffersByFavorites(offers);
 
   return (

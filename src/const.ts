@@ -29,10 +29,10 @@ export const APIRoute = {
   Logout: '/logout',
 } as const;
 
-export enum NameAction {
+export enum NameSpace {
   Offers = 'OFFERS',
   Offer = 'OFFER',
-  NearPlaces = 'NEAR_PLACES',
+  NearByOffers = 'NEARBY_OFFERS',
   Favorites = 'FAVORITES',
   Reviews = 'REVIEWS',
   User = 'USER',

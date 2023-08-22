@@ -1,18 +1,19 @@
 import { RatingMap } from '../../const';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Star } from '../star/star';
-import * as selectors from '../../store/selectors';
 import { MIN_COMMENT_LENGTH } from '../../const';
 import { MAX_COMMENT_LENGTH } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postComment } from '../../store/api-actions';
+import { getActiveId } from '../../store/offers-process/offers-selectors';
+import { getCommentPostStatus } from '../../store/reviews-process/reviews-selectors';
 
 export function ReviewsForm () {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
-  const offerId = useAppSelector(selectors.activeId);
-  const isCommentPosting = useAppSelector(selectors.isCommentPosting);
+  const offerId = useAppSelector(getActiveId);
+  const isCommentPosting = useAppSelector(getCommentPostStatus);
 
   const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
   const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);

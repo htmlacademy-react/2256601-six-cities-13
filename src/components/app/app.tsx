@@ -8,10 +8,10 @@ import { LoginPage } from '../../pages/login-page/login-page';
 import { OfferPage } from '../../pages/offer-page/offer-page';
 import { PrivateRouteForFavorites } from '../private-route/private-route-for-favorites';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import * as selectors from '../../store/selectors';
 import { PrivateRouteForLogin } from '../private-route/private-route-for-login';
 import { useEffect } from 'react';
 import { checkAuth, fetchOffers } from '../../store/api-actions';
+import { getAuthStatus } from '../../store/user-process/user-selectors';
 
 export function App() {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ export function App() {
     dispatch(fetchOffers());
   }, [dispatch]);
 
-  const authStatus = useAppSelector(selectors.authorizationStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <HelmetProvider>
