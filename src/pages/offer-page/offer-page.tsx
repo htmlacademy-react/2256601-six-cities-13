@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/header/header';
-import { getRandomUniqueValuesFromArray, getRatingStarsStyle } from '../../utils';
+import { getRatingStarsStyle } from '../../utils';
 import { ReviewsOffer } from '../../components/reviews-offer/reviews-offer';
 import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
@@ -12,7 +12,7 @@ import {useEffect} from 'react';
 import { fetchNearByOffers, fetchOfferCard, fetchReviews } from '../../store/api-actions';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
-import { AuthStatus, COUNT_NEARBY_OFFERS } from '../../const';
+import { AuthStatus} from '../../const';
 import { getOfferCard, getOfferCardLoadStatus, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
 import { getAuthStatus } from '../../store/user-process/user-selectors';
 import { getCommentPostStatus, getReviews, getReviewsLoadStatus } from '../../store/reviews-process/reviews-selectors';
@@ -49,7 +49,7 @@ function OfferPageComponent () {
   const isPageLoading = isOfferCardLoading || isNearByOffersLoading || isReviewsLoading;
   const isSomethingMissingFromServer = offerCard === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
   const currentOffer = offersList.find((offer) => offer.id === offerId) as OfferListItem;
-  const nearByOffers = getRandomUniqueValuesFromArray(loadNearByOffers, COUNT_NEARBY_OFFERS);
+  const nearByOffers = [...loadNearByOffers, currentOffer];
 
   const authStatus = useAppSelector(getAuthStatus);
 

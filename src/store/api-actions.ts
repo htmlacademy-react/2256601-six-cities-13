@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, NameSpace} from '../const';
+import { APIRoute, AppRoute, COUNT_NEARBY_OFFERS, NameSpace} from '../const';
 import { redirectToRoute} from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCard } from '../types/offer-card';
@@ -12,6 +12,7 @@ import { setOfferCard, setOfferCardLoadStatus, setOffers, setOffersLoadStatus } 
 import { setNearByOffers, setNearByOffersLoadStatus } from './nearby-offers-process/nearby-offers-process';
 import { setCommentPostStatus, setReviews, setReviewsLoadStatus } from './reviews-process/reviews-process';
 import { setUserData } from './user-process/user-process';
+import { getRandomUniqueValuesFromArray } from '../utils';
 
 export type ThunkObj = {
   dispatch: AppDispatch;
@@ -63,7 +64,8 @@ export const fetchNearByOffers = createAsyncThunk<void, {id: string | undefined}
     dispatch(setNearByOffersLoadStatus(true));
     const url = id !== undefined ? `${APIRoute.Offers}/${id}/nearBy` : '';
     const {data} = await api.get<OfferListItem[]>(url);
-    dispatch(setNearByOffers(data));
+    const nearByOffers = getRandomUniqueValuesFromArray(data, COUNT_NEARBY_OFFERS);
+    dispatch(setNearByOffers(nearByOffers));
     dispatch(setNearByOffersLoadStatus(false));
   }
 );
