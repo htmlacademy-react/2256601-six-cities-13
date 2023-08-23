@@ -1,19 +1,31 @@
 import { RatingMap } from '../../const';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Star } from '../star/star';
-import * as selectors from '../../store/selectors';
 import { MIN_COMMENT_LENGTH } from '../../const';
 import { MAX_COMMENT_LENGTH } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postComment } from '../../store/api-actions';
+import { getActiveId } from '../../store/offers-process/offers-selectors';
+import { getCommentPostStatus } from '../../store/reviews-process/reviews-selectors';
 
-export function ReviewsForm () {
+type ReviewsFormProps = {
+  scrollToReviewsTitle: () => void;
+}
+
+export function ReviewsForm ({scrollToReviewsTitle}: ReviewsFormProps) {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
-  const offerId = useAppSelector(selectors.activeId);
+  const offerId = useAppSelector(getActiveId);
+  const isCommentPosting = useAppSelector(getCommentPostStatus);
+
   const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
   const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
+  const resetForm = () => {
+    setComment('');
+    setRating('');
+  };
+
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (offerId !== null) {
@@ -22,13 +34,22 @@ export function ReviewsForm () {
         comment: comment,
         rating: Number(rating),
       }));
+      resetForm();
+      (async () => {
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        } finally {
+          scrollToReviewsTitle();
+        }
+      })();
     }
   };
 
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
     comment.length <= MAX_COMMENT_LENGTH &&
-    rating !== '';
+    rating !== '' &&
+    !isCommentPosting;
 
   return (
     <form
@@ -65,7 +86,7 @@ export function ReviewsForm () {
           type="submit"
           disabled={!isValid}
         >
-          Submit
+          {isCommentPosting ? 'Posting...' : 'Submit'}
         </button>
       </div>
     </form>

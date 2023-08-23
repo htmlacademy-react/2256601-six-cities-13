@@ -6,70 +6,74 @@ import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
 import { useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
-import { useState } from 'react';
-import { OfferListItem } from '../../types/offer-list-item';
+import { useState, memo, useRef} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {useEffect} from 'react';
-import { fetchNearByOffers, fetchOffer, fetchReviews } from '../../store/api-actions';
-import * as selectors from '../../store/selectors';
+import { fetchNearByOffers, fetchOfferCard, fetchReviews } from '../../store/api-actions';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
-import { AuthorizationStatus } from '../../const';
-import { setActiveId } from '../../store/actions';
+import { AuthStatus} from '../../const';
+import { getCurrentOffer, getOfferCard, getOfferPageLoadStatus, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
+import { getAuthStatus } from '../../store/user-process/user-selectors';
+import { getCommentPostStatus, getReviews} from '../../store/reviews-process/reviews-selectors';
+import { setActiveId, setCurrentOffer } from '../../store/offers-process/offers-process';
+import { getNearByOffers} from '../../store/nearby-offers-process/nearby-offers-selectors';
 
-export function OfferPage () {
-  const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
+function OfferPageComponent () {
+  const [selectedId, setselectedId] = useState<string| undefined> (undefined);
   const dispatch = useAppDispatch();
-  const offerId = useParams().id as string;
-  const offersList = useAppSelector(selectors.offers);
-  const authStatus = useAppSelector(selectors.authorizationStatus);
-  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
-  const isIdExist = offersList?.some((offer) => offer.id === offerId);
-  const isCommentPosting = useAppSelector(selectors.isCommentPosting);
+  const offerId = useParams().id;
+  const offersList = useAppSelector(getOffers);
+  const isOffersLoading = useAppSelector(getOffersLoadStatus);
+  const isCommentPosting = useAppSelector(getCommentPostStatus);
+  const reviewsTitleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (!isIdExist) {
+    if (offerId === undefined) {
       return;
     }
-    dispatch(fetchOffer({id: offerId}));
+    dispatch(fetchOfferCard({id: offerId}));
     dispatch(fetchNearByOffers({id: offerId}));
     dispatch(fetchReviews({id: offerId}));
     dispatch(setActiveId(offerId));
-  }, [isIdExist, offerId, dispatch, isCommentPosting]
+    dispatch(setCurrentOffer());
+  }, [offerId, dispatch, isCommentPosting]
   );
 
-  const offerCardData = useAppSelector(selectors.offerCardData);
-  const nearByOffers = useAppSelector(selectors.nearByOffers);
-  const reviews = useAppSelector(selectors.reviews);
+  const offerCard = useAppSelector(getOfferCard);
+  const loadNearByOffers = useAppSelector(getNearByOffers);
+  const reviews = useAppSelector(getReviews);
+  const isPageLoading = useAppSelector(getOfferPageLoadStatus);
+  const isSomethingMissingFromServer = offerCard === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearByOffers = currentOffer ? [...loadNearByOffers, currentOffer] : [...loadNearByOffers];
+  const scrollToReviewsTitle = () => {
+    reviewsTitleRef.current?.scrollIntoView({behavior: 'smooth'});
+  };
 
-  const isOfferLoading = useAppSelector(selectors.isOfferLoading);
-  const isNearByOffersLoading = useAppSelector(selectors.isNearByOffersLoading);
-  const isReviewsLoading = useAppSelector(selectors.isReviewsLoading);
-  const isPageLoading = isOfferLoading || isNearByOffersLoading || isReviewsLoading;
-  const isSomethingMissingFromServer = offerCardData === null || offersList.length === 0 || nearByOffers.length === 0 || reviews.length === 0;
+  const authStatus = useAppSelector(getAuthStatus);
 
-  if (!isIdExist && !isOffersLoading) {
+  if (!isOffersLoading) {
     return (
       <NotFoundPage/>
     );
   }
 
-  if (isPageLoading || isSomethingMissingFromServer) {
+
+  if (isPageLoading || isSomethingMissingFromServer || currentOffer === null) {
     return (
       <LoadingScreen/>
     );
   }
 
   const offerHoverHandler = (id: string | undefined) => {
-    const currentOffer = nearByOffers.find((offer) => offer.id === id);
-    setSelectedOffer(currentOffer);
+    setselectedId(id);
   };
 
-  const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCardData;
+  const {title, city, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
   const {isPro, name, avatarUrl} = host;
-  const currentCity = nearByOffers[0].city;
 
-  return !isIdExist ? <NotFoundPage/> : (
+  return (
     <div className="page">
       <Helmet>
         <title>{'6 cities - Offer'}</title>
@@ -167,16 +171,16 @@ export function OfferPage () {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews · <span className="reviews__amount">1</span>
+                <h2 className="reviews__title" ref={reviewsTitleRef}>
+                  Reviews · <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewsOffer reviews={reviews}/>
-                {authStatus === AuthorizationStatus.Auth && <ReviewsForm/>}
+                {authStatus === AuthStatus.Auth && <ReviewsForm scrollToReviewsTitle={scrollToReviewsTitle}/>}
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={currentCity} offersList={nearByOffers} selectedOffer={selectedOffer}/>
+            <Map city={city} offersList={nearByOffers} selectedId={selectedId}/>
           </section>
         </section>
         <div className="container">
@@ -193,3 +197,5 @@ export function OfferPage () {
     </div>
   );
 }
+
+export const OfferPage = memo(OfferPageComponent);

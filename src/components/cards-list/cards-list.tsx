@@ -1,23 +1,29 @@
 import { Card } from '../card/card';
 import { OfferListItem } from '../../types/offer-list-item';
-import { MouseEvent } from 'react';
+import { MouseEvent, memo, useCallback } from 'react';
 
 type CardsListProps = {
   cardsList: OfferListItem[];
   pageClass: string;
-  onOfferHover: (id: string | undefined) => void;
+  onOfferHover?: (id: string | undefined) => void;
 };
 
-export function CardsList ({cardsList, pageClass, onOfferHover}: CardsListProps) {
-  const offerEnterHandler = (evt: MouseEvent<HTMLLIElement>) => {
+function CardsListComponent ({cardsList, pageClass, onOfferHover}: CardsListProps) {
+  const offerEnterHandler = useCallback((evt: MouseEvent<HTMLLIElement>) => {
+    if (onOfferHover === undefined) {
+      return;
+    }
     evt.preventDefault();
     onOfferHover(evt.currentTarget.id);
-  };
+  }, [onOfferHover]);
 
-  const offerLeaveHandler = (evt: MouseEvent<HTMLLIElement>) => {
+  const offerLeaveHandler = useCallback((evt: MouseEvent<HTMLLIElement>) => {
+    if (onOfferHover === undefined) {
+      return;
+    }
     evt.preventDefault();
     onOfferHover(undefined);
-  };
+  }, [onOfferHover]);
 
   return (
     <>
@@ -36,4 +42,4 @@ export function CardsList ({cardsList, pageClass, onOfferHover}: CardsListProps)
   );
 }
 
-
+export const CardsList = memo(CardsListComponent);

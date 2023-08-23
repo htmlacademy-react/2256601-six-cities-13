@@ -1,20 +1,19 @@
-import { OfferListItem } from '../../types/offer-list-item';
 import { CardsList } from '../cards-list/cards-list';
 import { Sort } from '../sort/sort';
 import { Map } from '../map/map';
-import { useState } from 'react';
+import { useState, memo} from 'react';
 import { useAppSelector } from '../../hooks';
 import { getOffersByCity, sorting } from '../../utils';
 import { Sorting } from '../../types/sorting';
-import * as selectors from '../../store/selectors';
 import { LoadingScreen } from '../../pages/loading-screen/loading-screen';
+import { getActiveCity, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
 
-export function Cities () {
-  const [selectedOffer, setSelectedOffer] = useState<OfferListItem | undefined> (undefined);
+function CitiesComponent () {
+  const [selectedId, setselectedId] = useState<string| undefined> (undefined);
   const [activeSortType, setActiveSortType] = useState<Sorting>('Popular');
-  const offersList = useAppSelector(selectors.offers);
-  const isOffersLoading = useAppSelector(selectors.isOffersLoading);
-  const activeCityName = useAppSelector(selectors.activeCity);
+  const offersList = useAppSelector(getOffers);
+  const isOffersLoading = useAppSelector(getOffersLoadStatus);
+  const activeCityName = useAppSelector(getActiveCity);
   const offersByCity = getOffersByCity(activeCityName, offersList);
   const offersBySorting = sorting[activeSortType](offersByCity);
 
@@ -25,12 +24,9 @@ export function Cities () {
   }
 
   const offerHoverHandler = (id: string | undefined) => {
-    if (!id) {
-      setSelectedOffer (undefined);
-    }
-    const currentOffer = offersList.find((offer) => offer.id === id);
-    setSelectedOffer(currentOffer);
+    setselectedId(id);
   };
+
   const currentCity = offersByCity[0].city;
 
   return (
@@ -45,9 +41,11 @@ export function Cities () {
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"><Map city={currentCity} offersList={offersByCity} selectedOffer={selectedOffer}/></section>
+          <section className="cities__map map"><Map city={currentCity} offersList={offersByCity} selectedId={selectedId}/></section>
         </div>
       </div>
     </div>
   );
 }
+
+export const Cities = memo(CitiesComponent);

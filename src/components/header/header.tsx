@@ -1,13 +1,14 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthStatus } from '../../const';
 import { Logo } from '../logo/logo';
 import { useAppSelector } from '../../hooks';
-import * as selectors from '../../store/selectors';
+import {memo} from 'react';
 
 import { LogAuthElement } from '../log-auth-element/log-auth-element';
 import { LogNoAuthElement } from '../log-no-auth-element/log-no-auth-element';
+import { getAuthStatus } from '../../store/user-process/user-selectors';
 
-export function Header () {
-  const authStatus = useAppSelector(selectors.authorizationStatus);
+function HeaderComponent () {
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <header className="header">
@@ -16,9 +17,11 @@ export function Header () {
           <div className="header__left">
             <Logo/>
           </div>
-          {authStatus === AuthorizationStatus.Auth ? <LogAuthElement/> : <LogNoAuthElement/>}
+          {authStatus === AuthStatus.Auth ? <LogAuthElement/> : <LogNoAuthElement/>}
         </div>
       </div>
     </header>
   );
 }
+
+export const Header = memo(HeaderComponent);

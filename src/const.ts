@@ -1,5 +1,7 @@
 export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 140;
+export const MAX_COMMENT_LENGTH = 300;
+export const COUNT_NEARBY_OFFERS = 3;
+export const SHOWABLE_REVIEWS = -10;
 
 export const DATE_FORMAT = 'MMMM YYYY';
 
@@ -15,7 +17,7 @@ export enum AppRoute {
   NotFound = '/404',
 }
 
-export enum AuthorizationStatus {
+export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
@@ -28,14 +30,12 @@ export const APIRoute = {
   Logout: '/logout',
 } as const;
 
-export enum NameAction {
+export enum NameSpace {
   Offers = 'OFFERS',
   Offer = 'OFFER',
-  NearPlaces = 'NEAR_PLACES',
-  Favorites = 'FAVORITES',
+  NearByOffers = 'NEARBY_OFFERS',
   Reviews = 'REVIEWS',
   User = 'USER',
-  Error = 'ERROR',
 }
 
 export const RatingMap = {

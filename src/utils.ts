@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT} from './const';
 import { OfferListItem } from './types/offer-list-item';
 import { Sorting } from './types/sorting';
+import { SortingMap } from './const';
 
 export function humanizeDate(date: string) {
   return date ? dayjs(date).format(DATE_FORMAT) : '';
@@ -54,3 +55,24 @@ export const sorting: Record<Sorting, (offers: OfferListItem[]) => OfferListItem
 };
 
 export const getRandomValueFromArray = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
+export function getRandomUniqueValuesFromArray<T>(arr: T[], n: number): T[] {
+  if (arr.length <= n) {
+    return arr;
+  }
+  const shuffled = arr.slice();
+  const result: T[] = [];
+  while (result.length < n) {
+    const randomIndex = Math.floor(Math.random() * shuffled.length);
+    const value = shuffled[randomIndex];
+    if (!result.includes(value)) {
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+export function getSortingMap () {
+  return (Object.entries(SortingMap) as [Sorting, (typeof SortingMap)[Sorting]][]);
+}
+

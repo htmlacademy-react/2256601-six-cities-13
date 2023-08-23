@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../store/api-actions';
 import { AppRoute, CITIES_NAMES } from '../../const';
 import { getRandomValueFromArray } from '../../utils';
-import { setActiveCity } from '../../store/actions';
+import { setActiveCity } from '../../store/offers-process/offers-process';
 
 export function LoginPage () {
   const loginRef = useRef<HTMLInputElement | null> (null);
@@ -29,7 +29,10 @@ export function LoginPage () {
 
   const buttonClickHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
-    const city = evt.currentTarget.dataset.city as string;
+    const city = evt.currentTarget.dataset.city;
+    if (city === undefined) {
+      return;
+    }
     dispatch(setActiveCity(city));
     navigate(AppRoute.Main);
   };
