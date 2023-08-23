@@ -2,6 +2,7 @@ import { useState, KeyboardEvent, memo } from 'react';
 import { SortingMap } from '../../const';
 import classNames from 'classnames';
 import { Sorting } from '../../types/sorting';
+import { getSortingMap } from '../../utils';
 
 type SortProps = {
   activeSortType: Sorting;
@@ -37,7 +38,7 @@ function SortComponent ({activeSortType, onChange}: SortProps) {
       </span>
       <ul className={classNames('places__options', 'places__options--custom', {'places__options--opened': isOpened})}>
         {
-          (Object.entries(SortingMap) as [Sorting, (typeof SortingMap)[Sorting]][]).map(([type, label]) => (
+          getSortingMap().map(([type, label]) => (
             <li className={classNames('places__option', {'places__option--active' : type === activeSortType})}
               key={type}
               tabIndex={0}

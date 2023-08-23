@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT} from './const';
 import { OfferListItem } from './types/offer-list-item';
 import { Sorting } from './types/sorting';
+import { SortingMap } from './const';
 
 export function humanizeDate(date: string) {
   return date ? dayjs(date).format(DATE_FORMAT) : '';
@@ -70,3 +71,8 @@ export function getRandomUniqueValuesFromArray<T>(arr: T[], n: number): T[] {
   }
   return result;
 }
+
+export function getSortingMap () {
+  return (Object.entries(SortingMap) as [Sorting, (typeof SortingMap)[Sorting]][]);
+}
+
