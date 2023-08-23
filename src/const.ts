@@ -28,6 +28,7 @@ export const APIRoute = {
   Comments: '/comments',
   Login: '/login',
   Logout: '/logout',
+  Favorite: '/favorite'
 } as const;
 
 export enum NameSpace {

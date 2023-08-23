@@ -17,3 +17,4 @@ export const getOfferPageLoadStatus = createSelector([getOfferCardLoadStatus, ge
   (offerCardLoadStatus, reviewsLoadStatus, nearByOffersLoadStatus) => offerCardLoadStatus || reviewsLoadStatus || nearByOffersLoadStatus);
 export const getDataLoadStatusFromServer = createSelector([getOfferCard, getOffers, getReviews, getNearByOffers],
   (offerCard, Offers, reviews, nearByOffers) => offerCard === null || Offers.length === 0 || reviews.length === 0 || nearByOffers.length === 0);
+export const getFavOffersNumber = (state: State): number => state[NameSpace.Offers].numberOfFavOffers;

@@ -4,10 +4,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logout } from '../../store/api-actions';
 import { MouseEvent } from 'react';
 import { getEmail } from '../../store/user-process/user-selectors';
+import { getFavOffersNumber } from '../../store/offers-process/offers-selectors';
 
 export function LogAuthElement() {
   const dispatch = useAppDispatch();
   const userEmail = useAppSelector(getEmail);
+  const favOffersNumber = useAppSelector(getFavOffersNumber);
   const clickNavLinkHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logout());
@@ -25,7 +27,7 @@ export function LogAuthElement() {
             <span className="header__user-name user__name">
               {userEmail}
             </span>
-            <span className="header__favorite-count">3</span>
+            <span className="header__favorite-count">{favOffersNumber}</span>
           </NavLink>
         </li>
         <li className="header__nav-item">

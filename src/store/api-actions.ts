@@ -8,7 +8,7 @@ import { OfferListItem } from '../types/offer-list-item';
 import { OfferCard } from '../types/offer-card';
 import { Review } from '../types/review';
 import { dropToken, saveToken } from '../services/token';
-import { setOfferCard, setOfferCardLoadStatus, setOffers, setOffersLoadStatus } from './offers-process/offers-process';
+import { setOfferCard, setOfferCardLoadStatus, setOffers, setOffersLoadStatus, setFavOffersNumber } from './offers-process/offers-process';
 import { setNearByOffers, setNearByOffersLoadStatus } from './nearby-offers-process/nearby-offers-process';
 import { setCommentPostStatus, setReviews, setReviewsLoadStatus } from './reviews-process/reviews-process';
 import { setUserData } from './user-process/user-process';
@@ -37,6 +37,11 @@ export type CommentData = {
   rating: number;
 };
 
+export type FavData = {
+  id: string;
+  status: 0 | 1;
+};
+
 export const fetchOffers = createAsyncThunk<void, undefined, ThunkObj> (
   `${NameSpace.Offers}/fetch`,
   async (_arg, {dispatch, extra: api}) => {
@@ -44,6 +49,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkObj> (
       dispatch(setOffersLoadStatus(true));
       const {data} = await api.get<OfferListItem[]>(APIRoute.Offers);
       dispatch(setOffers(data));
+      dispatch(setFavOffersNumber());
       dispatch(setOffersLoadStatus(false));
     } catch {
       dispatch(setOffersLoadStatus(false));
@@ -120,5 +126,14 @@ export const postComment = createAsyncThunk<void, CommentData, ThunkObj> (
     const url = `${APIRoute.Comments}/${id}`;
     await api.post<CommentData>(url, {comment, rating});
     dispatch(setCommentPostStatus(false));
+  }
+);
+
+export const changeFavStatus = createAsyncThunk<void, FavData, ThunkObj> (
+  `${NameSpace.Offers}/changeFavStatus`,
+  async ({id, status}, {dispatch, extra: api}) => {
+    const url = `${APIRoute.Favorite}/${id}/${status}`;
+    await api.post(url);
+    dispatch(fetchOffers());
   }
 );

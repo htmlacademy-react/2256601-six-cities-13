@@ -11,6 +11,7 @@ type OffersProcess = {
   offerCard: OfferCard | null;
   isOffersLoading: boolean;
   isOfferCardLoading: boolean;
+  numberOfFavOffers: number;
 }
 
 const initialState: OffersProcess = {
@@ -21,6 +22,7 @@ const initialState: OffersProcess = {
   offerCard: null,
   isOffersLoading: false,
   isOfferCardLoading: false,
+  numberOfFavOffers: 0,
 };
 
 export const offersProcessSlice = createSlice({
@@ -34,10 +36,8 @@ export const offersProcessSlice = createSlice({
       state.activeId = action.payload;
     },
     setCurrentOffer: (state) => {
-      if (state.offers !== null) {
-        const foundOffer = state.offers.find((offer) => offer.id === state.activeId);
-        state.currentOffer = foundOffer !== undefined ? foundOffer : null;
-      }
+      const foundOffer = state.offers.find((offer) => offer.id === state.activeId);
+      state.currentOffer = foundOffer !== undefined ? foundOffer : null;
     },
     setOffers: (state, action: PayloadAction<OfferListItem[]>) => {
       state.offers = action.payload;
@@ -51,8 +51,11 @@ export const offersProcessSlice = createSlice({
     setOfferCardLoadStatus: (state, action: PayloadAction<boolean>) => {
       state.isOfferCardLoading = action.payload;
     },
+    setFavOffersNumber: (state) => {
+      state.numberOfFavOffers = state.offers.filter((offer) => offer.isFavorite === true).length;
+    }
   }
 });
 
-export const {setActiveCity, setActiveId, setCurrentOffer, setOffers, setOfferCard, setOffersLoadStatus, setOfferCardLoadStatus} = offersProcessSlice.actions;
+export const {setActiveCity, setActiveId, setCurrentOffer, setOffers, setOfferCard, setOffersLoadStatus, setOfferCardLoadStatus, setFavOffersNumber} = offersProcessSlice.actions;
 
