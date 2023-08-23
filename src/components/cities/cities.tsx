@@ -7,6 +7,8 @@ import { getOffersByCity, sorting } from '../../utils';
 import { Sorting } from '../../types/sorting';
 import { LoadingScreen } from '../../pages/loading-screen/loading-screen';
 import { getActiveCity, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
+import { CitiesEmpty } from '../cities-empty/cities-empty';
+import { getAuthStatus } from '../../store/user-process/user-selectors';
 
 function CitiesComponent () {
   const [selectedId, setselectedId] = useState<string| undefined> (undefined);
@@ -16,11 +18,15 @@ function CitiesComponent () {
   const activeCityName = useAppSelector(getActiveCity);
   const offersByCity = getOffersByCity(activeCityName, offersList);
   const offersBySorting = sorting[activeSortType](offersByCity);
+  const authStatus = useAppSelector(getAuthStatus);
 
-  if (isOffersLoading || offersList.length === 0) {
+  if (authStatus || isOffersLoading) {
     return (
       <LoadingScreen/>
     );
+  }
+  if (offersByCity.length === 0) {
+    return <CitiesEmpty activeCity={activeCityName}/>;
   }
 
   const offerHoverHandler = (id: string | undefined) => {

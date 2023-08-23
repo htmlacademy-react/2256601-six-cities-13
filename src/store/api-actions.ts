@@ -40,10 +40,14 @@ export type CommentData = {
 export const fetchOffers = createAsyncThunk<void, undefined, ThunkObj> (
   `${NameSpace.Offers}/fetch`,
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setOffersLoadStatus(true));
-    const {data} = await api.get<OfferListItem[]>(APIRoute.Offers);
-    dispatch(setOffers(data));
-    dispatch(setOffersLoadStatus(false));
+    try {
+      dispatch(setOffersLoadStatus(true));
+      const {data} = await api.get<OfferListItem[]>(APIRoute.Offers);
+      dispatch(setOffers(data));
+      dispatch(setOffersLoadStatus(false));
+    } catch {
+      dispatch(setOffersLoadStatus(false));
+    }
   }
 );
 
