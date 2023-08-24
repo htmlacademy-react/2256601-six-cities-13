@@ -3,24 +3,21 @@ import { Sort } from '../sort/sort';
 import { Map } from '../map/map';
 import { useState, memo} from 'react';
 import { useAppSelector } from '../../hooks';
-import { getOffersByCity, sorting } from '../../utils';
-import { Sorting } from '../../types/sorting';
 import { LoadingScreen } from '../../pages/loading-screen/loading-screen';
-import { getActiveCity, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
+import { getActiveCity, getOffersByCity, getOffersBySorting, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
 import { CitiesEmpty } from '../cities-empty/cities-empty';
 import { getAuthStatus } from '../../store/user-process/user-selectors';
+import { AuthStatus } from '../../const';
 
 function CitiesComponent () {
   const [selectedId, setselectedId] = useState<string| undefined> (undefined);
-  const [activeSortType, setActiveSortType] = useState<Sorting>('Popular');
-  const offersList = useAppSelector(getOffers);
   const isOffersLoading = useAppSelector(getOffersLoadStatus);
   const activeCityName = useAppSelector(getActiveCity);
-  const offersByCity = getOffersByCity(activeCityName, offersList);
-  const offersBySorting = sorting[activeSortType](offersByCity);
+  const offersByCity = useAppSelector(getOffersByCity);
+  const offersBySorting = useAppSelector(getOffersBySorting);
   const authStatus = useAppSelector(getAuthStatus);
 
-  if (authStatus || isOffersLoading) {
+  if (authStatus === AuthStatus.Unknown || isOffersLoading) {
     return (
       <LoadingScreen/>
     );
@@ -41,7 +38,7 @@ function CitiesComponent () {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">{offersByCity.length} places to stay in {activeCityName}</b>
-          <Sort activeSortType={activeSortType} onChange={(newSortType) => setActiveSortType(newSortType)}/>
+          <Sort/>
           <div className="cities__places-list places__list tabs__content">
             <CardsList cardsList={offersBySorting} pageClass={'cities__card'} onOfferHover={offerHoverHandler}/>
           </div>

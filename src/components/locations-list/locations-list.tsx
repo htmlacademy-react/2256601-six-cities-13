@@ -9,25 +9,24 @@ import { setActiveCity } from '../../store/offers-process/offers-process';
 function LocationsListComponent () {
   const activeCityName = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
-  const changeCityHandler = (evt: MouseEvent<HTMLLIElement>) => {
+
+  const changeCityHandler = (city: string) => (evt: MouseEvent<HTMLLIElement>) => {
     evt.preventDefault();
-    const changeCityName = evt.currentTarget.dataset.city as string;
-    dispatch(setActiveCity(changeCityName));
+    dispatch(setActiveCity(city));
   };
 
   return (
     <ul className="locations__list tabs__list">
       {
-        CITIES_NAMES.map((cityName) =>
+        CITIES_NAMES.map((city) =>
           (
             <li
               className="locations__item"
-              key={cityName}
-              data-city={cityName}
-              onClick={changeCityHandler}
+              key={city}
+              onClick={changeCityHandler(city)}
             >
-              <Link className={classNames('locations__item-link', 'tabs__item', {'tabs__item--active': cityName === activeCityName})} to="#">
-                <span>{cityName}</span>
+              <Link className={classNames('locations__item-link', 'tabs__item', {'tabs__item--active': city === activeCityName})} to="#">
+                <span>{city}</span>
               </Link>
             </li>
           )

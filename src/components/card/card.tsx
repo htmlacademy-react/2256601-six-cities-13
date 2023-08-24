@@ -71,7 +71,7 @@ function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}:
           </div>
           <button
             onClick={clickFavoriteHandler}
-            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active': isFavorite}, 'button')}
+            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active': authStatus === AuthStatus.Auth && isFavoriteOffer}, 'button')}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
@@ -91,7 +91,7 @@ function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}:
             {title}
           </Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{type.charAt(0).toUpperCase() + type.slice(1)}</p>
       </div>
     </article>
   );
