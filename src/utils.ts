@@ -26,6 +26,13 @@ export function getHeightImageCard (pageClass:string): number {
   return 110;
 }
 
+export function getOffersByCity (cityName: string | undefined, offers: OfferListItem[]) {
+  return offers.filter((offer) => offer.city.name === cityName);
+}
+
+export function getOffersByFavorites(offers: OfferListItem[]) {
+  return offers.filter((offer) => offer.isFavorite);
+}
 
 export function sortLowToHigh (a: OfferListItem, b: OfferListItem) {
   return a.price - b.price;

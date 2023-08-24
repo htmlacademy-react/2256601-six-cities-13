@@ -1,19 +1,18 @@
-import { useState, KeyboardEvent, memo, MouseEvent } from 'react';
+import { useState, KeyboardEvent, memo } from 'react';
 import { SortingMap } from '../../const';
 import classNames from 'classnames';
 import { Sorting } from '../../types/sorting';
 import { getSortingMap } from '../../utils';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getActiveSortType } from '../../store/offers-process/offers-selectors';
-import { setActiveSortType } from '../../store/offers-process/offers-process';
 
-function SortComponent () {
+type SortProps = {
+  activeSortType: Sorting;
+  onChange: (newSortType: Sorting) => void;
+};
+
+function SortComponent ({activeSortType, onChange}: SortProps) {
   const [isOpened, setIsOpened] = useState(false);
-  const dispatch = useAppDispatch();
-  const activeSortType = useAppSelector(getActiveSortType);
-  const clickSortItemHandler = (type: Sorting) => (evt: MouseEvent<HTMLLIElement>) => {
-    evt.preventDefault();
-    dispatch(setActiveSortType(type));
+  const clickSortItemHandler = (type: Sorting) => {
+    onChange(type);
     setIsOpened(false);
   };
 

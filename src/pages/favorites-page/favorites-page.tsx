@@ -2,26 +2,13 @@ import { Helmet } from 'react-helmet-async';
 import { FavoritesCardList } from '../../components/favorite-card-list/favorite-card-list';
 import { Header } from '../../components/header/header';
 import { Logo } from '../../components/logo/logo';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFavOffers } from '../../store/api-actions';
-import { useEffect } from 'react';
-import { getFavOffers, getFavOffersLoadStatus } from '../../store/offers-process/offers-selectors';
-import FavoritesEmptyPage from './favorites-empty';
-import { LoadingScreen } from '../loading-screen/loading-screen';
+import { useAppSelector } from '../../hooks';
+import { getOffersByFavorites } from '../../utils';
+import { getOffers } from '../../store/offers-process/offers-selectors';
 
 export default function FavoritesPage () {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchFavOffers());
-  }, [dispatch]);
-  const favoriteOffers = useAppSelector(getFavOffers);
-  const isFavOffersLoading = useAppSelector(getFavOffersLoadStatus);
-  if (isFavOffersLoading) {
-    return <LoadingScreen/>;
-  }
-  if (favoriteOffers.length === 0 && !isFavOffersLoading) {
-    return <FavoritesEmptyPage/>;
-  }
+  const offers = useAppSelector(getOffers);
+  const offersByFavorites = getOffersByFavorites(offers);
 
   return (
     <div className="page page--gray page--main">
@@ -33,7 +20,7 @@ export default function FavoritesPage () {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesCardList favoriteOffers={favoriteOffers} pageClass={'favorites__card'}/>
+            <FavoritesCardList offerList={offersByFavorites} pageClass={'favorites__card'}/>
           </section>
         </div>
       </main>

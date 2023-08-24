@@ -1,9 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { browserHistory } from '../../browser-history';
 import { Middleware } from '@reduxjs/toolkit';
-import { rootReducer } from '../root-reducer';
+import { reducer } from '../reducer';
 
-type Reducer = ReturnType<typeof rootReducer>;
+type Reducer = ReturnType<typeof reducer>;
 
 export const redirect: Middleware<unknown, Reducer> =
 () =>

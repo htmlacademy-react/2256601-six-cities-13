@@ -3,15 +3,11 @@ import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logout } from '../../store/api-actions';
 import { MouseEvent } from 'react';
-import { getAvatar, getEmail } from '../../store/user-process/user-selectors';
-import { getFavOffersNumber } from '../../store/offers-process/offers-selectors';
+import { getEmail } from '../../store/user-process/user-selectors';
 
 export function LogAuthElement() {
   const dispatch = useAppDispatch();
   const userEmail = useAppSelector(getEmail);
-  const userAvatar = useAppSelector(getAvatar);
-  const favOffersNumber = useAppSelector(getFavOffersNumber);
-
   const clickNavLinkHandler = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logout());
@@ -25,13 +21,11 @@ export function LogAuthElement() {
             className="header__nav-link header__nav-link--profile"
             to={AppRoute.Favorites}
           >
-            <div className="header__avatar-wrapper user__avatar-wrapper">
-              <img src={userAvatar} alt='avatar' style={{borderRadius: '50%'}}/>
-            </div>
+            <div className="header__avatar-wrapper user__avatar-wrapper"></div>
             <span className="header__user-name user__name">
               {userEmail}
             </span>
-            <span className="header__favorite-count">{favOffersNumber}</span>
+            <span className="header__favorite-count">3</span>
           </NavLink>
         </li>
         <li className="header__nav-item">
