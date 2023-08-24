@@ -1,10 +1,13 @@
 import { OfferListItem } from '../../types/offer-list-item';
-import { useState } from 'react';
 import { getHeightImageCard, getRatingStarsStyle, getWidthImageCard } from '../../utils';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import { MouseEvent, memo } from 'react';
+import { AppRoute, AuthStatus} from '../../const';
+import { MouseEvent, memo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFavStatus } from '../../store/api-actions';
+import { getAuthStatus } from '../../store/user-process/user-selectors';
+import { redirectToRoute } from '../../store/actions';
 
 type CardProps = {
   offer: OfferListItem;
@@ -15,9 +18,27 @@ type CardProps = {
 
 function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}: CardProps) {
   const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
-  const [isFavoriteOffer, setFavoriteOffer] = useState(isFavorite);
+  const [isFavoriteOffer, setIsFavoriteOffer] = useState(isFavorite);
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
+  const setFavStatus = () => {
+    if (authStatus !== AuthStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      return;
+    }
+    try {
+      dispatch(changeFavStatus(
+        {
+          id: id,
+          status: isFavorite ? 0 : 1,
+        }));
+    } finally {
+      setIsFavoriteOffer(!isFavoriteOffer);
+    }
+  };
 
-  const clickFavoriteHandler = () => setFavoriteOffer(!isFavoriteOffer);
+  const clickFavoriteHandler = () => setFavStatus();
+
   return (
     <article
       onMouseEnter={onMouseEnterHover}
@@ -50,7 +71,7 @@ function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}:
           </div>
           <button
             onClick={clickFavoriteHandler}
-            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active': isFavoriteOffer}, 'button')}
+            className={classNames('place-card__bookmark-button', {'place-card__bookmark-button--active': authStatus === AuthStatus.Auth && isFavoriteOffer}, 'button')}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
@@ -66,9 +87,11 @@ function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}:
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to ={`${AppRoute.Offer}/${id}`}>{title}</Link>
+          <Link to ={`${AppRoute.Offer}/${id}`}>
+            {title}
+          </Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{type.charAt(0).toUpperCase() + type.slice(1)}</p>
       </div>
     </article>
   );
