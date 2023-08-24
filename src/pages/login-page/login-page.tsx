@@ -5,7 +5,6 @@ import { useAppDispatch} from '../../hooks';
 import { login } from '../../store/api-actions';
 import { RandomCityButton } from '../../components/random-city-buttom/random-city-buttom';
 
-
 export function LoginPage () {
   const [AuthInfo, setAuthInfo] = useState({login: '', password: ''});
   const dispatch = useAppDispatch();
