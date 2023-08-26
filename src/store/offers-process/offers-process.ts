@@ -6,7 +6,7 @@ import { Sorting } from '../../types/sorting';
 
 type OffersProcess = {
   activeCity: string;
-  activeId: string | null;
+  activeId: string | undefined;
   activeSortType: Sorting;
   currentOffer: OfferListItem | null;
   offers: OfferListItem[];
@@ -20,7 +20,7 @@ type OffersProcess = {
 
 const initialState: OffersProcess = {
   activeCity: 'Paris',
-  activeId: null,
+  activeId: undefined,
   activeSortType: 'Popular',
   currentOffer: null,
   offers: [],
@@ -39,7 +39,7 @@ export const offersProcessSlice = createSlice({
     setActiveCity: (state, action: PayloadAction<string>) => {
       state.activeCity = action.payload;
     },
-    setActiveId: (state, action: PayloadAction<string | null>) => {
+    setActiveId: (state, action: PayloadAction<string | undefined>) => {
       state.activeId = action.payload;
     },
     setActiveSortType: (state, action: PayloadAction<Sorting>) => {

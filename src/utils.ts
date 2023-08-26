@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { DATE_FORMAT} from './const';
+import { DATE_FORMAT, RatingMap} from './const';
 import { OfferListItem } from './types/offer-list-item';
 import { Sorting } from './types/sorting';
 import { SortingMap } from './const';
@@ -69,3 +69,6 @@ export function getSortingMap () {
   return (Object.entries(SortingMap) as [Sorting, (typeof SortingMap)[Sorting]][]);
 }
 
+export function getReviewsRatingMap () {
+  return (Object.entries(RatingMap).reverse());
+}

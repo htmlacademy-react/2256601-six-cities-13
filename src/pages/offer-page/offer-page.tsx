@@ -6,27 +6,30 @@ import { ReviewsForm } from '../../components/review-form/review-form';
 import { CardsList } from '../../components/cards-list/cards-list';
 import { useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
-import { useState, memo, useRef} from 'react';
+import { memo, useMemo, useRef} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {useEffect} from 'react';
 import { fetchNearByOffers, fetchOfferCard, fetchReviews } from '../../store/api-actions';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { NotFoundPage } from '../not-found-page/not-found-page';
 import { AuthStatus} from '../../const';
-import { getCurrentOffer, getOfferCard, getOfferPageLoadStatus, getOffers, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
+import { getCurrentOffer, getOfferCard, getOfferCardLoadStatus, getActiveId, getOfferPageLoadStatus} from '../../store/offers-process/offers-selectors';
 import { getAuthStatus } from '../../store/user-process/user-selectors';
 import { getCommentPostStatus, getReviews} from '../../store/reviews-process/reviews-selectors';
 import { setActiveId, setCurrentOffer } from '../../store/offers-process/offers-process';
 import { getNearByOffers} from '../../store/nearby-offers-process/nearby-offers-selectors';
+import { Goods } from '../../components/goods/goods';
+import { HostComponent } from '../../components/host/host';
+import { Gallery } from '../../components/gallery/gallety';
 
 function OfferPageComponent () {
-  const [selectedId, setselectedId] = useState<string| undefined> (undefined);
   const dispatch = useAppDispatch();
-  const offerId = useParams().id;
-  const offersList = useAppSelector(getOffers);
-  const isOffersLoading = useAppSelector(getOffersLoadStatus);
+  const {id: offerId = ''} = useParams();
+  const activeId = useAppSelector(getActiveId);
+  const isOfferCardLoading = useAppSelector(getOfferCardLoadStatus);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
   const reviewsTitleRef = useRef<HTMLHeadingElement>(null);
+  const authStatus = useAppSelector(getAuthStatus);
 
   useEffect(() => {
     if (offerId === undefined) {
@@ -37,41 +40,45 @@ function OfferPageComponent () {
     dispatch(fetchReviews({id: offerId}));
     dispatch(setActiveId(offerId));
     dispatch(setCurrentOffer());
-  }, [offerId, dispatch, isCommentPosting]
+  }, [offerId , dispatch, isCommentPosting, authStatus]
   );
 
   const offerCard = useAppSelector(getOfferCard);
   const loadNearByOffers = useAppSelector(getNearByOffers);
-  const reviews = useAppSelector(getReviews);
-  const isPageLoading = useAppSelector(getOfferPageLoadStatus);
-  const isSomethingMissingFromServer = offerCard === null || offersList.length === 0 || loadNearByOffers.length === 0 || reviews.length === 0;
   const currentOffer = useAppSelector(getCurrentOffer);
-  const nearByOffers = currentOffer ? [...loadNearByOffers, currentOffer] : [...loadNearByOffers];
+  const reviews = useAppSelector(getReviews);
+  const isPageLoadStatus = useAppSelector(getOfferPageLoadStatus);
+  const isPageDataEmpty = offerCard === null || reviews.length === 0 || loadNearByOffers.length === 0;
+  const nearByOffers = useMemo(() => {
+    if (currentOffer === null) {
+      return;
+    }
+    return [...loadNearByOffers, currentOffer];
+  }, [currentOffer, loadNearByOffers]);
+
   const scrollToReviewsTitle = () => {
     reviewsTitleRef.current?.scrollIntoView({behavior: 'smooth'});
   };
 
-  const authStatus = useAppSelector(getAuthStatus);
-
-  if (!isOffersLoading) {
+  if (!isOfferCardLoading) {
     return (
       <NotFoundPage/>
     );
   }
 
-
-  if (isPageLoading || isSomethingMissingFromServer || currentOffer === null) {
+  if (isPageLoadStatus || isPageDataEmpty || nearByOffers === undefined) {
     return (
       <LoadingScreen/>
     );
   }
 
   const offerHoverHandler = (id: string | undefined) => {
-    setselectedId(id);
+    if (id !== undefined) {
+      dispatch(setActiveId(id));
+    }
   };
 
   const {title, city, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
-  const {isPro, name, avatarUrl} = host;
 
   return (
     <div className="page">
@@ -82,21 +89,7 @@ function OfferPageComponent () {
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              {
-                images.map((image) =>
-                  (
-                    <div className="offer__image-wrapper" key={image}>
-                      <img
-                        className="offer__image"
-                        src={image}
-                        alt={type}
-                      />
-                    </div>
-                  )
-                )
-              }
-            </div>
+            <Gallery images={images} type={type}/>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
@@ -137,39 +130,8 @@ function OfferPageComponent () {
                 <b className="offer__price-value">€{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <div className="offer__inside">
-                <h2 className="offer__inside-title">What`s inside</h2>
-                <ul className="offer__inside-list">
-                  {
-                    goods.map((good) => <li className="offer__inside-item" key={good}>{good}</li>)
-                  }
-                </ul>
-              </div>
-              <div className="offer__host">
-                <h2 className="offer__host-title">Meet the host</h2>
-                <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img
-                      className="offer__avatar user__avatar"
-                      src={avatarUrl}
-                      width={74}
-                      height={74}
-                      alt={name}
-                    />
-                  </div>
-                  <span className="offer__user-name">{name}</span>
-                  {
-                    isPro &&
-                    <span className="offer__user-status">Pro</span>
-                  }
-                </div>
-                <div className="offer__description">
-                  {
-                    description.split('.').map((sentence) =>
-                      <p className="offer__text" key={sentence}>{sentence}</p>)
-                  }
-                </div>
-              </div>
+              <Goods goods={goods}/>
+              <HostComponent host={host} description={description}/>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title" ref={reviewsTitleRef}>
                   Reviews · <span className="reviews__amount">{reviews.length}</span>
@@ -180,7 +142,7 @@ function OfferPageComponent () {
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={city} offersList={nearByOffers} selectedId={selectedId}/>
+            <Map city={city} offersList={nearByOffers} selectedId={activeId}/>
           </section>
         </section>
         <div className="container">

@@ -1,4 +1,3 @@
-import { RatingMap } from '../../const';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Star } from '../star/star';
 import { MIN_COMMENT_LENGTH } from '../../const';
@@ -7,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postComment } from '../../store/api-actions';
 import { getActiveId } from '../../store/offers-process/offers-selectors';
 import { getCommentPostStatus } from '../../store/reviews-process/reviews-selectors';
+import { getReviewsRatingMap } from '../../utils';
 
 type ReviewsFormProps = {
   scrollToReviewsTitle: () => void;
@@ -19,30 +19,26 @@ export function ReviewsForm ({scrollToReviewsTitle}: ReviewsFormProps) {
   const offerId = useAppSelector(getActiveId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
 
-  const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
-  const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
   const resetForm = () => {
     setComment('');
     setRating('');
   };
+  const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
+  const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
 
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (offerId !== null) {
-      dispatch(postComment({
-        id: offerId,
-        comment: comment,
-        rating: Number(rating),
-      }));
-      resetForm();
-      (async () => {
-        try {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-        } finally {
-          scrollToReviewsTitle();
-        }
-      })();
-    }
+    (async () => {
+      if (offerId !== null) {
+        await dispatch(postComment({
+          id: offerId,
+          comment: comment,
+          rating: Number(rating),
+        }));
+        resetForm();
+        scrollToReviewsTitle();
+      }
+    })();
   };
 
   const isValid =
@@ -62,7 +58,7 @@ export function ReviewsForm ({scrollToReviewsTitle}: ReviewsFormProps) {
       Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {Object.entries(RatingMap).reverse().map(([score, title]) =>
+        {getReviewsRatingMap().map(([score, title]) =>
           <Star rating={rating} score={score} onChangeStarHandler={inputChangeHandler} key={score} title={title}/>
         )}
       </div>
