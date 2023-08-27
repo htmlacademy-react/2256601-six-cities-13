@@ -1,34 +1,37 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AuthStatus, NameSpace } from '../../const';
-import { checkAuth, UserData, login, logout } from '../api-actions';
+import { createSlice} from '@reduxjs/toolkit';
+import { AuthStatus, AuthStatusValue, NameSpace } from '../../const';
+import { UserData, checkAuth, login, logout } from './user-thunks';
 
 type UserProcess = {
-  authorizationStatus: AuthStatus;
-  userData: UserData | null;
+  user: UserData | null;
+  authorizationStatus: AuthStatusValue;
 }
 
 const initialState: UserProcess = {
   authorizationStatus: AuthStatus.Unknown,
-  userData: null,
+  user: null,
 };
 
 export const userProcessSlice = createSlice({
   name: NameSpace.User,
   initialState,
   reducers: {
-    setUserData: (state, action: PayloadAction<UserData>) => {
-      state.userData = action.payload;
+    clearUser: (state) => {
+      state.user = null;
+      state.authorizationStatus = AuthStatus.NoAuth;
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(checkAuth.fulfilled, (state) => {
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.user = action.payload;
         state.authorizationStatus = AuthStatus.Auth;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.authorizationStatus = AuthStatus.NoAuth;
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
         state.authorizationStatus = AuthStatus.Auth;
       })
       .addCase(login.rejected, (state) => {
@@ -40,4 +43,4 @@ export const userProcessSlice = createSlice({
   }
 });
 
-export const {setUserData} = userProcessSlice.actions;
+export const {clearUser} = userProcessSlice.actions;

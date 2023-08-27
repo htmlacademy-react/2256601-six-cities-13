@@ -26,15 +26,12 @@ function CardComponent({offer, pageClass, onMouseEnterHover, onMouseLeaveHover}:
       dispatch(redirectToRoute(AppRoute.Login));
       return;
     }
-    try {
-      dispatch(changeFavStatus(
-        {
-          id: id,
-          status: isFavorite ? 0 : 1,
-        }));
-    } finally {
-      setIsFavoriteOffer(!isFavoriteOffer);
-    }
+    dispatch(changeFavStatus(
+      {
+        id: id,
+        status: isFavorite ? 0 : 1,
+      }));
+    setIsFavoriteOffer(!isFavoriteOffer);
   };
 
   const clickFavoriteHandler = () => setFavStatus();

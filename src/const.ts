@@ -9,35 +9,48 @@ export const URL_MARKER_DEFAULT = '../img/pin.svg';
 
 export const URL_MARKER_CURRENT = '../img/pin-active.svg';
 
-export enum AppRoute {
-  Main = '/',
-  Login = '/login',
-  Favorites = '/favorites',
-  Offer = '/offer',
-  NotFound = '/404',
-}
+export const AppRoute = {
+  Main: '/',
+  Login: '/login',
+  Favorites: '/favorites',
+  Offer: '/offer',
+  NotFound: '/404',
+};
 
-export enum AuthStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
-}
+export const AuthStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
+} as const;
+
+export type AuthStatusValue = typeof AuthStatus[keyof typeof AuthStatus];
 
 export const APIRoute = {
   Offers: '/offers',
-  Comments: '/comments',
+  NearbyOffers: '/nearby',
+  Reviews: '/comments',
   Login: '/login',
   Logout: '/logout',
-  Favorite: '/favorite'
+  Favorites: '/favorite'
 } as const;
 
-export enum NameSpace {
-  Offers = 'OFFERS',
-  Offer = 'OFFER',
-  NearByOffers = 'NEARBY_OFFERS',
-  Reviews = 'REVIEWS',
-  User = 'USER',
-}
+export const RequestStatusMap = {
+  Idle: 'idle',
+  Pending: 'pending',
+  Success: 'succeeded',
+  Failed: 'failed',
+} as const;
+
+export type RequestStatusValue = typeof RequestStatusMap[keyof typeof RequestStatusMap]
+
+export const NameSpace = {
+  Offers: 'OFFERS',
+  OfferCard: 'OFFER_CARD',
+  NearbyOffers: 'NEARBY_OFFERS',
+  Favorites: 'FAVORITES',
+  Reviews: 'REVIEWS',
+  User: 'USER',
+};
 
 export const RatingMap = {
   '5': 'perfect',
@@ -54,4 +67,7 @@ export const SortingMap = {
   TopRated: 'Top rated first'
 };
 
-export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+
+export type CitiesNameValue = typeof CITIES_NAMES[number];
+

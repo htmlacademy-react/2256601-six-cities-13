@@ -1,33 +1,52 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { createSlice} from '@reduxjs/toolkit';
+import { NameSpace, RequestStatusMap, RequestStatusValue } from '../../const';
 import { Review } from '../../types/review';
+import { fetchReviews, postReview } from './reviews-thunks';
 
 type ReviewsProcess = {
   reviews: Review[];
-  isReviewsLoading: boolean;
-  isCommentPosting: boolean;
+  reviewsStatus: RequestStatusValue;
+  postReviewStatus: RequestStatusValue;
 };
 
 const initialState: ReviewsProcess = {
   reviews: [],
-  isReviewsLoading: false,
-  isCommentPosting: false,
+  reviewsStatus: RequestStatusMap.Idle,
+  postReviewStatus: RequestStatusMap.Idle,
 };
 
 export const reviewsProcessSlice = createSlice({
   name: NameSpace.Reviews,
   initialState,
   reducers: {
-    setReviews: (state, action: PayloadAction<Review[]>) => {
-      state.reviews = action.payload;
+    clearReviews: (state) => {
+      state.reviews = [];
+      state.reviewsStatus = RequestStatusMap.Idle;
     },
-    setReviewsLoadStatus: (state, action: PayloadAction<boolean>) => {
-      state.isReviewsLoading = action.payload;
-    },
-    setCommentPostStatus: (state, action: PayloadAction<boolean>) => {
-      state.isCommentPosting = action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchReviews.fulfilled, (state, action) => {
+        state.reviews = action.payload;
+        state.reviewsStatus = RequestStatusMap.Success;
+      })
+      .addCase(fetchReviews.pending, (state) => {
+        state.reviewsStatus = RequestStatusMap.Pending;
+      })
+      .addCase(fetchReviews.rejected, (state) => {
+        state.reviewsStatus = RequestStatusMap.Failed;
+      })
+      .addCase(postReview.fulfilled, (state, action) => {
+        state.reviews.push(action.payload);
+        state.postReviewStatus = RequestStatusMap.Success;
+      })
+      .addCase(postReview.pending, (state) => {
+        state.postReviewStatus = RequestStatusMap.Pending;
+      })
+      .addCase(postReview.rejected, (state) => {
+        state.postReviewStatus = RequestStatusMap.Failed;
+      });
   }
 });
 
-export const {setReviews, setReviewsLoadStatus, setCommentPostStatus} = reviewsProcessSlice.actions;
+export const {clearReviews} = reviewsProcessSlice.actions;

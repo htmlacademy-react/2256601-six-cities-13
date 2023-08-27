@@ -15,7 +15,7 @@ export const getCurrentOffer = (state: State): OfferListItem | null => state[Nam
 export const getOffers = (state: State): OfferListItem[] => state[NameSpace.Offers].offers;
 export const getOfferCard = (state: State): OfferCard | null => state[NameSpace.Offers].offerCard;
 export const getFavOffers = (state: State): OfferListItem[] => state[NameSpace.Offers].favOffers;
-export const getOffersLoadStatus = (state: State): boolean => state[NameSpace.Offers].isOffersLoading;
+export const getOffersLoadStatus = (state: State): boolean => state[NameSpace.Offers].offersStatus;
 export const getOfferCardLoadStatus = (state: State): boolean => state[NameSpace.Offers].isOfferCardLoading;
 export const getFavOffersLoadStatus = (state: State): boolean => state[NameSpace.Offers].isFavOffersLoading;
 export const getHasError = (state: State): boolean => state[NameSpace.Offers].hasError;

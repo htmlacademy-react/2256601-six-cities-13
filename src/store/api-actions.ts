@@ -1,3 +1,4 @@
+/*
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../types/state';
 import { State } from '../types/state';
@@ -7,19 +8,13 @@ import { redirectToRoute} from './actions';
 import { OfferListItem } from '../types/offer-list-item';
 import { OfferCard } from '../types/offer-card';
 import { Review } from '../types/review';
-import { dropToken, saveToken } from '../services/token';
+import { removeToken, saveToken } from '../services/token';
 import { setOfferCard, setOfferCardLoadStatus, setOffers, setOffersLoadStatus, setError, setFavOffersLoadStatus, setFavOffers } from './offers-process/offers-process';
 import { setNearByOffers, setNearByOffersLoadStatus } from './nearby-offers-process/nearby-offers-process';
 import { setCommentPostStatus, setReviews, setReviewsLoadStatus } from './reviews-process/reviews-process';
 import { setUserData } from './user-process/user-process';
 import { getRandomUniqueValuesFromArray } from '../utils';
 import {toast} from 'react-toastify';
-
-export type ThunkObj = {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-};
 
 export type AuthData = {
   email: string;
@@ -61,7 +56,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkObj> (
 );
 
 export const fetchOfferCard = createAsyncThunk<void, {id: string | undefined}, ThunkObj> (
-  `${NameSpace.Offer}/fetch`,
+  `${NameSpace.OfferCard}/fetch`,
   async ({id}, {dispatch, extra: api}) => {
     try {
       dispatch(setOffersLoadStatus(true));
@@ -130,7 +125,7 @@ export const logout = createAsyncThunk<void, undefined, ThunkObj> (
   `${NameSpace.User}/logout`,
   async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
-    dropToken();
+    removeToken();
   }
 );
 
@@ -176,3 +171,4 @@ export const fetchFavOffers = createAsyncThunk<void, undefined, ThunkObj> (
     }
   }
 );
+*/

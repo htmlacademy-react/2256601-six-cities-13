@@ -1,4 +1,4 @@
-import { CITIES_NAMES } from '../../const';
+import { CitiesMap } from '../../const';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -18,7 +18,7 @@ function LocationsListComponent () {
   return (
     <ul className="locations__list tabs__list">
       {
-        CITIES_NAMES.map((city) =>
+        CitiesMap.map((city) =>
           (
             <li
               className="locations__item"

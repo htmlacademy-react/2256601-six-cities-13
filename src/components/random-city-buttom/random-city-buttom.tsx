@@ -1,4 +1,4 @@
-import { AppRoute, CITIES_NAMES } from '../../const';
+import { AppRoute, CitiesMap } from '../../const';
 import { useAppDispatch} from '../../hooks';
 import { setActiveCity } from '../../store/offers-process/offers-process';
 import { getRandomValueFromArray } from '../../utils';
@@ -7,7 +7,7 @@ import { memo } from 'react';
 
 const RandomCityButtonComponent = () => {
   const dispatch = useAppDispatch();
-  const randomCity = getRandomValueFromArray(CITIES_NAMES);
+  const randomCity = getRandomValueFromArray(CitiesMap);
   const clickButtonHandler = () => {
     dispatch(setActiveCity(randomCity));
   };
