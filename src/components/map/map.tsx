@@ -4,11 +4,15 @@ import 'leaflet/dist/leaflet.css';
 import { useMap } from '../../hooks/use-map';
 import { City, OfferListItem } from '../../types/offer-list-item';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
+import { OfferCard } from '../../types/offer-card';
+import { useAppSelector } from '../../hooks';
+import { getHighlightedOffer } from '../../store/offer-card-process/offer-card-selectors';
 
 type MapProps = {
   city: City;
   offersList: OfferListItem[];
-  selectedId: string | undefined;
+  currentOffer?: OfferCard;
+  className: string;
 };
 
 const defaultCustomIcon = new Icon ({
@@ -23,9 +27,10 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-export function Map ({city, offersList, selectedId}: MapProps): JSX.Element {
+export function Map ({city, offersList, currentOffer, className}: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  const selectedOfferId = useAppSelector(getHighlightedOffer);
   const cityLocation = city.location;
 
   useEffect(() => {
@@ -38,13 +43,21 @@ export function Map ({city, offersList, selectedId}: MapProps): JSX.Element {
   useEffect (() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
+
+      if (currentOffer) {
+        const marker = new Marker({
+          lat: currentOffer.location.latitude,
+          lng: currentOffer.location.longitude,
+        });
+        marker.setIcon(currentCustomIcon).addTo(markerLayer);
+      }
       offersList.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         });
         marker.setIcon(
-          selectedId !== undefined && offer.id === selectedId
+          selectedOfferId !== undefined && offer.id === selectedOfferId
             ? currentCustomIcon
             : defaultCustomIcon
         ).addTo(markerLayer);
@@ -53,6 +66,6 @@ export function Map ({city, offersList, selectedId}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersList, selectedId]);
-  return <div style={{height: '100%', width: '100%'}} ref={mapRef}></div>;
+  }, [map, offersList, selectedOfferId, currentOffer]);
+  return <section ref={mapRef} className={className} />;
 }

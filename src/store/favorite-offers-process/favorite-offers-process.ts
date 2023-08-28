@@ -1,5 +1,5 @@
 import { createSlice, } from '@reduxjs/toolkit';
-import { NameSpace, RequestStatusMap, RequestStatusValue } from '../../const';
+import { FavoriteChangeRequest, NameSpace, RequestStatusMap, RequestStatusValue } from '../../const';
 import { OfferListItem } from '../../types/offer-list-item';
 import { changeFavorite, fetchFavorites } from './favorite-offers-thunks';
 
@@ -8,11 +8,6 @@ type FavoritesProcess = {
   favoritesStatus: RequestStatusValue;
   favoritesCount: number;
 }
-
-const FavoriteChangeRequest = {
-  Add: 1,
-  Remove: 0
-};
 
 const initialState: FavoritesProcess = {
   favorites: [],

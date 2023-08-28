@@ -6,9 +6,14 @@ type LogoProps = {
 }
 
 export function Logo ({isFooter}: LogoProps) {
+
   return (
-    <NavLink className="header__logo-link header__logo-link--active" to={AppRoute.Main}>
-      <img className="header__logo"
+    <NavLink
+      className={isFooter ? 'footer__logo-link' : 'header__logo-link'}
+      to={AppRoute.Main}
+    >
+      <img
+        className={isFooter ? 'footer__logo' : 'header__logo'}
         src="img/logo.svg"
         alt="6 cities logo"
         width={isFooter ? 64 : 81 }

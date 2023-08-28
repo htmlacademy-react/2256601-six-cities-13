@@ -1,14 +1,19 @@
-import { AuthStatus } from '../../const';
 import { Logo } from '../logo/logo';
-import { useAppSelector } from '../../hooks';
-import {memo} from 'react';
-
-import { LogAuthElement } from '../log-auth-element/log-auth-element';
-import { LogNoAuthElement } from '../log-no-auth-element/log-no-auth-element';
-import { getAuthStatus } from '../../store/user-process/user-selectors';
+import { useAppDispatch} from '../../hooks';
+import {memo, useEffect} from 'react';
+import { useAuth } from '../../hooks/use-auth';
+import { fetchFavorites } from '../../store/favorite-offers-process/favorite-offers-thunks';
+import { HeaderNav } from '../header-nav/header-nav';
 
 function HeaderComponent () {
-  const authStatus = useAppSelector(getAuthStatus);
+  const isAuthorized = useAuth();
+  const dispatch = useAppDispatch();
+
+  useEffect (() => {
+    if (isAuthorized) {
+      dispatch(fetchFavorites());
+    }
+  }, [isAuthorized, dispatch]);
 
   return (
     <header className="header">
@@ -17,7 +22,7 @@ function HeaderComponent () {
           <div className="header__left">
             <Logo/>
           </div>
-          {authStatus === AuthStatus.Auth ? <LogAuthElement/> : <LogNoAuthElement/>}
+          <HeaderNav authStatus={isAuthorized}/>
         </div>
       </div>
     </header>

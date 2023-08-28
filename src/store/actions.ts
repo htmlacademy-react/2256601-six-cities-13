@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AppRoute} from '../const';
+import { AppRouteValue} from '../const';
 
-export const redirectToRoute = createAction('redirectToRoute', (route: AppRoute | string) => ({payload: route}));
+export const redirectToRoute = createAction('redirectToRoute', (route: AppRouteValue | string) => ({payload: route}));
 

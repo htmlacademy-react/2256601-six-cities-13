@@ -2,7 +2,7 @@ type GoodsProps = {
   goods: string[];
 }
 
-export function Goods ({goods}: GoodsProps) {
+export function GoodsList ({goods}: GoodsProps) {
   return (
     <div className="offer__inside">
       <h2 className="offer__inside-title">What`s inside</h2>

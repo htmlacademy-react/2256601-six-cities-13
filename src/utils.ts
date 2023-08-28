@@ -72,3 +72,9 @@ export function getSortingMap () {
 export function getReviewsRatingMap () {
   return (Object.entries(RatingMap).reverse());
 }
+
+export const getBedroomWord = (count: number) => count === 1 ? 'Bedroom' : 'Bedrooms';
+
+export const getAdultWord = (count: number) => count === 1 ? 'adult' : 'adults';
+
+export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);

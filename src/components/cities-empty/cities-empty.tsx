@@ -1,5 +1,7 @@
+import { CitiesNameValue } from '../../const';
+
 type CitiesEmptyProps = {
-  activeCity: string;
+  activeCity: CitiesNameValue;
 }
 
 export function CitiesEmpty ({activeCity}: CitiesEmptyProps) {

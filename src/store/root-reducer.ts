@@ -7,10 +7,10 @@ import { favoritesProcessSlice } from './favorite-offers-process/favorite-offers
 import { offerCardProcessSlice } from './offer-card-process/offer-card-process';
 
 export const rootReducer = combineReducers({
-  [reviewsProcessSlice.name]: reviewsProcessSlice.reducer,
   [offersProcessSlice.name]: offersProcessSlice.reducer,
-  [userProcessSlice.name]: userProcessSlice.reducer,
+  [offerCardProcessSlice.name]: offerCardProcessSlice.reducer,
   [nearbyOffersProcessSlice.name]: nearbyOffersProcessSlice.reducer,
   [favoritesProcessSlice.name]: favoritesProcessSlice.reducer,
-  [offerCardProcessSlice.name]: offerCardProcessSlice.reducer,
+  [reviewsProcessSlice.name]: reviewsProcessSlice.reducer,
+  [userProcessSlice.name]: userProcessSlice.reducer,
 });

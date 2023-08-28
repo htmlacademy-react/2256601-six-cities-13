@@ -1,16 +1,16 @@
-import { CitiesMap } from '../../const';
+import { CITIES_NAMES, CitiesNameValue } from '../../const';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {MouseEvent, memo} from 'react';
+import {MouseEvent} from 'react';
 import { getActiveCity } from '../../store/offers-process/offers-selectors';
 import { setActiveCity } from '../../store/offers-process/offers-process';
 
-function LocationsListComponent () {
+export function LocationsList () {
   const activeCityName = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
 
-  const changeCityHandler = (city: string) => (evt: MouseEvent<HTMLLIElement>) => {
+  const handleChangeCity = (city: CitiesNameValue) => (evt: MouseEvent<HTMLLIElement>) => {
     evt.preventDefault();
     dispatch(setActiveCity(city));
   };
@@ -18,12 +18,12 @@ function LocationsListComponent () {
   return (
     <ul className="locations__list tabs__list">
       {
-        CitiesMap.map((city) =>
+        CITIES_NAMES.map((city) =>
           (
             <li
               className="locations__item"
               key={city}
-              onClick={changeCityHandler(city)}
+              onClick={handleChangeCity(city)}
             >
               <Link className={classNames('locations__item-link', 'tabs__item', {'tabs__item--active': city === activeCityName})} to="#">
                 <span>{city}</span>
@@ -36,4 +36,3 @@ function LocationsListComponent () {
   );
 }
 
-export const LocationsList = memo(LocationsListComponent);

@@ -18,7 +18,7 @@ import { getAuthStatus } from '../../store/user-process/user-selectors';
 import { getCommentPostStatus, getReviews} from '../../store/reviews-process/reviews-selectors';
 import { setActiveId, setCurrentOffer } from '../../store/offers-process/offers-process';
 import { getNearByOffers} from '../../store/nearby-offers-process/nearby-offers-selectors';
-import { Goods } from '../../components/goods/goods';
+import { GoodsList } from '../../components/goods-list/goods-list';
 import { HostComponent } from '../../components/host/host';
 import { Gallery } from '../../components/gallery/gallety';
 
@@ -130,7 +130,7 @@ function OfferPageComponent () {
                 <b className="offer__price-value">€{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <Goods goods={goods}/>
+              <GoodsList goods={goods}/>
               <HostComponent host={host} description={description}/>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title" ref={reviewsTitleRef}>

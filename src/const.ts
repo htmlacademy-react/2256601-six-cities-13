@@ -15,7 +15,9 @@ export const AppRoute = {
   Favorites: '/favorites',
   Offer: '/offer',
   NotFound: '/404',
-};
+}as const;
+
+export type AppRouteValue = typeof AppRoute[keyof typeof AppRoute];
 
 export const AuthStatus = {
   Auth: 'AUTH',
@@ -43,14 +45,14 @@ export const RequestStatusMap = {
 
 export type RequestStatusValue = typeof RequestStatusMap[keyof typeof RequestStatusMap]
 
-export const NameSpace = {
-  Offers: 'OFFERS',
-  OfferCard: 'OFFER_CARD',
-  NearbyOffers: 'NEARBY_OFFERS',
-  Favorites: 'FAVORITES',
-  Reviews: 'REVIEWS',
-  User: 'USER',
-};
+export enum NameSpace {
+  Offers = 'OFFERS',
+  OfferCard = 'OFFER_CARD',
+  NearbyOffers = 'NEARBY_OFFERS',
+  Favorites = 'FAVORITES',
+  Reviews = 'REVIEWS',
+  User = 'USER',
+}
 
 export const RatingMap = {
   '5': 'perfect',
@@ -71,3 +73,9 @@ export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hambu
 
 export type CitiesNameValue = typeof CITIES_NAMES[number];
 
+export const FavoriteChangeRequest = {
+  Add: 1,
+  Remove: 0
+};
+
+export const PASSWORD_REGEXP = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9\\.]{1,}$/;
