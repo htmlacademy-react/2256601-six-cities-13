@@ -1,27 +1,27 @@
-import { useState, KeyboardEvent, memo, MouseEvent } from 'react';
+import { useState, KeyboardEvent, memo} from 'react';
 import { SortingMap } from '../../const';
 import classNames from 'classnames';
 import { Sorting } from '../../types/sorting';
 import { getSortingMap } from '../../utils';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getActiveSortType } from '../../store/offers-process/offers-selectors';
-import { setActiveSortType } from '../../store/offers-process/offers-process';
 
-function SortComponent () {
+type SortProps = {
+  activeSortType: Sorting;
+  onChange: (sortType: Sorting) => void;
+}
+
+function SortComponent ({activeSortType, onChange}: SortProps) {
   const [isOpened, setIsOpened] = useState(false);
-  const dispatch = useAppDispatch();
-  const activeSortType = useAppSelector(getActiveSortType);
-  const clickSortItemHandler = (type: Sorting) => (evt: MouseEvent<HTMLLIElement>) => {
-    evt.preventDefault();
-    dispatch(setActiveSortType(type));
+
+  const handleClickSortItem = (type: Sorting) => {
+    onChange(type);
     setIsOpened(false);
   };
 
-  const clickTypeHandler = () => {
+  const handleClickType = () => {
     setIsOpened((prevIsOpened) => !prevIsOpened);
   };
 
-  const keydownHandler = (evt: KeyboardEvent) => {
+  const handleKeydownEsc = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape' && isOpened) {
       evt.preventDefault();
       setIsOpened(false);
@@ -29,9 +29,9 @@ function SortComponent () {
   };
 
   return (
-    <form className="places__sorting" action="#" method="get" onKeyDown={keydownHandler}>
+    <form className="places__sorting" action="#" method="get" onKeyDown={handleKeydownEsc} onClick={handleClickType}>
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0} onClick={clickTypeHandler}>
+      <span className="places__sorting-type" tabIndex={0}>
         {SortingMap[activeSortType]}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
@@ -43,7 +43,7 @@ function SortComponent () {
             <li className={classNames('places__option', {'places__option--active' : type === activeSortType})}
               key={type}
               tabIndex={0}
-              onClick={() => clickSortItemHandler(type)}
+              onClick={() => handleClickSortItem(type)}
             >
               {label}
             </li>

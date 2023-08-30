@@ -9,6 +9,9 @@ import { Sorting } from '../../types/sorting';
 import { sorting } from '../../utils';
 
 export const getActiveCity = (state: State): CitiesNameValue => state[NameSpace.Offers].activeCity;
+export const getOffers = (state: State): OfferListItem[] => state[NameSpace.Offers].offers;
+export const getOffersByCity = createSelector([getActiveCity, getOffers], (activeCity, offers) => offers.filter((offer) => offer.city.name === activeCity));
+export const getOffersFetchingStatus = (state: State) => state[NameSpace.Offers].offersStatus;
 /*
 export const getActiveId = (state: State): string | undefined => state[NameSpace.Offers].activeId;
 export const getActiveSortType = (state: State): Sorting => state[NameSpace.Offers].activeSortType;

@@ -7,21 +7,21 @@ import { useAuth } from '../../hooks/use-auth';
 import { changeFavorite } from '../../store/favorite-offers-process/favorite-offers-thunks';
 
 type FavoriteButtonProps = {
-  parentCSSClass: string;
+  parentClass: string;
   isFavorite: boolean;
   offerId: string;
   iconWidth: number;
   iconHeight: number;
 }
 
-export function FavoriteButton({parentCSSClass, isFavorite, offerId, iconWidth, iconHeight}: FavoriteButtonProps) {
+export function FavoriteButton({parentClass, isFavorite, offerId, iconWidth, iconHeight}: FavoriteButtonProps) {
   const [isBookmarked, setBookmarked] = useState(isFavorite);
   const dispatch = useAppDispatch();
   const status = isBookmarked ? FavoriteChangeRequest.Remove : FavoriteChangeRequest.Add;
   const isAuthorized = useAuth();
   const navigate = useNavigate();
-  const buttonClass = classNames(isBookmarked && `${parentCSSClass}___bookmark-button--active`, `${parentCSSClass}__bookmark-button button`);
-  const svgClass = `${parentCSSClass}__bookmark-icon`;
+  const buttonClass = classNames(isBookmarked && `${parentClass}___bookmark-button--active`, `${parentClass}__bookmark-button button`);
+  const svgClass = `${parentClass}__bookmark-icon`;
 
   const handleClickButton = () => {
     if (isAuthorized) {

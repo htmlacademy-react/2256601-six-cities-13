@@ -1,17 +1,17 @@
 import { ChangeEvent } from 'react';
 
-export type StarProps = {
-  onChangeStarHandler: (evt: ChangeEvent<HTMLInputElement>) => void;
+export type RatingItemProps = {
+  onChangeInput: (evt: ChangeEvent<HTMLInputElement>) => void;
   rating: string;
   score: string;
   title: string;
 }
 
-export function Star ({onChangeStarHandler, rating, score, title}: StarProps) {
+export function RatingItem ({onChangeInput, rating, score, title}: RatingItemProps) {
   return (
     <>
       <input
-        onChange={onChangeStarHandler}
+        onChange={onChangeInput}
         className="form__rating-input visually-hidden"
         name="rating"
         value={score}

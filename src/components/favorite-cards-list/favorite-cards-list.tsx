@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
-import { Card } from '../card/card';
+import { OfferCard } from '../offer-card/offer-card';
 import { OfferListItem } from '../../types/offer-list-item';
+import { getCitiesByOffers } from '../../utils';
 
 type FavoritesCardListProps = {
   favoriteOffers: OfferListItem[];
-  pageClass: string;
+  parentClass: string;
 }
 
-export function FavoritesCardList ({favoriteOffers, pageClass}: FavoritesCardListProps) {
-  const favoriteCities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
+export function FavoritesCardList ({favoriteOffers, parentClass}: FavoritesCardListProps) {
+  const favoriteCities = getCitiesByOffers(favoriteOffers);
 
   return (
     <ul className="favorites__list">
@@ -25,7 +26,7 @@ export function FavoritesCardList ({favoriteOffers, pageClass}: FavoritesCardLis
             {
               favoriteOffers.filter((offer) =>
                 offer.city.name === city).map((offer) =>
-                <Card key={offer.id} offer={offer} pageClass={pageClass}/>)
+                <OfferCard key={offer.id} offer={offer} parentClass={parentClass}/>)
             }
           </div>
         </li>

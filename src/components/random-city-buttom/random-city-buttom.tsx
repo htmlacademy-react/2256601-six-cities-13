@@ -1,22 +1,25 @@
-import { AppRoute, CitiesMap } from '../../const';
+import { AppRoute, CITIES_NAMES} from '../../const';
 import { useAppDispatch} from '../../hooks';
 import { setActiveCity } from '../../store/offers-process/offers-process';
-import { getRandomValueFromArray } from '../../utils';
+import { getRandomArrayElement } from '../../utils';
 import { Link } from 'react-router-dom';
-import { memo } from 'react';
+import { memo} from 'react';
 
 const RandomCityButtonComponent = () => {
   const dispatch = useAppDispatch();
-  const randomCity = getRandomValueFromArray(CitiesMap);
-  const clickButtonHandler = () => {
+  const randomCity = getRandomArrayElement(CITIES_NAMES);
+
+  const handleClickCity = () => {
     dispatch(setActiveCity(randomCity));
   };
   return (
-    <div className="locations__item">
-      <Link className="locations__item-link" to={AppRoute.Main} onClick={clickButtonHandler}>
-        <span>{randomCity}</span>
-      </Link>
-    </div>
+    <section className="locations locations--login locations--current">
+      <div className="locations__item">
+        <Link className="locations__item-link" to={AppRoute.Main} onClick={handleClickCity}>
+          <span>{randomCity}</span>
+        </Link>
+      </div>
+    </section>
   );
 };
 

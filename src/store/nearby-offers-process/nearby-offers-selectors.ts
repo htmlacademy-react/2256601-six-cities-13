@@ -1,7 +1,10 @@
-import { NameSpace } from '../../const';
+import { createSelector } from '@reduxjs/toolkit';
+import { COUNT_NEARBY_OFFERS, NameSpace } from '../../const';
 import { State } from '../../types/state';
-import { OfferListItem } from '../../types/offer-list-item';
+import { getRandomUniqueValuesFromArray } from '../../utils';
 
-export const getNearByOffers = (state: State): OfferListItem[] => state[NameSpace.NearbyOffers].nearByOffers;
-export const getNearByoffersLoadStatus = (state: State): boolean => state[NameSpace.NearbyOffers].isNearByOffersLoading;
+
+export const getNearByOffers = (state: State) => state[NameSpace.NearbyOffers].nearbyOffers;
+export const getRandomNearbyOffers = createSelector([getNearByOffers], (nearbyOffers) => getRandomUniqueValuesFromArray(nearbyOffers, COUNT_NEARBY_OFFERS));
+
 

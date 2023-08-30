@@ -3,6 +3,7 @@ import { DATE_FORMAT, RatingMap} from './const';
 import { OfferListItem } from './types/offer-list-item';
 import { Sorting } from './types/sorting';
 import { SortingMap } from './const';
+import { Review } from './types/review';
 
 export function humanizeDate(date: string) {
   return date ? dayjs(date).format(DATE_FORMAT) : '';
@@ -26,6 +27,7 @@ export function getHeightImageCard (pageClass:string): number {
   return 110;
 }
 
+export const sortedReviewsByLatestDate = (reviews: Review[]) => [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 export function sortLowToHigh (a: OfferListItem, b: OfferListItem) {
   return a.price - b.price;
@@ -47,7 +49,7 @@ export const sorting: Record<Sorting, (offers: OfferListItem[]) => OfferListItem
   TopRated: (offers: OfferListItem[]) => offers.slice().sort(sortByRating)
 };
 
-export const getRandomValueFromArray = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+export const getRandomArrayElement = <T>(arr: T[] | readonly T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 export function getRandomUniqueValuesFromArray<T>(arr: T[], n: number): T[] {
   if (arr.length <= n) {
@@ -78,3 +80,19 @@ export const getBedroomWord = (count: number) => count === 1 ? 'Bedroom' : 'Bedr
 export const getAdultWord = (count: number) => count === 1 ? 'adult' : 'adults';
 
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export const getCitiesByOffers = (offers: OfferListItem[]) => Array.from(new Set(offers.map((offer) => offer.city.name)));
+
+export const getReviewWord = (count: number) => {
+  if (count === 1) {
+    return 'Review';
+  }
+  return 'Reviews';
+};
+
+export const getPlaceWord = (count: number) => {
+  if (count === 1) {
+    return 'place';
+  }
+  return 'places';
+};

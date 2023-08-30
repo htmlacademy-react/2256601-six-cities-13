@@ -1,35 +1,22 @@
-import { CardsList } from '../cards-list/cards-list';
+import { OfferCardsList } from '../offer-cards-list/offer-cards-list';
 import { Sort } from '../sort/sort';
 import { Map } from '../map/map';
 import { useState, memo} from 'react';
-import { useAppSelector } from '../../hooks';
-import { LoadingScreen } from '../../pages/loading-screen/loading-screen';
-import { getActiveCity, getOffersByCity, getOffersBySorting, getOffersLoadStatus } from '../../store/offers-process/offers-selectors';
-import { CitiesEmpty } from '../cities-empty/cities-empty';
-import { getAuthStatus } from '../../store/user-process/user-selectors';
-import { AuthStatus } from '../../const';
+import { CitiesNameValue } from '../../const';
+import { OfferListItem } from '../../types/offer-list-item';
+import { Sorting } from '../../types/sorting';
+import { getPlaceWord, sorting } from '../../utils';
 
-function CitiesComponent () {
-  const [selectedId, setselectedId] = useState<string| undefined> (undefined);
-  const isOffersLoading = useAppSelector(getOffersLoadStatus);
-  const activeCityName = useAppSelector(getActiveCity);
-  const offersByCity = useAppSelector(getOffersByCity);
-  const offersBySorting = useAppSelector(getOffersBySorting);
-  const authStatus = useAppSelector(getAuthStatus);
+type CitiesProps = {
+  offersByCity: OfferListItem[];
+  activeCity: CitiesNameValue;
+}
 
-  if (authStatus === AuthStatus.Unknown || isOffersLoading) {
-    return (
-      <LoadingScreen/>
-    );
-  }
-  if (offersByCity.length === 0) {
-    return <CitiesEmpty activeCity={activeCityName}/>;
-  }
-
-  const offerHoverHandler = (id: string | undefined) => {
-    setselectedId(id);
-  };
-
+function CitiesComponent ({offersByCity, activeCity}: CitiesProps) {
+  const [activeSortType, setSortType] = useState<Sorting>('Popular');
+  const parentClass = 'cities';
+  const count = offersByCity.length;
+  const offersBySorting = sorting[activeSortType](offersByCity);
   const currentCity = offersByCity[0].city;
 
   return (
@@ -37,14 +24,14 @@ function CitiesComponent () {
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{offersByCity.length} places to stay in {activeCityName}</b>
-          <Sort/>
+          <b className="places__found">{count} {getPlaceWord(count)} to stay in {activeCity}</b>
+          <Sort activeSortType={activeSortType} onChange={setSortType}/>
           <div className="cities__places-list places__list tabs__content">
-            <CardsList cardsList={offersBySorting} pageClass={'cities__card'} onOfferHover={offerHoverHandler}/>
+            <OfferCardsList offerCardsList={offersBySorting} parentClass={parentClass}/>
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"><Map city={currentCity} offersList={offersByCity} selectedId={selectedId}/></section>
+          <Map city={currentCity} offersList={offersByCity} className={'cities__map map'}/>
         </div>
       </div>
     </div>

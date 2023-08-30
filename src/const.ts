@@ -2,6 +2,8 @@ export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
 export const COUNT_NEARBY_OFFERS = 3;
 export const SHOWABLE_REVIEWS = -10;
+export const MAX_REVIEW_COUNT = 10;
+export const MAX_OFFER_IMAGES = 6;
 
 export const DATE_FORMAT = 'MMMM YYYY';
 
@@ -79,3 +81,14 @@ export const FavoriteChangeRequest = {
 };
 
 export const PASSWORD_REGEXP = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9\\.]{1,}$/;
+
+export const REVIEW_DATE_FORMATE = {
+  year: <'numeric' | '2-digit' | undefined>'numeric',
+  month: <'numeric' | '2-digit' | 'long' | 'short' | 'narrow' | undefined>'long'
+};
+
+export const REVIEW_DATE_ATTRIBUTE_FORMATE = {
+  year: <'numeric' | '2-digit' | undefined>'numeric',
+  month: <'numeric' | '2-digit' | 'long' | 'short' | 'narrow' | undefined>'2-digit',
+  day: <'numeric' | '2-digit' | undefined>'2-digit',
+};

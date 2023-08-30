@@ -1,69 +1,56 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { Star } from '../star/star';
 import { MIN_COMMENT_LENGTH } from '../../const';
 import { MAX_COMMENT_LENGTH } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { postComment } from '../../store/api-actions';
-import { getActiveId } from '../../store/offers-process/offers-selectors';
-import { getCommentPostStatus } from '../../store/reviews-process/reviews-selectors';
-import { getReviewsRatingMap } from '../../utils';
+import { postReview } from '../../store/reviews-process/reviews-thunks';
+import { getOfferId } from '../../store/offer-card-process/offer-card-selectors';
+import { RatingForm } from '../rating-form/rating-form';
 
-type ReviewsFormProps = {
-  scrollToReviewsTitle: () => void;
-}
-
-export function ReviewsForm ({scrollToReviewsTitle}: ReviewsFormProps) {
+export function ReviewsForm () {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
-  const offerId = useAppSelector(getActiveId);
-  const isCommentPosting = useAppSelector(getCommentPostStatus);
+  const offerId = useAppSelector(getOfferId);
 
   const resetForm = () => {
     setComment('');
     setRating('');
   };
-  const textareaChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
-  const inputChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
+  const handleChangeTextarea = (evt: ChangeEvent<HTMLTextAreaElement>) => setComment(evt.target.value);
+  const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => setRating(evt.target.value);
 
-  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    (async () => {
-      if (offerId !== null) {
-        await dispatch(postComment({
-          id: offerId,
+    if (offerId !== undefined) {
+      dispatch(postReview({
+        reviewData: {
           comment: comment,
           rating: Number(rating),
-        }));
-        resetForm();
-        scrollToReviewsTitle();
-      }
-    })();
+        },
+        offerId: offerId,
+      }));
+      resetForm();
+    }
   };
 
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
     comment.length <= MAX_COMMENT_LENGTH &&
-    rating !== '' &&
-    !isCommentPosting;
+    rating !== '';
 
   return (
     <form
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={submitHandler}
+      onSubmit={handleSubmitForm}
     >
       <label className="reviews__label form__label" htmlFor="review">
       Your review
       </label>
-      <div className="reviews__rating-form form__rating">
-        {getReviewsRatingMap().map(([score, title]) =>
-          <Star rating={rating} score={score} onChangeStarHandler={inputChangeHandler} key={score} title={title}/>
-        )}
-      </div>
+      <RatingForm rating={rating} onChangeInput={handleChangeInput}/>
       <textarea
-        onChange={textareaChangeHandler}
+        onChange={handleChangeTextarea}
         value={comment}
         className="reviews__textarea form__textarea"
         id="review"
@@ -82,7 +69,6 @@ export function ReviewsForm ({scrollToReviewsTitle}: ReviewsFormProps) {
           type="submit"
           disabled={!isValid}
         >
-          {isCommentPosting ? 'Posting...' : 'Submit'}
         </button>
       </div>
     </form>
