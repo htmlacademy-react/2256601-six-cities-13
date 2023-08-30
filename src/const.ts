@@ -1,94 +1,75 @@
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 300;
-export const COUNT_NEARBY_OFFERS = 3;
-export const SHOWABLE_REVIEWS = -10;
-export const MAX_REVIEW_COUNT = 10;
-export const MAX_OFFER_IMAGES = 6;
+const MIN_REVIEW_LENGTH = 50;
+const MAX_REVIEW_LENGTH = 300;
+const MAX_REVIEWS_QUANTITY = 10;
 
-export const DATE_FORMAT = 'MMMM YYYY';
+const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+] as const;
 
-export const URL_MARKER_DEFAULT = '../img/pin.svg';
+const OFFER_TYPES = ['Apartment', 'Private room', 'Villa', 'Hotel'] as const;
 
-export const URL_MARKER_CURRENT = '../img/pin-active.svg';
-
-export const AppRoute = {
-  Main: '/',
-  Login: '/login',
-  Favorites: '/favorites',
-  Offer: '/offer',
-  NotFound: '/404',
-}as const;
-
-export type AppRouteValue = typeof AppRoute[keyof typeof AppRoute];
-
-export const AuthStatus = {
-  Auth: 'AUTH',
-  NoAuth: 'NO_AUTH',
-  Unknown: 'UNKNOWN',
-} as const;
-
-export type AuthStatusValue = typeof AuthStatus[keyof typeof AuthStatus];
-
-export const APIRoute = {
-  Offers: '/offers',
-  NearbyOffers: '/nearby',
-  Reviews: '/comments',
-  Login: '/login',
-  Logout: '/logout',
-  Favorites: '/favorite'
-} as const;
-
-export const RequestStatusMap = {
-  Idle: 'idle',
-  Pending: 'pending',
-  Success: 'succeeded',
-  Failed: 'failed',
-} as const;
-
-export type RequestStatusValue = typeof RequestStatusMap[keyof typeof RequestStatusMap]
-
-export enum NameSpace {
-  Offers = 'OFFERS',
-  OfferCard = 'OFFER_CARD',
-  NearbyOffers = 'NEARBY_OFFERS',
-  Favorites = 'FAVORITES',
-  Reviews = 'REVIEWS',
-  User = 'USER',
+const enum AppRoute {
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer',
+  Main = '/',
 }
 
-export const RatingMap = {
-  '5': 'perfect',
-  '4': 'good',
-  '3': 'not bad',
-  '2': 'badly',
-  '1': 'terribly',
-};
+const enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
 
-export const SortingMap = {
+const SortingTypes = {
   Popular: 'Popular',
-  LowToHigh: 'Price: low to high',
-  HighToLow: 'Price: high to low',
-  TopRated: 'Top rated first'
-};
+  PriceToHigh: 'Price: low to high',
+  PriceToLow: 'Price: high to low',
+  Rating: 'Top rated first',
+} as const;
 
-export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+const enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Reviews = '/comments',
+  Favorite = '/favorite',
+}
 
-export type CitiesNameValue = typeof CITIES_NAMES[number];
+const enum MapTypes {
+  Cities = 'cities',
+  Offer = 'offer',
+}
 
-export const FavoriteChangeRequest = {
-  Add: 1,
-  Remove: 0
-};
+const enum NameSpace {
+  Offer = 'offer',
+  Offers = 'offers',
+  User = 'user',
+  Favorites = 'favorites',
+  Reviews = 'reviews',
+}
 
-export const PASSWORD_REGEXP = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9\\.]{1,}$/;
+const enum FavoriteStatus {
+  Add = 1,
+  Delete = 0,
+}
 
-export const REVIEW_DATE_FORMATE = {
-  year: <'numeric' | '2-digit' | undefined>'numeric',
-  month: <'numeric' | '2-digit' | 'long' | 'short' | 'narrow' | undefined>'long'
-};
-
-export const REVIEW_DATE_ATTRIBUTE_FORMATE = {
-  year: <'numeric' | '2-digit' | undefined>'numeric',
-  month: <'numeric' | '2-digit' | 'long' | 'short' | 'narrow' | undefined>'2-digit',
-  day: <'numeric' | '2-digit' | undefined>'2-digit',
+export {
+  CITIES,
+  OFFER_TYPES,
+  MIN_REVIEW_LENGTH,
+  MAX_REVIEW_LENGTH,
+  MAX_REVIEWS_QUANTITY,
+  SortingTypes,
+  AppRoute,
+  AuthorizationStatus,
+  APIRoute,
+  MapTypes,
+  NameSpace,
+  FavoriteStatus,
 };

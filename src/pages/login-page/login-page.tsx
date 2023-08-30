@@ -1,36 +1,29 @@
 import { Helmet } from 'react-helmet-async';
-import { Header } from '../../components/header/header';
-import { useAppSelector} from '../../hooks';
-import { RandomCityButton } from '../../components/random-city-buttom/random-city-buttom';
-import { useAuth } from '../../hooks/use-auth';
-import { getAuthStatus } from '../../store/user-process/user-selectors';
-import { AppRoute, AuthStatus } from '../../const';
-import { LoadingScreen } from '../loading-screen/loading-screen';
-import { Navigate } from 'react-router-dom';
+import Header from '../../components/header/header';
+import { RandomCityButton } from '../../components/random-city-button/random-city-button';
 import { LoginForm } from '../../components/login-form/login-form';
 
-export function LoginPage () {
-  const isAuthorized = useAuth();
-  const authStatus = useAppSelector(getAuthStatus);
-  if (authStatus === AuthStatus.Unknown) {
-    return <LoadingScreen/>;
-  }
-  if (isAuthorized) {
-    return <Navigate to = {AppRoute.Main}/>;
-  }
-
+function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
       <Helmet>
-        <title>{'6 cities - Login'}</title>
+        <title>Authorization</title>
       </Helmet>
-      <Header/>
-      <main className="page__main page__main--login">
+      <Header withNavigation={false} />
+
+      <main data-testid="login-page" className="page__main page__main--login">
         <div className="page__login-container container">
-          <LoginForm/>
-          <RandomCityButton/>
+          <section className="login">
+            <h1 className="login__title">Sign in</h1>
+            <LoginForm />
+          </section>
+          <section className="locations locations--login locations--current">
+            <RandomCityButton />
+          </section>
         </div>
       </main>
     </div>
   );
 }
+
+export default LoginPage;

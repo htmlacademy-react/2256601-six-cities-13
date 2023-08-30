@@ -1,79 +1,80 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
-import { useState, FormEvent, ChangeEvent } from 'react';
-import { PASSWORD_REGEXP } from '../../const';
-import { login } from '../../store/user-process/user-thunks';
+import { loginAction } from '../../store/api-actions';
 
-export function LoginForm () {
+export function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const [AuthInfo, setAuthInfo] = useState({login: '', password: ''});
-  const isValidPassword = PASSWORD_REGEXP.test(AuthInfo.password);
-  const isNeedDisable = !AuthInfo.login || !isValidPassword;
 
-  const handleChangeLogin = (evt: ChangeEvent<HTMLInputElement>) => {
-    setAuthInfo({...AuthInfo, login: evt.target.value});
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
+  const isValidPassword = passwordRegex.test(password);
+  const isNeedDisable = !email || !isValidPassword;
+
+  const handleLoginChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setEmail(evt.target.value);
   };
 
-  const handleChangePassword = (evt: ChangeEvent<HTMLInputElement>) => {
-    setAuthInfo({...AuthInfo, password: evt.target.value});
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setPassword(evt.target.value);
   };
 
-  const handleSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(login({
-      email: AuthInfo.login,
-      password: AuthInfo.password,
-    }));
+
+    dispatch(
+      loginAction({
+        email: email,
+        password: password,
+      })
+    );
   };
+
   return (
-    <section className="login">
-      <h1 className="login__title">Sign in</h1>
-      <form
-        className="login__form form"
-        action="#"
-        method="post"
-        onSubmit={handleSubmitForm}
+    <form
+      className="login__form form"
+      action=""
+      method="post"
+      onSubmit={handleSubmit}
+    >
+      <div className="login__input-wrapper form__input-wrapper">
+        <label className="visually-hidden">E-mail</label>
+        <input
+          value={email}
+          onChange={handleLoginChange}
+          className="login__input form__input"
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+          data-testid="loginElement"
+        />
+      </div>
+      <div className="login__input-wrapper form__input-wrapper">
+        <label className="visually-hidden">Password</label>
+        <input
+          value={password}
+          onChange={handlePasswordChange}
+          className="login__input form__input"
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          data-testid="passwordElement"
+        />
+      </div>
+      <button
+        className="login__submit form__submit button"
+        type="submit"
+        disabled={isNeedDisable}
       >
-        <div className="login__input-wrapper form__input-wrapper">
-          <label className="visually-hidden">E-mail</label>
-          <input
-            className="login__input form__input"
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            value={AuthInfo.login}
-            onChange={handleChangeLogin}
-          />
-        </div>
-        <div className="login__input-wrapper form__input-wrapper">
-          <label className="visually-hidden">Password</label>
-          <input
-            className="login__input form__input"
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            value={AuthInfo.password}
-            onChange={handleChangePassword}
-          />
-          {isValidPassword && (
-            <p style={{
-              marginBlock: '0 20px',
-              color: '#ff0000'
-            }}
-            >Password must contain at least one number and letter.
-            </p>)}
-        </div>
-        <button
-          className="login__submit form__submit button"
-          type="submit"
-          disabled={isNeedDisable}
-        >
-          Sign in
-        </button>
-      </form>
-    </section>
+        Sign in
+      </button>
+      {isNeedDisable && password !== '' && (
+        <p style={{ color: 'red' }}>
+          Password must contain at least one number and one letter
+        </p>
+      )}
+    </form>
   );
 }
-
-

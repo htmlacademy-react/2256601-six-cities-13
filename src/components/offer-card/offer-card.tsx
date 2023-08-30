@@ -1,81 +1,105 @@
-import { OfferListItem } from '../../types/offer-list-item';
-import { getHeightImageCard, getWidthImageCard, capitalize } from '../../utils';
 import { Link } from 'react-router-dom';
-import { AppRoute} from '../../const';
-import { memo} from 'react';
-import { useAppDispatch} from '../../hooks';
-import { setOfferHighlighted } from '../../store/offer-card-process/offer-card-process';
-import { Price } from '../price/price';
-import { FavoriteButton } from '../favorite-button/favorite-button';
-import { Rating } from '../rating/rating';
+import type { ServerOffer } from '../../types/offer';
+import { AppRoute } from '../../const';
+import { HTMLAttributes, useState, memo, useCallback } from 'react';
+import { BookmarkButtonMemo } from '../bookmark-button/bookmark-button';
+import classNames from 'classnames';
 
-type OfferCardProps = {
-  offer: OfferListItem;
-  parentClass: string;
-}
+type OfferCardProps = Pick<
+  ServerOffer,
+  | 'id'
+  | 'title'
+  | 'type'
+  | 'price'
+  | 'isFavorite'
+  | 'isPremium'
+  | 'rating'
+  | 'previewImage'
+> &
+  Pick<HTMLAttributes<HTMLElement>, 'onMouseEnter' | 'onMouseLeave'> & {
+    block: string;
+  };
 
-function OfferCardComponent({offer, parentClass}: OfferCardProps) {
-  const {id, title, type, price, previewImage, rating, isPremium, isFavorite} = offer;
-  const dispatch = useAppDispatch();
-  const handleMouseEnter = (offerId: string) => {
-    dispatch(setOfferHighlighted(offerId));
-  };
-  const handleMouseLeave = () => {
-    dispatch(setOfferHighlighted(null));
-  };
+function OfferCard({
+  block,
+  previewImage,
+  price,
+  rating,
+  title,
+  type,
+  id,
+  isPremium = false,
+  isFavorite = false,
+  onMouseEnter,
+  onMouseLeave,
+}: OfferCardProps): JSX.Element {
+  const [activeFavorite, setActiveFavorite] = useState(isFavorite);
+  const handleActiveFavoriteToggle = useCallback(
+    () => setActiveFavorite((prev) => !prev),
+    []
+  );
+
+  let isFavoriteCard = false;
+  if (block === 'favorites') {
+    isFavoriteCard = true;
+  }
 
   return (
     <article
-      onMouseEnter={() => handleMouseEnter(id)}
-      onMouseLeave={handleMouseLeave}
-      id={id}
-      className={`${parentClass} place-card`}
+      className={`place-card ${block}__card`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      data-testid="offerCard"
     >
-      {
-        isPremium &&
+      {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
-      }
-      <div className={`${parentClass} place-card__image-wrapper`}>
+      )}
+      <div className={`place-card__image-wrapper ${block}__image-wrapper`}>
         <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
-            width={getWidthImageCard(parentClass)}
-            height={getHeightImageCard(parentClass)}
-            alt={title}
+            width={isFavoriteCard ? '150' : '260'}
+            height={isFavoriteCard ? '110' : '200'}
+            alt="Place image"
           />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div
+        className={classNames('place-card__info', {
+          'favorites__card-info': isFavoriteCard,
+        })}
+        data-testid="card-info"
+      >
         <div className="place-card__price-wrapper">
-          <Price
-            price={price}
-            parentClass={parentClass}
-            divider=' /'
-          />
-          <FavoriteButton
-            parentClass={parentClass}
-            isFavorite={isFavorite}
-            offerId={id}
-            iconHeight={19}
-            iconWidth={18}
+          <div className="place-card__price">
+            <b className="place-card__price-value">€{price}</b>
+            <span className="place-card__price-text">/&nbsp;night</span>
+          </div>
+          <BookmarkButtonMemo
+            id={id}
+            isFavorite={activeFavorite}
+            block={'place-card'}
+            onClick={handleActiveFavoriteToggle}
           />
         </div>
-        <Rating
-          parentClass={parentClass}
-          rating={rating}
-        />
+        <div className="place-card__rating rating">
+          <div className="place-card__stars rating__stars">
+            <span style={{ width: `${Math.round(rating) * 20}%` }} />
+            <span className="visually-hidden">Rating</span>
+          </div>
+        </div>
         <h2 className="place-card__name">
-          <Link to ={`${AppRoute.Offer}/${id}`}>
-            {capitalize(title)}
-          </Link>
+          <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{capitalize(type)}</p>
+        <p className="place-card__type">
+          {type.charAt(0).toUpperCase() + type.slice(1)}
+        </p>
       </div>
     </article>
   );
 }
 
-export const OfferCard = memo(OfferCardComponent);
+export const OfferCardMemo = memo(OfferCard);

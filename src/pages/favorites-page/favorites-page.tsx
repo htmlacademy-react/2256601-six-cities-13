@@ -1,40 +1,52 @@
 import { Helmet } from 'react-helmet-async';
-import { FavoritesCardList } from '../../components/favorite-cards-list/favorite-cards-list';
-import { Header } from '../../components/header/header';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect } from 'react';
-import FavoritesEmptyPage from './favorites-empty';
-import { fetchFavorites } from '../../store/favorite-offers-process/favorite-offers-thunks';
-import { getFavorites } from '../../store/favorite-offers-process/favorite-offers-selectors';
-import { Footer } from '../../components/footer/footer';
+import Header from '../../components/header/header';
+import Footer from '../../components/footer/footer';
+import { useAppSelector } from '../../hooks';
+import {
+  getFavorites,
+  getFavoritesLoadingStatus,
+} from '../../store/favorites-data/selector';
+import { FavoritesOffers } from '../../components/favorites-offers/favorites-offers';
+import LoadingPage from '../loading-page/loading-page';
+import { FavoritesPageEmpty } from '../favorites-page-empty/favorites-page-empty';
 import classNames from 'classnames';
 
-export default function FavoritesPage () {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchFavorites());
-  }, [dispatch]);
-  const favoriteOffers = useAppSelector(getFavorites);
-  const hasOffers = favoriteOffers && favoriteOffers.length > 0;
-  const parentClass = 'favorites';
+function FavoritesPage(): JSX.Element {
+  const favoritesOffers = useAppSelector(getFavorites);
+  const isFavoriteLoading = useAppSelector(getFavoritesLoadingStatus);
+
+  if (isFavoriteLoading) {
+    return <LoadingPage />;
+  }
 
   return (
-    <div className={classNames('page', {'page--favorites-empty': !hasOffers})}>
+    <div
+      className={classNames('page', {
+        'page--favorites-empty': !favoritesOffers.length,
+      })}
+      data-testid="FavoritesPage"
+    >
       <Helmet>
-        <title>{'6 cities - Favorites'}</title>
+        <title>6 cities - Favorites</title>
       </Helmet>
-      <Header/>
-      {hasOffers ? (
-        <main className="page__main page__main--favorites">
-          <div className="page__favorites-container container">
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <FavoritesCardList favoriteOffers={favoriteOffers} parentClass={parentClass}/>
-            </section>
-          </div>
-        </main>
-      ) : <FavoritesEmptyPage/>}
-      <Footer/>
+      <Header />
+      <main
+        data-testid="favorites-page"
+        className={classNames('page__main', 'page__main--favorites', {
+          'page__main--favorites-empty': !favoritesOffers.length,
+        })}
+      >
+        <div className="page__favorites-container container">
+          {favoritesOffers.length > 0 ? (
+            <FavoritesOffers favoritesOffers={favoritesOffers} />
+          ) : (
+            <FavoritesPageEmpty />
+          )}
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }
+
+export default FavoritesPage;

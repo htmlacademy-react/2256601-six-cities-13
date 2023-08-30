@@ -1,23 +1,52 @@
-import { getRatingStarsStyle } from '../../utils';
-
+import { ChangeEvent, Fragment } from 'react';
 type RatingProps = {
-  parentClass: string;
+  onRatingChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+  disabled: boolean;
   rating: number;
-  isLabeled?: boolean;
 };
 
-export function Rating ({parentClass, rating, isLabeled}: RatingProps) {
-  const wrapperClass = `${parentClass}__rating rating`;
-  const starsClass = `${parentClass}__stars rating__stars`;
-  const labelClass = `${parentClass}`;
+function Rating({
+  onRatingChange,
+  disabled,
+  rating,
+}: RatingProps): JSX.Element {
+  const ratingValues = {
+    '1': 'terribly',
+    '2': 'badly',
+    '3': 'not bad',
+    '4': 'good',
+    '5': 'perfect',
+  };
 
   return (
-    <div className={wrapperClass}>
-      <div className={starsClass}>
-        <span style={{ width: getRatingStarsStyle(rating) }} />
-        <span className="visually-hidden">Rating</span>
-      </div>
-      {isLabeled && (<span className={labelClass}>{rating}</span>)}
+    <div className="reviews__rating-form form__rating" data-testid="rating">
+      {Object.entries(ratingValues)
+        .reverse()
+        .map(([score, title]) => (
+          <Fragment key={score}>
+            <input
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={score}
+              id={`${score}-stars`}
+              type="radio"
+              checked={rating === Number(score)}
+              onChange={onRatingChange}
+              disabled={disabled}
+            />
+            <label
+              htmlFor={`${score}-stars`}
+              className="reviews__rating-label form__rating-label"
+              title={title}
+            >
+              <svg className="form__star-image" width={37} height={33}>
+                <use xlinkHref="#icon-star" />
+              </svg>
+            </label>
+          </Fragment>
+        ))}
     </div>
   );
 }
+
+export default Rating;

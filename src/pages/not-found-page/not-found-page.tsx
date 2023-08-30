@@ -1,21 +1,23 @@
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { Helmet } from 'react-helmet-async';
 import styles from './not-found-page.module.css';
+import Header from '../../components/header/header';
 
-export function NotFoundPage() {
+function NotFoundPage(): JSX.Element {
   return (
-    <div className={`page ${styles.NotFoundPage}`}>
+    <div className="page page--gray">
       <Helmet>
-        <title>{'6 cities - Not Found'}</title>
+        <title>6 cities - Not Found</title>
       </Helmet>
-      <h1 className={styles.title}>404 Nof Found</h1>
-      <p className={styles.text}>
-        Return to the {' '}
-        <Link to={AppRoute.Main} className={styles.link}>
-          main page
+      <Header withNavigation={false} />
+      <div className="container">
+        <h1>Error 404. Page not found.</h1>
+        <Link to="/" className={styles.link}>
+          Go to main page
         </Link>
-      </p>
+      </div>
     </div>
   );
 }
+
+export default NotFoundPage;

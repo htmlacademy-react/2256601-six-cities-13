@@ -1,134 +1,153 @@
 import { Helmet } from 'react-helmet-async';
-import { Header } from '../../components/header/header';
-import { capitalize, } from '../../utils';
-import { ReviewsList } from '../../components/reviews-list/reviews-list';
-import { OfferCardsList } from '../../components/offer-cards-list/offer-cards-list';
-import { useParams } from 'react-router-dom';
-import { Map } from '../../components/map/map';
-import { memo} from 'react';
+import Header from '../../components/header/header';
+import ReviewsForm from '../../components/reviews-form/reviews-form';
+import ReviewsList from '../../components/reviews-list/reviews-list';
+import { ServerOffer } from '../../types/offer';
+import LeafletMap from '../../components/leaflet-map/leaflet-map';
+import { OfferCardMemo } from '../../components/offer-card/offer-card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {useEffect} from 'react';
-import { LoadingScreen } from '../loading-screen/loading-screen';
-import { NotFoundPage } from '../not-found-page/not-found-page';
-import { MAX_OFFER_IMAGES, RequestStatusMap} from '../../const';
-import { getReviewsSortedByLatestDate} from '../../store/reviews-process/reviews-selectors';
-import { getRandomNearbyOffers} from '../../store/nearby-offers-process/nearby-offers-selectors';
-import { GoodsList } from '../../components/goods-list/goods-list';
-import { HostComponent } from '../../components/host/host';
-import { Gallery } from '../../components/gallery/gallety';
-import { getOfferCard, getOfferCardFetchingStatus } from '../../store/offer-card-process/offer-card-selectors';
-import { fetchOfferCard } from '../../store/offer-card-process/offer-card-thunks';
-import { fetchNearbyOffers } from '../../store/nearby-offers-process/nearby-offers-thunks';
-import { fetchReviews } from '../../store/reviews-process/reviews-thunks';
-import { clearOfferCard } from '../../store/offer-card-process/offer-card-process';
-import { clearReviews } from '../../store/reviews-process/reviews-process';
-import { FavoriteButton } from '../../components/favorite-button/favorite-button';
-import { Rating } from '../../components/rating/rating';
-import { FeaturesList } from '../../components/features-list/features-list';
-import { Price } from '../../components/price/price';
+import { offersActions } from '../../store/offers-data/offers-data';
+import { useCallback, useEffect } from 'react';
+import classNames from 'classnames';
+import NotFoundPage from '../not-found-page/not-found-page';
+import LoadingPage from '../loading-page/loading-page';
+import { AuthorizationStatus, MapTypes } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-process/selector';
+import { OfferDetails } from '../../components/offer-details/offer-details';
+import { useFullOfferData } from './hooks/use-full-offer-data';
+import { getCurrentOffer } from '../../store/offer-data/selector';
 
-function OfferPageComponent () {
+function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const {id: offerId = ''} = useParams();
-  const offerCard = useAppSelector(getOfferCard);
-  const nearbyOffers = useAppSelector(getRandomNearbyOffers);
-  const offerCardFetchingStatus = useAppSelector(getOfferCardFetchingStatus);
-  const reviews = useAppSelector(getReviewsSortedByLatestDate);
-  const isFailed = offerCardFetchingStatus === RequestStatusMap.Failed;
-  const isSucces = offerCardFetchingStatus === RequestStatusMap.Success;
-  const parentClass = 'offer';
-  const parentClassNear = 'near-places';
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const currentPoint = useAppSelector(getCurrentOffer);
+  const {
+    fullOffer,
+    reviews,
+    newReviews,
+    nearbyOffers,
+    isDataLoading,
+    hasErrorOfferLoading,
+  } = useFullOfferData();
 
   useEffect(() => {
-    if (offerId) {
-      dispatch(fetchOfferCard(offerId));
-      dispatch(fetchNearbyOffers(offerId));
-      dispatch(fetchReviews(offerId));
-    }
+    dispatch(offersActions.setActiveOffer(currentPoint));
     return () => {
-      dispatch(clearOfferCard());
-      dispatch(clearReviews());
+      dispatch(offersActions.setActiveOffer(null));
     };
-  }, [offerId , dispatch]
+  }, [currentPoint, dispatch]);
+
+  const handleActiveOfferChange = useCallback(
+    (offer: ServerOffer | null) => {
+      if (!offer) {
+        dispatch(offersActions.setActiveOffer(fullOffer));
+      } else {
+        dispatch(offersActions.setActiveOffer(offer));
+      }
+    },
+    [dispatch, fullOffer]
   );
-  if (offerCard === null) {
-    return <LoadingScreen/>;
-  }
-  if (isFailed) {
-    return <NotFoundPage/>;
+
+  if (isDataLoading) {
+    return <LoadingPage />;
   }
 
-  const {title, city, type, price, isFavorite, isPremium, rating, description, bedrooms, goods, host, images, maxAdults} = offerCard;
-  let detailedImages: string[] = images;
-  if (images.length > 6) {
-    detailedImages = images.slice(0, MAX_OFFER_IMAGES);
+  if (!fullOffer || hasErrorOfferLoading) {
+    return <NotFoundPage />;
   }
+
+  const { description, host, images, city } = fullOffer;
+
   return (
     <div className="page">
       <Helmet>
-        <title>{'6 cities - Offer'}</title>
+        <title>6 cities - Offer</title>
       </Helmet>
-      <Header/>
-      {isSucces && offerCard && (
-        <main className="page__main page__main--offer">
-          <section className="offer">
-            <div className="offer__gallery-container container">
-              <Gallery images={detailedImages}/>
-            </div>
-            <div className="offer__container container">
-              <div className="offer__wrapper">
-                {
-                  isPremium &&
-                <div className="offer__mark">
-                  <span>Premium</span>
-                </div>
-                }
-                <div className="offer__name-wrapper">
-                  <h1 className="offer__name">
-                    {capitalize(title)}
-                  </h1>
-                  <FavoriteButton
-                    parentClass={parentClass}
-                    isFavorite={isFavorite}
-                    offerId={offerId}
-                    iconHeight={31}
-                    iconWidth={33}
+      <Header />
+      <main data-testid="offer-page" className="page__main page__main--offer">
+        <section className="offer">
+          <div className="offer__gallery-container container">
+            <div className="offer__gallery">
+              {images.map((imageURL) => (
+                <div key={imageURL} className="offer__image-wrapper">
+                  <img
+                    className="offer__image"
+                    src={imageURL}
+                    alt="Photo studio"
                   />
                 </div>
-                <Rating
-                  parentClass={parentClass}
-                  rating={rating}
-                  isLabeled
-                />
-                <FeaturesList
-                  bedrooms={bedrooms}
-                  maxAdults={maxAdults}
-                  type={type}
-                />
-                <Price
-                  parentClass={parentClass}
-                  price={price}
-                />
-                <GoodsList goods={goods}/>
-                <HostComponent
-                  host={host}
-                  description={description}
-                />
-                <ReviewsList reviews={reviews}/>
-              </div>
+              ))}
             </div>
-            <Map
-              city={city}
-              offersList={nearbyOffers}
-              className={'offer__map map'}
-              currentOffer={offerCard}
-            />
+          </div>
+          <div className="offer__container container">
+            <div className="offer__wrapper">
+              <OfferDetails offer={fullOffer} />
+              <div className="offer__host">
+                <h2 className="offer__host-title">Meet the host</h2>
+                <div className="offer__host-user user">
+                  <div
+                    className={classNames(
+                      'offer__avatar-wrapper',
+                      { ' offer__avatar-wrapper--pro': host.isPro },
+                      'user__avatar-wrapper'
+                    )}
+                  >
+                    <img
+                      className="offer__avatar user__avatar"
+                      src={host.avatarUrl}
+                      width={74}
+                      height={74}
+                      alt="Host avatar"
+                    />
+                  </div>
+                  <span className="offer__user-name">{host.name}</span>
+                  {host.isPro && (
+                    <span className="offer__user-status">Pro</span>
+                  )}
+                </div>
+                <div className="offer__description">
+                  <p className="offer__text">{description}</p>
+                </div>
+              </div>
+              <section className="offer__reviews reviews">
+                <h2 className="reviews__title">
+                  Reviews ·{' '}
+                  <span className="reviews__amount">{reviews.length}</span>
+                </h2>
+                <ReviewsList reviews={newReviews} />
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <ReviewsForm />
+                )}
+              </section>
+            </div>
+          </div>
+          <LeafletMap
+            city={city}
+            points={[...nearbyOffers, fullOffer]}
+            block={MapTypes.Offer}
+          />
+        </section>
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">
+              Other places in the neighborhood
+            </h2>
+            <div className="near-places__list places__list">
+              {nearbyOffers.map((offer) => (
+                <OfferCardMemo
+                  block={'near-places'}
+                  {...offer}
+                  key={offer.id}
+                  onMouseEnter={() => handleActiveOfferChange(offer)}
+                  onMouseLeave={() => handleActiveOfferChange(null)}
+                />
+              ))}
+            </div>
           </section>
-          <OfferCardsList offerCardsList={nearbyOffers} parentClass={parentClassNear}/>
-        </main>
-      )}
+        </div>
+      </main>
     </div>
   );
 }
 
-export const OfferPage = memo(OfferPageComponent);
+export default OfferPage;

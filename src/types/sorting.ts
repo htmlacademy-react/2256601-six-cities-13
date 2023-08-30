@@ -1,3 +1,3 @@
-import { SortingMap } from '../const';
+import { SortingTypes } from '../const';
 
-export type Sorting = keyof typeof SortingMap;
+export type Sorting = keyof typeof SortingTypes;
