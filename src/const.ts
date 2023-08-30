@@ -1,56 +1,75 @@
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 300;
-export const COUNT_NEARBY_OFFERS = 3;
-export const SHOWABLE_REVIEWS = -10;
+const MIN_REVIEW_LENGTH = 50;
+const MAX_REVIEW_LENGTH = 300;
+const MAX_REVIEWS_QUANTITY = 10;
 
-export const DATE_FORMAT = 'MMMM YYYY';
+const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+] as const;
 
-export const URL_MARKER_DEFAULT = '../img/pin.svg';
+const OFFER_TYPES = ['Apartment', 'Private room', 'Villa', 'Hotel'] as const;
 
-export const URL_MARKER_CURRENT = '../img/pin-active.svg';
-
-export enum AppRoute {
-  Main = '/',
+const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '/404',
+  Main = '/',
 }
 
-export enum AuthStatus {
+const enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
-export const APIRoute = {
-  Offers: '/offers',
-  Comments: '/comments',
-  Login: '/login',
-  Logout: '/logout',
+const SortingTypes = {
+  Popular: 'Popular',
+  PriceToHigh: 'Price: low to high',
+  PriceToLow: 'Price: high to low',
+  Rating: 'Top rated first',
 } as const;
 
-export enum NameSpace {
-  Offers = 'OFFERS',
-  Offer = 'OFFER',
-  NearByOffers = 'NEARBY_OFFERS',
-  Reviews = 'REVIEWS',
-  User = 'USER',
+const enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Reviews = '/comments',
+  Favorite = '/favorite',
 }
 
-export const RatingMap = {
-  '5': 'perfect',
-  '4': 'good',
-  '3': 'not bad',
-  '2': 'badly',
-  '1': 'terribly',
-};
+const enum MapTypes {
+  Cities = 'cities',
+  Offer = 'offer',
+}
 
-export const SortingMap = {
-  Popular: 'Popular',
-  LowToHigh: 'Price: low to high',
-  HighToLow: 'Price: high to low',
-  TopRated: 'Top rated first'
-};
+const enum NameSpace {
+  Offer = 'offer',
+  Offers = 'offers',
+  User = 'user',
+  Favorites = 'favorites',
+  Reviews = 'reviews',
+}
 
-export const CITIES_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const enum FavoriteStatus {
+  Add = 1,
+  Delete = 0,
+}
+
+export {
+  CITIES,
+  OFFER_TYPES,
+  MIN_REVIEW_LENGTH,
+  MAX_REVIEW_LENGTH,
+  MAX_REVIEWS_QUANTITY,
+  SortingTypes,
+  AppRoute,
+  AuthorizationStatus,
+  APIRoute,
+  MapTypes,
+  NameSpace,
+  FavoriteStatus,
+};

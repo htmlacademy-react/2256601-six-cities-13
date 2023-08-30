@@ -1,48 +1,54 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
 
-type DetailMessage = {
+type DetailMessageType = {
   type: string;
   message: string;
-}
-
-const StatusCodeMap: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true
 };
 
-const shouldDisplayError = (responce: AxiosResponse) => !!StatusCodeMap[responce.status];
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+};
 
-const BACKENT_URL = 'https://13.design.pages.academy/six-cities';
+const shouldDisplayError = (response: AxiosResponse) =>
+  !!StatusCodeMapping[response.status];
+
+const BASE_URL = 'https://13.design.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
-    baseURL: BACKENT_URL,
+    baseURL: BASE_URL,
     timeout: REQUEST_TIMEOUT,
   });
 
-  api.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-      const token = getToken();
+  api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    const token = getToken();
 
-      if (token && config.headers) {
-        config.headers['x-token'] = token;
-      }
-      return config;
+    if (token && config.headers) {
+      config.headers['x-token'] = token;
     }
-  );
+
+    return config;
+  });
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError<DetailMessage>) => {
+    (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
-        const detailMessage = (error.response.data);
+        const detailMessage = error.response.data;
+
         toast.warn(detailMessage.message);
       }
+
       throw error;
     }
   );

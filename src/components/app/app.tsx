@@ -1,62 +1,55 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import { MainPage } from '../../pages/main-page/main-page';
-import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { PrivateRoute, PublicRoute } from '../access-route/access-route';
+import MainPage from '../../pages/main-page/main-page';
+import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
-import { LoginPage } from '../../pages/login-page/login-page';
-import { OfferPage } from '../../pages/offer-page/offer-page';
-import { PrivateRouteForFavorites } from '../private-route/private-route-for-favorites';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { PrivateRouteForLogin } from '../private-route/private-route-for-login';
-import { useEffect } from 'react';
-import { checkAuth, fetchOffers } from '../../store/api-actions';
-import { getAuthStatus } from '../../store/user-process/user-selectors';
+import OfferPage from '../../pages/offer-page/offer-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-process/selector';
+import { getErrorStatus } from '../../store/offers-data/selector';
+import { ErrorPage } from '../../pages/error-page/error-page';
+import LoadingPage from '../../pages/loading-page/loading-page';
 
-export function App() {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(checkAuth());
-    dispatch(fetchOffers());
-  }, [dispatch]);
+function App(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const hasError = useAppSelector(getErrorStatus);
 
-  const authStatus = useAppSelector(getAuthStatus);
+  if (hasError) {
+    return <ErrorPage />;
+  }
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <LoadingPage />;
+  }
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={<MainPage/>}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRouteForFavorites authorizationStatus={authStatus}>
-                <FavoritesPage/>
-              </PrivateRouteForFavorites>
-            }
-          />
-          <Route
-            path={AppRoute.Login}
-            element={
-              <PrivateRouteForLogin authorizationStatus={authStatus}>
-                <LoginPage/>
-              </PrivateRouteForLogin>
-            }
-          />
-          <Route
-            path={`${AppRoute.Offer}/:id`}
-            element={<OfferPage/>}
-          />
-          <Route
-            path="*"
-            element={<NotFoundPage/>}
-          />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path={AppRoute.Main} element={<MainPage />} />
+        <Route
+          path={AppRoute.Login}
+          element={
+            <PublicRoute status={authorizationStatus}>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute status={authorizationStatus}>
+              <FavoritesPage />
+            </PrivateRoute>
+          }
+        />
+        <Route path={`${AppRoute.Offer}/:offerId`} element={<OfferPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </HelmetProvider>
   );
 }
 
+export default App;
