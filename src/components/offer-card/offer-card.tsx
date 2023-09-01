@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { ServerOffer } from '../../types/offer';
-import { AppRoute } from '../../const';
+import { AppRoute, OFFER_TYPES } from '../../const';
 import { HTMLAttributes, useState, memo, useCallback } from 'react';
 import { BookmarkButtonMemo } from '../bookmark-button/bookmark-button';
 import classNames from 'classnames';
@@ -95,7 +95,7 @@ function OfferCard({
           <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">
-          {type.charAt(0).toUpperCase() + type.slice(1)}
+          {OFFER_TYPES[type as keyof typeof OFFER_TYPES]}
         </p>
       </div>
     </article>

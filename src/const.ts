@@ -11,7 +11,11 @@ const CITIES = [
   'Dusseldorf',
 ] as const;
 
-const OFFER_TYPES = ['Apartment', 'Private room', 'Villa', 'Hotel'] as const;
+const OFFER_TYPES = {
+  apartement: 'Apartment',
+  room: 'Private room',
+  house: 'House',
+  hotel: 'Hotel'} as const;
 
 const enum AppRoute {
   Login = '/login',
