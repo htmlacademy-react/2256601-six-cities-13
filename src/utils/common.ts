@@ -1,3 +1,4 @@
+import { MAX_OFFER_IMAGES } from '../const';
 import { CityName, ServerOffer } from '../types/offer';
 import { Sorting } from '../types/sorting';
 function sortPriceToHigh(a: ServerOffer, b: ServerOffer) {
@@ -65,4 +66,11 @@ export function getFavoritesOfferByCities(favoritesOffers: ServerOffer[]) {
   }
 
   return {favoritesOffersByCities, cities};
+}
+
+export function getDetailImages (images: string[]) {
+  if (images.length > 6) {
+    return images.slice(0, MAX_OFFER_IMAGES);
+  }
+  return images;
 }

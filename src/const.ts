@@ -1,6 +1,7 @@
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 const MAX_REVIEWS_QUANTITY = 10;
+const MAX_OFFER_IMAGES = 6;
 
 const CITIES = [
   'Paris',
@@ -69,6 +70,7 @@ export {
   MIN_REVIEW_LENGTH,
   MAX_REVIEW_LENGTH,
   MAX_REVIEWS_QUANTITY,
+  MAX_OFFER_IMAGES,
   SortingTypes,
   AppRoute,
   AuthorizationStatus,

@@ -16,6 +16,7 @@ import { OfferDetails } from '../../components/offer-details/offer-details';
 import { useFullOfferData } from './hooks/use-full-offer-data';
 import { getCurrentOffer } from '../../store/offer-data/selector';
 import { ErrorOfferPage } from '../error-offer-page/error-offer-page';
+import { getDetailImages } from '../../utils/common';
 
 function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -52,6 +53,8 @@ function OfferPage(): JSX.Element {
 
   const { description, host, images, city } = fullOffer;
 
+  const detailImages = getDetailImages(images);
+
   return (
     <div className="page">
       <Helmet>
@@ -62,7 +65,7 @@ function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {images.map((imageURL) => (
+              {detailImages.map((imageURL) => (
                 <div key={imageURL} className="offer__image-wrapper">
                   <img
                     className="offer__image"
