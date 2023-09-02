@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { offersActions } from '../../store/offers-data/offers-data';
 import { CITIES } from '../../const';
 import { getActiveCity } from '../../store/offers-data/selector';
+import { memo} from 'react';
 
-export function CitiesList() {
+function CitiesList() {
   const activeCity = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
   return (
@@ -35,3 +36,5 @@ export function CitiesList() {
     </div>
   );
 }
+
+export const CitiesListMemo = memo(CitiesList);

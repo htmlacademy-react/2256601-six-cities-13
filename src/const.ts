@@ -13,7 +13,7 @@ const CITIES = [
 ] as const;
 
 const OFFER_TYPES = {
-  apartement: 'Apartment',
+  apartment: 'Apartment',
   room: 'Private room',
   house: 'House',
   hotel: 'Hotel'} as const;
