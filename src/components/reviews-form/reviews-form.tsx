@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../const';
+import { ReviewLength } from '../../const';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { sendReviewAction } from '../../store/api-actions';
@@ -20,8 +20,8 @@ function ReviewsForm(): JSX.Element {
   const [review, setReview] = useState('');
 
   const isValid =
-    review.length >= MIN_REVIEW_LENGTH &&
-    review.length <= MAX_REVIEW_LENGTH &&
+    review.length >= ReviewLength.min &&
+    review.length <= ReviewLength.max &&
     rating !== 0;
 
   const resetForm = () => {
@@ -88,7 +88,7 @@ function ReviewsForm(): JSX.Element {
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe your stay
           with at least{' '}
-          <b className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>
+          <b className="reviews__text-amount">{ReviewLength.min} characters</b>
           .
         </p>
         <button
