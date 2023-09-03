@@ -20,10 +20,9 @@ export function useCurrentOffers() {
     continue;
   }
   const currentOffers = offersByCities[activeCity];
-
   useEffect(() => {
     dispatch(fetchOffersAction());
-  }, [dispatch]);
+  }, [dispatch, activeCity]);
 
   return { currentOffers, activeCity };
 }

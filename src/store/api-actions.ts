@@ -8,6 +8,20 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Review, ReviewData } from '../types/review';
 
+export const fetchFavoritesAction = createAsyncThunk<
+  ServerOffer[],
+  undefined,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(`${NameSpace.Favorites}/fetchFavorites`, async (_arg, { extra: api }) => {
+  const { data } = await api.get<ServerOffer[]>(APIRoute.Favorite);
+
+  return data;
+});
+
 export const checkAuthAction = createAsyncThunk<
   UserData,
   undefined,
@@ -16,8 +30,9 @@ export const checkAuthAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->(`${NameSpace.User}/checkAuth`, async (_arg, { extra: api }) => {
+>(`${NameSpace.User}/checkAuth`, async (_arg, {dispatch, extra: api }) => {
   const { data } = await api.get<UserData>(APIRoute.Login);
+  dispatch(fetchFavoritesAction());
   return data;
 });
 
@@ -29,12 +44,13 @@ export const loginAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->(`${NameSpace.User}/login`, async ({ email, password }, { extra: api }) => {
+>(`${NameSpace.User}/login`, async ({ email, password }, {dispatch, extra: api }) => {
   const { data } = await api.post<UserData>(APIRoute.Login, {
     email,
     password,
   });
   saveToken(data.token);
+  dispatch(fetchFavoritesAction());
   return data;
 });
 
@@ -127,19 +143,6 @@ export const sendReviewAction = createAsyncThunk<
   }
 );
 
-export const fetchFavoritesAction = createAsyncThunk<
-  ServerOffer[],
-  undefined,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }
->(`${NameSpace.Favorites}/fetchFavorites`, async (_arg, { extra: api }) => {
-  const { data } = await api.get<ServerOffer[]>(APIRoute.Favorite);
-
-  return data;
-});
 
 export const addFavoriteAction = createAsyncThunk<
   ServerOffer,
@@ -149,11 +152,10 @@ export const addFavoriteAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->(`${NameSpace.Favorites}/addFavorite`, async (id, { extra: api }) => {
+>(`${NameSpace.Favorites}/addFavorite`, async (id, {extra: api }) => {
   const { data } = await api.post<ServerOffer>(
     `${APIRoute.Favorite}/${id}/${FavoriteStatus.Add}`
   );
-
   return data;
 });
 
@@ -165,10 +167,9 @@ export const deleteFavoriteAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->(`${NameSpace.Favorites}/deleteFavorite`, async (id, { extra: api }) => {
+>(`${NameSpace.Favorites}/deleteFavorite`, async (id, {extra: api }) => {
   const { data } = await api.post<ServerOffer>(
     `${APIRoute.Favorite}/${id}/${FavoriteStatus.Delete}`
   );
-
   return data;
 });

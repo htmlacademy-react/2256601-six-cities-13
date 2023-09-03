@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { ServerOffer } from '../../types/offer';
-import { AppRoute } from '../../const';
-import { HTMLAttributes, useState, memo, useCallback } from 'react';
+import { AppRoute, OFFER_TYPES } from '../../const';
+import { HTMLAttributes, memo} from 'react';
 import { BookmarkButtonMemo } from '../bookmark-button/bookmark-button';
 import classNames from 'classnames';
 
@@ -33,12 +33,6 @@ function OfferCard({
   onMouseEnter,
   onMouseLeave,
 }: OfferCardProps): JSX.Element {
-  const [activeFavorite, setActiveFavorite] = useState(isFavorite);
-  const handleActiveFavoriteToggle = useCallback(
-    () => setActiveFavorite((prev) => !prev),
-    []
-  );
-
   let isFavoriteCard = false;
   if (block === 'favorites') {
     isFavoriteCard = true;
@@ -80,9 +74,8 @@ function OfferCard({
           </div>
           <BookmarkButtonMemo
             id={id}
-            isFavorite={activeFavorite}
+            isFavorite={isFavorite}
             block={'place-card'}
-            onClick={handleActiveFavoriteToggle}
           />
         </div>
         <div className="place-card__rating rating">
@@ -95,7 +88,7 @@ function OfferCard({
           <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">
-          {type.charAt(0).toUpperCase() + type.slice(1)}
+          {OFFER_TYPES[type as keyof typeof OFFER_TYPES]}
         </p>
       </div>
     </article>

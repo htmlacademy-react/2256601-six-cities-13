@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FullOffer } from '../../types/offer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -15,7 +15,6 @@ type BookmarkButtonProps = {
 	isFavorite: FullOffer['isFavorite'];
 	block: string;
 	large?: boolean;
-	onClick: () => void;
 };
 
 function BookmarkButton({
@@ -23,8 +22,8 @@ function BookmarkButton({
   isFavorite,
   block,
   large = false,
-  onClick,
 }: BookmarkButtonProps) {
+  const [activeFavorite, setActiveFavorite] = useState(isFavorite);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -33,24 +32,22 @@ function BookmarkButton({
     `${block}__bookmark-button`,
     {
       [`${block}__bookmark-button--active`]:
-        isFavorite && authorizationStatus === AuthorizationStatus.Auth,
+      activeFavorite && authorizationStatus === AuthorizationStatus.Auth,
     },
     'button'
   );
-  const bookmarkLabel = `${isFavorite ? 'In' : 'To'} bookmarks`;
+  const bookmarkLabel = `${activeFavorite ? 'In' : 'To'} bookmarks`;
 
   const handleBookmarkButtonClick = () => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
-      navigate(AppRoute.Login);
+      return navigate(AppRoute.Login);
     }
-
-    if (isFavorite) {
+    if (activeFavorite) {
       dispatch(deleteFavoriteAction(id));
     } else {
       dispatch(addFavoriteAction(id));
     }
-
-    onClick();
+    setActiveFavorite((prev) => !prev);
   };
 
   return (

@@ -9,7 +9,7 @@ import LoadingPage from '../loading-page/loading-page';
 import { MainPageEmpty } from '../main-page-empty/main-page-empty';
 import Header from '../../components/header/header';
 import OffersList from '../../components/offers-list/offers-list';
-import { CitiesList } from '../../components/cities-list/cities-list';
+import { CitiesListMemo } from '../../components/cities-list/cities-list';
 import { SortingForm } from '../../components/sorting-form/sorting-form';
 import LeafletMap from '../../components/leaflet-map/leaflet-map';
 
@@ -35,7 +35,7 @@ function MainPage(): JSX.Element {
         })}
       >
         <h1 className="visually-hidden">Cities</h1>
-        <CitiesList />
+        <CitiesListMemo />
         <div className="cities">
           <div
             className={classNames('cities__places-container', 'container', {

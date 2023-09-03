@@ -1,8 +1,8 @@
 import axios, {
   AxiosError,
   AxiosInstance,
+  AxiosRequestConfig,
   AxiosResponse,
-  InternalAxiosRequestConfig,
 } from 'axios';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
@@ -14,6 +14,7 @@ type DetailMessageType = {
 };
 
 const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.NOT_FOUND]: true,
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: true,
 };
@@ -30,7 +31,7 @@ export const createAPI = (): AxiosInstance => {
     timeout: REQUEST_TIMEOUT,
   });
 
-  api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  api.interceptors.request.use((config: AxiosRequestConfig) => {
     const token = getToken();
 
     if (token && config.headers) {

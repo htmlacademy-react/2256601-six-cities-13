@@ -1,6 +1,11 @@
-const MIN_REVIEW_LENGTH = 50;
-const MAX_REVIEW_LENGTH = 300;
 const MAX_REVIEWS_QUANTITY = 10;
+const MAX_OFFER_IMAGES = 6;
+const MAX_NEARBY_OFFERS = 3;
+
+const ReviewLength = {
+  min: 50,
+  max: 300,
+} as const;
 
 const CITIES = [
   'Paris',
@@ -11,7 +16,11 @@ const CITIES = [
   'Dusseldorf',
 ] as const;
 
-const OFFER_TYPES = ['Apartment', 'Private room', 'Villa', 'Hotel'] as const;
+const OFFER_TYPES = {
+  apartment: 'Apartment',
+  room: 'Private room',
+  house: 'House',
+  hotel: 'Hotel'} as const;
 
 const enum AppRoute {
   Login = '/login',
@@ -62,9 +71,10 @@ const enum FavoriteStatus {
 export {
   CITIES,
   OFFER_TYPES,
-  MIN_REVIEW_LENGTH,
-  MAX_REVIEW_LENGTH,
   MAX_REVIEWS_QUANTITY,
+  MAX_OFFER_IMAGES,
+  MAX_NEARBY_OFFERS,
+  ReviewLength,
   SortingTypes,
   AppRoute,
   AuthorizationStatus,

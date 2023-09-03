@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { FullOffer } from '../../types/offer';
 import { BookmarkButtonMemo } from '../bookmark-button/bookmark-button';
+import { OFFER_TYPES } from '../../const';
 
 type OfferDetailsProps = {
   offer: FullOffer;
@@ -52,7 +53,7 @@ export function OfferDetails({ offer }: OfferDetailsProps): JSX.Element {
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
-          {type.charAt(0).toUpperCase() + type.slice(1)}
+          {OFFER_TYPES[type as keyof typeof OFFER_TYPES]}
         </li>
         <li className="offer__feature offer__feature--bedrooms">
           {bedrooms} Bedroom{bedrooms > 1 && 's'}
